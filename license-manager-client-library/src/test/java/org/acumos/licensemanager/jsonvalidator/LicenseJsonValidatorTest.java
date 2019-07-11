@@ -62,6 +62,25 @@ public class LicenseJsonValidatorTest {
   }
 
   @Test
+  public void minLicenseJson() throws Exception {
+    JsonNode minLicense = getJsonNodeFromClasspath("/min-license.json");
+    LicenseJsonValidator validator = new LicenseJsonValidator();
+    LicenseJsonValidationResults results = validator.validateLicenseJson(minLicense);
+    System.out.println(results.getJsonSchemaErrors());
+    assertEquals(0, results.getJsonSchemaErrors().size());
+  }
+
+  @Test
+  public void minMissingLicenseJson() throws Exception {
+    // tests minimum/required field missing (as per schema)
+    JsonNode minMissingLicense = getJsonNodeFromClasspath("/min-missing-license.json");
+    LicenseJsonValidator validator = new LicenseJsonValidator();
+    LicenseJsonValidationResults results = validator.validateLicenseJson(minMissingLicense);
+    System.out.println(results.getJsonSchemaErrors());
+    assertEquals(false, results.getJsonSchemaErrors().isEmpty());
+  }
+
+  @Test
   public void partialLicenseJson() throws Exception {
     JsonNode partialLicense = getJsonNodeFromClasspath("/partial-license.json");
     LicenseJsonValidator validator = new LicenseJsonValidator();

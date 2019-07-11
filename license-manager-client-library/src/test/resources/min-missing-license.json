@@ -1,0 +1,17 @@
+{
+  "modelLicenses": [
+    {
+      "keyword": "ACUMOS Apache_2.0",
+      "copyright": {
+        "year": 2019,
+        "company": "Company A",
+        "suffix": "A Intellectual Property. All rights reserved."
+      }
+    }
+  ],
+  "contentLicenses": [
+    {
+      "fooword": "ACUMOS Apache_2.0"
+    }
+  ]
+}

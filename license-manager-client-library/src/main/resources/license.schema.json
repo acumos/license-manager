@@ -7,6 +7,7 @@
       "items": [
         {
           "type": "object",
+          "required": [ "keyword", "intro", "copyright" ],
           "properties": {
             "keyword": {
               "type": "string"
@@ -22,6 +23,7 @@
             },
             "copyright": {
               "type": "object",
+              "required": [ "year", "company", "suffix" ],
               "properties": {
                 "year": {
                   "type": "integer"
@@ -209,6 +211,9 @@
       "items": [
         {
           "type": "object",
+          "required": [
+            "keyword"
+          ],
           "properties": {
             "keyword": {
               "type": "string"
