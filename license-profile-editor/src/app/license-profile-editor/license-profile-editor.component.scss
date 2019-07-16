@@ -1,0 +1,51 @@
+/*-
+ * ===============LICENSE_START================================================
+ * Acumos Apache-2.0
+ * ============================================================================
+ * Copyright (C) 2019 Nordix Foundation.
+ * ============================================================================
+ * This Acumos software file is distributed by Nordix Foundation
+ * under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * This file is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===============LICENSE_END==================================================
+ */
+
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+
+mat-card {
+  max-width: 40em;
+  margin: 2em auto;
+}
+
+.example-input-form {
+  width: 100%;
+}
+
+.mat-form-field {
+  display: block;
+  width: 100%;
+}
+
+.main-container-body {
+  height: calc(100vh - 64px);
+}
+
+::ng-deep .main-container-body .mat-grid-tile .mat-figure {
+  align-items: stretch;
+  /* justify-content: center; */
+}
+
+.mat-card {
+  margin: 0;
+  overflow: auto;
+  width: 100%;
+}

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <!-- ===============LICENSE_START======================================================= Acumos ===================================================================================
+	Copyright (C) 2019 Nordix Foundation ===================================================================================
+	This Acumos software file is distributed by Nordix Foundation
+	under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	This file is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License. ===============LICENSE_END=========================================================
+	-->
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.acumos</groupId>
+  <artifactId>license-profile-editor</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- Supplied by Jenkins -->
+    <build.number>0</build.number>
+    <wagonVersion>3.1.0</wagonVersion>
+  </properties>
+
+  <build>
+    <plugins>
+      <!-- <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId> -->
+      <!-- NB! Set <version> to the latest released version of frontend-maven-plugin, like in README.md -->
+      <!-- <version>1.7.6</version>
+
+        <executions> -->
+
+      <!-- <execution>
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration> -->
+      <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
+      <!-- <nodeVersion>v10.9.0</nodeVersion>
+              <npmVersion>6.2.0</npmVersion>
+            </configuration>
+          </execution> -->
+
+      <!-- <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals> -->
+      <!-- Optional configuration which provides for running any npm command -->
+      <!-- <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution> -->
+
+      <!-- <execution>
+            <id>ci-build</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run ci-build</arguments>
+              <environmentVariables>
+                <NODE_ENV>production</NODE_ENV>
+              </environmentVariables>
+            </configuration>
+          </execution> -->
+
+      <!-- <execution>
+            <id>ci-tests</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <phase>
+              test
+            </phase>
+            <configuration>
+              <arguments>run ci-test</arguments>
+              <environmentVariables>
+                <NODE_ENV>production</NODE_ENV>
+              </environmentVariables>
+            </configuration>
+          </execution>  -->
+
+      <!-- </executions>
+      </plugin> -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>1.14</version>
+        <configuration>
+          <licenseName>acumos</licenseName>
+          <licenseResolver>${project.baseUri}/src/license</licenseResolver>
+          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+          <processStartTag>===============LICENSE_START================================================</processStartTag>
+          <processEndTag>===============LICENSE_END==================================================</processEndTag>
+          <sectionDelimiter>============================================================================</sectionDelimiter>
+          <inceptionYear>2019</inceptionYear>
+          <organizationName><![CDATA[Nordix Foundation.]]></organizationName>
+          <projectName>Acumos Apache-2.0</projectName>
+          <canUpdateCopyright>false</canUpdateCopyright>
+          <canUpdateDescription>false</canUpdateDescription>
+          <canUpdateLicense>true</canUpdateLicense>
+          <emptyLineAfterHeader>true</emptyLineAfterHeader>
+          <includes>
+            <include>**/*.ts</include>
+            <include>**/*.html</include>
+            <include>**/*.scss</include>
+            <include>**/*.js</include>
+            <include>**/*.xml</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.30.0</version>
+
+
+        <configuration>
+          <showLogs>true</showLogs>
+          <images>
+            <image>
+              <name>license-profile-editor-testing</name>
+              <build>
+                <!-- filter>@</filter-->
+                <contextDir>${project.basedir}</contextDir>
+                <dockerFile>Dockerfile.testing</dockerFile>
+                <!-- <doc> -->
+                <tags>
+                  <!-- Add tag with build number -->
+                  <tag>${project.version}-b${build.number}</tag>
+                </tags>
+                <noCache/>
+              </build>
+
+              <run>
+                <wait>
+                  <exit>0</exit>
+                  <time>600000</time>                  <!-- kill after 10 mins -->
+                </wait>
+              </run>
+
+            </image>
+            <image>
+              <name>license-profile-editor-building</name>
+              <build>
+                <!-- filter>@</filter-->
+                <contextDir>${project.basedir}</contextDir>
+                <dockerFile>Dockerfile.building</dockerFile>
+                <!-- <doc> -->
+                <tags>
+                  <!-- Add tag with build number -->
+                  <tag>${project.version}-b${build.number}</tag>
+                </tags>
+                <noCache/>
+              </build>
+
+              <run>
+                <wait>
+                  <exit>0</exit>
+                  <time>600000</time>                  <!-- kill after 10 mins -->
+                </wait>
+              </run>
+
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <id>run-build</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <!-- "build" should be used to create the images with the
+              artifact -->
+              <goal>build</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>run-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <!-- "build" should be used to create the images with the
+              artifact -->
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-tests-run</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>clean-image</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>remove</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

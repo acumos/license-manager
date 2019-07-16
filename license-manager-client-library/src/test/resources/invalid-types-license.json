@@ -37,9 +37,7 @@
           "desc": "The right to use this software is granted for the specified allowed locations",
           "limit": {
             "type": "location",
-            "value": [
-              "Luxembourg, Belgium"
-            ]
+            "value": "Luxembourg, Belgium"
           }
         },
         {
@@ -57,7 +55,7 @@
           "desc": "Limits the number of times the api is called",
           "limit": {
             "type": "number",
-            "value": 500
+            "value": "500"
           }
         },
         {
@@ -66,7 +64,7 @@
           "desc": "Limits the number of deployments allowed",
           "limit": {
             "type": "number",
-            "value": 1
+            "value": "1"
           }
         }
       ]
