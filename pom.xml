@@ -30,6 +30,7 @@
 	<modules>
 		<!-- Child modules do NOT name this parent. -->
 		<module>license-manager-client-library</module>
+		<module>license-profile-editor</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
