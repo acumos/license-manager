@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.acumos</groupId>
+  <groupId>org.acumos.license-manager</groupId>
   <artifactId>license-rtu-editor</artifactId>
   <version>0.0.1</version>
   <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- Supplied by Jenkins -->
+    <build.number>0</build.number>
+    <wagonVersion>3.1.0</wagonVersion>
+    <!-- Not supplied to all jobs; e.g., Javadoc -->
+    <docker.pull.registry>nexus3.acumos.org:10001</docker.pull.registry>
+    <!-- Supplied by Jenkins -->
+    <docker.push.registry>${env.NEXUS3_PUSH_REGISTRY}</docker.push.registry>
+  </properties>
 
   <build>
     <plugins>
@@ -54,54 +66,104 @@
             </configuration>
           </execution>
 
-
-
-          <!-- enable once browser on CI is figured out
-          <execution>
-            <id>ci-tests</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <phase>
-              test
-            </phase>
-            <configuration>
-              <arguments>run ci-test</arguments>
-              <environmentVariables>
-                <NODE_ENV>production</NODE_ENV>
-              </environmentVariables>
-            </configuration>
-          </execution> -->
-
         </executions>
       </plugin>
       <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>1.14</version>
-				<configuration>
-					<licenseName>acumos</licenseName>
-					<licenseResolver>${project.baseUri}/src/license</licenseResolver>
-					<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-					<processStartTag>===============LICENSE_START================================================</processStartTag>
-					<processEndTag>===============LICENSE_END==================================================</processEndTag>
-					<sectionDelimiter>============================================================================</sectionDelimiter>
-					<inceptionYear>2019</inceptionYear>
-					<organizationName><![CDATA[Nordix Foundation.]]></organizationName>
-					<projectName>Acumos Apache-2.0</projectName>
-					<canUpdateCopyright>false</canUpdateCopyright>
-					<canUpdateDescription>false</canUpdateDescription>
-					<canUpdateLicense>true</canUpdateLicense>
-					<emptyLineAfterHeader>true</emptyLineAfterHeader>
-					<includes>
-						<include>**/*.ts</include>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>1.14</version>
+        <configuration>
+          <licenseName>acumos</licenseName>
+          <licenseResolver>${project.baseUri}/src/license</licenseResolver>
+          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+          <processStartTag>===============LICENSE_START================================================</processStartTag>
+          <processEndTag>===============LICENSE_END==================================================</processEndTag>
+          <sectionDelimiter>============================================================================</sectionDelimiter>
+          <inceptionYear>2019</inceptionYear>
+          <organizationName><![CDATA[Nordix Foundation.]]></organizationName>
+          <projectName>Acumos Apache-2.0</projectName>
+          <canUpdateCopyright>false</canUpdateCopyright>
+          <canUpdateDescription>false</canUpdateDescription>
+          <canUpdateLicense>true</canUpdateLicense>
+          <emptyLineAfterHeader>true</emptyLineAfterHeader>
+          <includes>
+            <include>**/*.ts</include>
             <include>**/*.html</include>
             <include>**/*.scss</include>
             <include>**/*.js</include>
             <include>**/*.xml</include>
-					</includes>
-				</configuration>
-			</plugin>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.30.0</version>
+
+
+        <configuration>
+          <showLogs>true</showLogs>
+          <pullRegistry>${docker.pull.registry}</pullRegistry>
+          <pushRegistry>${docker.push.registry}</pushRegistry>
+          <images>
+            <image>
+              <name>license-rtu-editor-testing</name>
+              <build>
+                <!-- filter>@</filter-->
+                <contextDir>${project.basedir}</contextDir>
+                <dockerFile>Dockerfile.testing</dockerFile>
+                <!-- <doc> -->
+                <tags>
+                  <!-- Add tag with build number -->
+                  <tag>${project.version}-b${build.number}</tag>
+                </tags>
+                <noCache/>
+              </build>
+              <run>
+                <wait>
+                  <exit>0</exit>
+                  <!-- kill after 10 mins -->
+                  <time>600000</time>
+                </wait>
+              </run>
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <id>run-build</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <!-- "build" should be used to create the images with the
+              artifact -->
+              <goal>build</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>run-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <!-- "build" should be used to create the images with the
+              artifact -->
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-tests-run</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>clean-image</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>remove</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

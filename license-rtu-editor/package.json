@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:elements": "ng build --output-hashing none && node build-elements.js",
-    "ci-test": "ng test --code-coverage --watch=false",
+    "ci-test": "ng test --code-coverage --watch=false --browsers=ChromeHeadlessNoSandbox",
     "ci-build": "ng build --prod --no-progress"
   },
   "private": true,

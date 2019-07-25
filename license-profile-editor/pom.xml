@@ -17,7 +17,7 @@
 	-->
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.acumos</groupId>
+	<groupId>org.acumos.license-manager</groupId>
   <artifactId>license-profile-editor</artifactId>
   <version>0.0.1</version>
   <packaging>pom</packaging>
@@ -36,38 +36,33 @@
 
   <build>
     <plugins>
-      <!-- <plugin>
+      <plugin>
         <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId> -->
-      <!-- NB! Set <version> to the latest released version of frontend-maven-plugin, like in README.md -->
-      <!-- <version>1.7.6</version>
-
-        <executions> -->
-
-      <!-- <execution>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.7.6</version>
+        <executions>
+          <execution>
             <id>install node and npm</id>
             <goals>
               <goal>install-node-and-npm</goal>
             </goals>
             <configuration> -->
-      <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
-      <!-- <nodeVersion>v10.9.0</nodeVersion>
+              <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
+              <nodeVersion>v10.9.0</nodeVersion>
               <npmVersion>6.2.0</npmVersion>
             </configuration>
-          </execution> -->
-
-      <!-- <execution>
+          </execution>
+          <execution>
             <id>npm install</id>
             <goals>
               <goal>npm</goal>
-            </goals> -->
-      <!-- Optional configuration which provides for running any npm command -->
-      <!-- <configuration>
+            </goals>
+            <!-- Optional configuration which provides for running any npm command -->
+            <configuration>
               <arguments>install</arguments>
             </configuration>
-          </execution> -->
-
-      <!-- <execution>
+          </execution>
+          <execution>
             <id>ci-build</id>
             <goals>
               <goal>npm</goal>
@@ -78,26 +73,9 @@
                 <NODE_ENV>production</NODE_ENV>
               </environmentVariables>
             </configuration>
-          </execution> -->
-
-      <!-- <execution>
-            <id>ci-tests</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <phase>
-              test
-            </phase>
-            <configuration>
-              <arguments>run ci-test</arguments>
-              <environmentVariables>
-                <NODE_ENV>production</NODE_ENV>
-              </environmentVariables>
-            </configuration>
-          </execution>  -->
-
-      <!-- </executions>
-      </plugin> -->
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -149,36 +127,13 @@
                 </tags>
                 <noCache/>
               </build>
-
               <run>
                 <wait>
                   <exit>0</exit>
-                  <time>600000</time>                  <!-- kill after 10 mins -->
+                  <!-- kill after 10 mins -->
+                  <time>600000</time>
                 </wait>
               </run>
-
-            </image>
-            <image>
-              <name>license-profile-editor-building</name>
-              <build>
-                <!-- filter>@</filter-->
-                <contextDir>${project.basedir}</contextDir>
-                <dockerFile>Dockerfile.building</dockerFile>
-                <!-- <doc> -->
-                <tags>
-                  <!-- Add tag with build number -->
-                  <tag>${project.version}-b${build.number}</tag>
-                </tags>
-                <noCache/>
-              </build>
-
-              <run>
-                <wait>
-                  <exit>0</exit>
-                  <time>600000</time>                  <!-- kill after 10 mins -->
-                </wait>
-              </run>
-
             </image>
           </images>
         </configuration>
