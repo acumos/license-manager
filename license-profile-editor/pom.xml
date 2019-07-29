@@ -19,7 +19,7 @@
 
 	<groupId>org.acumos.license-manager</groupId>
   <artifactId>license-profile-editor</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
