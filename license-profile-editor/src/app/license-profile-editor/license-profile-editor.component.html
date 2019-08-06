@@ -22,14 +22,11 @@
   <span>Acumos License Profile Editor</span>
   <span style="flex: 1 1 auto;"></span>
 </mat-toolbar>
-<mat-card>When you onboard a model to Acumos this editor can help you author the license.json. You can author the json
-  or use the web form. If you change the json you select update form.</mat-card>
-
 
 <mat-card>
-  <h3>Here is a form to help you start:</h3>      
   <json-schema-form *ngIf="jsonSchema" 
     #licenseProfile
+    [(data)]="jsonData"
     [schema]="jsonSchema"
     [layout]="formLayout"
     [options]="jsonFormOptions"
@@ -42,7 +39,13 @@
   <!-- <pre *ngIf="!displayData">(none)</pre>
   <pre *ngIf="displayData">{{displayData | json}}</pre> -->
 
-  <button mat-raised-button [disabled]="!isValid" (click)="downloadLicenseProfile('json')">Download JSON</button>
+  <!-- <button mat-raised-button [disabled]="!isValid" (click)="downloadLicenseProfile('txt')">Download Text</button>&nbsp; -->
+  <button *ngIf="mode !== 'iframe'" mat-raised-button [disabled]="!isValid" 
+    (click)="downloadLicenseProfile('json')">Download JSON</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button [disabled]="!isValid" 
+    (click)="saveLicenseProfile()">Save</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button  class="cancel-btn"
+    (click)="cancelLicenseProfile()">Cancel</button>
 
 </mat-card>
 

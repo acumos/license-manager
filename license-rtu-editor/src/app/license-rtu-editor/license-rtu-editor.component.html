@@ -27,10 +27,25 @@
   <h3>Here is a form to help you start:</h3> <button (click)="showExample('example001.json')" mat-button
     color="primary">Load Example Data</button>
 
-  <json-schema-form *ngIf="jsonSchema" [schema]="jsonSchema" [layout]="formLayout" framework="material-design"
-    loadExternalAssets="false" (onSubmit)="download($event)" [(data)]="jsonData" [options]="jsonFormOptions">
+  <json-schema-form *ngIf="jsonSchema" 
+    [(data)]="jsonData"
+    [schema]="jsonSchema"
+    [layout]="formLayout"
+    [options]="jsonFormOptions"
+    framework="material-design"
+    loadExternalAssets="false"
+    (isValid)="isValidFn($event)"
+    >
   </json-schema-form>
   <!----  <h4>Submitted data:</h4> -->
   <!-- <pre *ngIf="!displayData">(none)</pre>
       <pre *ngIf="displayData">{{displayData | json}}</pre> -->
+
+  <button *ngIf="mode !== 'iframe'" mat-raised-button [disabled]="!isValid" 
+  (click)="downloadRTU()">Download</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button [disabled]="!isValid" 
+    (click)="saveRTU()">Save</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button  class="cancel-btn"
+    (click)="cancelRTU()">Cancel</button>
+  
 </mat-card>

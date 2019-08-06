@@ -23,24 +23,20 @@ const concat = require('concat');
 
 (async function build() {
   const filesEs5 = [
-    './dist/license-rtu-editor/main-es5.js',
-    './dist/license-rtu-editor/polyfills-es5.js',
-    './dist/license-rtu-editor/runtime-es5.js',
-    './dist/license-rtu-editor/scripts.js',
-    './dist/license-rtu-editor/styles-es5.js',
-    './dist/license-rtu-editor/vendor-es5.js'
+    './dist/license-profile-editor/main-es5.js',
+    './dist/license-profile-editor/polyfills-es5.js',
+    './dist/license-profile-editor/runtime-es5.js',
+    './dist/license-profile-editor/scripts.js',
   ];
+
   // cancat file order is important here
   const filesEs2015 = [
-    './dist/license-rtu-editor/runtime-es2015.js',
-    './dist/license-rtu-editor/polyfills-es2015.js',
-    './dist/license-rtu-editor/styles-es2015.js',
-    './dist/license-rtu-editor/scripts.js',
-    './dist/license-rtu-editor/vendor-es2015.js',
-    './dist/license-rtu-editor/main-es2015.js'
+    './dist/license-profile-editor/runtime-es2015.js',
+    './dist/license-profile-editor/polyfills-es2015.js',
+    './dist/license-profile-editor/scripts.js',
+    './dist/license-profile-editor/main-es2015.js',
   ];
 
-  await concat(filesEs5, './dist/license-rtu-editor/license-rtu-editor-es5.js');
-  await concat(filesEs2015, './dist/license-rtu-editor/license-rtu-editor-es2015.js');
-
+  await concat(filesEs5, './dist/license-profile-editor/license-profile-editor-es5.js');
+  await concat(filesEs2015, './dist/license-profile-editor/license-profile-editor-es2015.js');
 })();

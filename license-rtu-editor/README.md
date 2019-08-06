@@ -22,6 +22,20 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
+## Running iframe-license-editor for local testing
+
+- Open Terminal 1 and run `npm run start:lite-server` - this will start the lite-server on port 3000 and watches the `dist/license-rtu-editor` directory for any changes.
+- Open Terminal 2 and run `ng build --prod --watch` - this will build and copy output under `dist` folder.
+- Once above command is over, Open Terminal 3 and run `npm run copy:iframe` - this will copy the `iframe-license-editor.html` to `dist\license-rtu-editor` directory.
+  - NOTE: you need to re-run copy task, if any changes to `iframe-license-editor.html` file.
+- Open browser and load http://localhost:3000/iframe-license-editor.html document.
+
+## Running license-profile-editor as web component for local testing
+
+- Open Terminal 1 and run `npm run start:lite-server` - this will start the lite-server on port 3000 and watches the `dist/license-profile-editor` directory for any changes.
+- Open Terminal 2 and run `npm run build:elements` - this will build and copy output under `dist` folder + copy the web-cmp.html file
+- Open browser and load http://localhost:3000/web-cmp.html document.
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:elements": "ng build --output-hashing none && node build-elements.js",
+    "build:elements": "ng build --output-hashing none && node build-elements.js && cp src/web-cmp.html dist/license-rtu-editor/",
+    "copy:iframe": "cp ../iframe-license-editor.html dist/license-rtu-editor/",
+    "start:lite-server": "lite-server --baseDir='dist/license-rtu-editor'",
     "ci-test": "ng test --code-coverage --watch=false --browsers=ChromeHeadlessNoSandbox",
     "ci-build": "ng build --prod --no-progress"
   },
@@ -53,6 +55,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "lite-server": "^2.5.3",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

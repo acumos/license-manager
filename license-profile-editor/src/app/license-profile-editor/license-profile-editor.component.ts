@@ -18,7 +18,7 @@
  * ===============LICENSE_END==================================================
  */
 
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
 import { LicenseProfileServiceService } from '../license-profile-service.service';
 import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
 
@@ -37,15 +37,65 @@ export class LicenseProfileEditorComponent implements OnInit {
   downloadType = 'txt';
   jsonFormOptions: any;
   licenseProfileForm: JsonSchemaFormComponent;
+  queryParams: any = {};
+
+  @Input() mode: string;
 
   constructor(private service: LicenseProfileServiceService) { }
 
-  ngOnInit() {
-    this.service.getSchema().subscribe((data) => {
+  /**
+   * JavaScript Get URL Parameter parsing
+   *
+   * This is utility function defined here but can be movied to
+   * Utils.ts if more usage required.
+   */
+  initQueryParams() {
+    const search = decodeURIComponent( window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ) );
+    const definitions = search.split( '&' );
 
-      // TODO add support for SPDX identifiers
-      // TODO we can create enums (dropdowns) for known values ie allowedLicenses from siteConfig
-      // TODO
+    definitions.forEach((val) => {
+      const parts = val.split('=', 2);
+      this.queryParams[parts[0]] = parts[1];
+    });
+  }
+
+  // addEventListener and old browser support
+  bindEvent(element, eventName, eventHandler) {
+    if (element.addEventListener) {
+        element.addEventListener(eventName, eventHandler, false);
+    } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, eventHandler);
+    }
+  }
+
+  initIframeSetup() {
+    // Listen to messages from parent window
+    this.bindEvent(window, 'message', (event) => {
+      if (event.data.key === 'input') {
+        this.jsonData = event.data.value;
+      }
+    });
+  }
+
+  // Send a message to the parent
+  sendMessage(msgObj) {
+    window.parent.postMessage(msgObj, '*');
+  }
+
+  ngOnInit() {
+
+    // attempt to read mode value from the query param, if not given as input
+    if (!this.mode) {
+      this.initQueryParams();
+      if (this.queryParams.mode) {
+        this.mode = this.queryParams.mode;
+      }
+    }
+    if (this.mode === 'iframe') {
+      this.initIframeSetup();
+    }
+
+    this.service.getSchema().subscribe((data) => {
 
       this.jsonFormOptions = {
         addSubmit: false, // Add a submit button if layout does not have one
@@ -54,9 +104,9 @@ export class LicenseProfileEditorComponent implements OnInit {
         //   returnEmptyFields: false, // Don't return values for empty input fields
         setSchemaDefaults: true, // Always use schema defaults for empty fields
         defautWidgetOptions: {
-          feedback: true,
+          feedback: true, // Show inline feedback icons
           listItems: 0 // Number of list items to initially add to arrays with no default value
-        }, // Show inline feedback icons
+        }
       };
 
       this.jsonSchema = data;
@@ -131,6 +181,26 @@ export class LicenseProfileEditorComponent implements OnInit {
     if (!this.licenseProfileForm && cmp) {
       this.licenseProfileForm = cmp;
     }
+  }
+
+  saveLicenseProfile() {
+    const formData = this.licenseProfileForm.jsf.validData;
+    // - post license profile JSON data
+    // - close window
+    this.sendMessage({
+      key: 'output',
+      value: formData
+    });
+    if (this.mode === 'iframe') {
+      window.close();
+    }
+  }
+
+  cancelLicenseProfile() {
+    this.sendMessage({
+      key: 'action',
+      value: 'cancel'
+    });
   }
 
   async downloadLicenseProfile(downloadType) {
