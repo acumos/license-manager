@@ -20,7 +20,7 @@
 	<groupId>org.acumos.license-manager</groupId>
   <artifactId>license-profile-editor</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>docker</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -107,7 +107,8 @@
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
         <version>0.30.0</version>
-
+        <!-- enables using 'docker' packaging above -->
+        <extensions>true</extensions>
 
         <configuration>
           <showLogs>true</showLogs>
@@ -115,11 +116,12 @@
           <pushRegistry>${docker.push.registry}</pushRegistry>
           <images>
             <image>
-              <name>license-profile-editor-testing</name>
+              <!-- Specify a tag to avoid default tag "latest" -->
+              <name>license-profile-editor:${project.version}</name>
               <build>
                 <!-- filter>@</filter-->
                 <contextDir>${project.basedir}</contextDir>
-                <dockerFile>Dockerfile.testing</dockerFile>
+                <dockerFile>Dockerfile</dockerFile>
                 <!-- <doc> -->
                 <tags>
                   <!-- Add tag with build number -->
@@ -127,16 +129,18 @@
                 </tags>
                 <noCache/>
               </build>
-              <run>
-                <wait>
-                  <exit>0</exit>
-                  <!-- kill after 10 mins -->
-                  <time>600000</time>
-                </wait>
-              </run>
             </image>
           </images>
         </configuration>
+				<!-- build Docker images in install phase, push in deploy phase -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
       </plugin>
     </plugins>
   </build>

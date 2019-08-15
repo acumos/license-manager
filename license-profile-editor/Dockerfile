@@ -17,8 +17,8 @@ RUN npm run ci-test -- --browsers ChromeHeadlessNoSandbox --watch=false
 # default configuration to build for production
 ARG configuration=production
 
-## Build the angular app in mode based on configuration arg and store the artifacts in dist/out folder
-RUN npm run build -- --output-path=./dist/out --configuration $configuration
+## Build the angular app in mode based on configuration arg and store the artifacts in dist/license-profile-editor folder
+RUN npm run build --  --base-href /license-profile-editor/ --output-path=./dist/license-profile-editor --configuration $configuration
 
 ### STAGE 1: Setup ###
 
@@ -31,6 +31,6 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
-## From 'build-stage' stage copy over the artifacts in dist/out folder to default nginx public folder
-COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
+## From 'build-stage' stage copy over the artifacts in dist folder to default nginx public folder
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html
 

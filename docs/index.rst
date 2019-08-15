@@ -30,6 +30,7 @@ License Manager Client Library
        release-notes-license-rtu-editor.rst
        api-docs.rst
        developer-guide.rst
+       dev-guide-license-profile-editor.rst
        user-guide.rst
 
 
