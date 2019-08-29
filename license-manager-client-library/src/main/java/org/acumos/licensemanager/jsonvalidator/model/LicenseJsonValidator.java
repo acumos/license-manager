@@ -18,7 +18,7 @@
  * ===============LICENSE_END==================================================
  */
 
-package org.acumos.licensemanager.jsonvalidator;
+package org.acumos.licensemanager.jsonvalidator.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,21 +29,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 import org.acumos.licensemanager.jsonvalidator.exceptions.LicenseJsonException;
-import org.acumos.licensemanager.jsonvalidator.model.ILicenseJsonValidator;
-import org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidationResults;
 import org.acumos.licensemanager.jsonvalidator.resource.LicenseJsonSchema;
 
 /**
  * LicenseJsonValidator will verify the license.json to ensure there are no json errors or json
  * schema errors
  */
-public class LicenseJsonValidator implements ILicenseJsonValidator {
+public class LicenseJsonValidator implements ILicenseProfileValidator {
 
   private ObjectMapper objectMappper;
 
   public LicenseJsonValidator() {}
 
-  protected LicenseJsonValidator(ObjectMapper mapper) {
+  public LicenseJsonValidator(ObjectMapper mapper) {
     objectMappper = mapper;
   }
 
@@ -55,51 +53,47 @@ public class LicenseJsonValidator implements ILicenseJsonValidator {
   }
 
   @Override
-  public LicenseJsonValidationResults validateLicenseJson(String jsonString)
-      throws LicenseJsonException {
+  public LicenseProfileValidationResults validate(String jsonString) throws LicenseJsonException {
     InputStream targetStream = new ByteArrayInputStream(jsonString.getBytes());
-    LicenseJsonValidationResults results = null;
+    LicenseProfileValidationResults results = null;
     try {
-      results = validateLicenseJson(targetStream);
-      targetStream.close();
-    } catch (Exception e) {
-      throw new LicenseJsonException("could not convert string to bytes", e);
+      results = validate(targetStream);
+    } finally {
+      try {
+        targetStream.close();
+      } catch (IOException e) {
+        throw new LicenseJsonException("LicenseProfileJson: could not convert string to bytes", e);
+      }
     }
     return results;
   }
 
   @Override
-  public final LicenseJsonValidationResults validateLicenseJson(InputStream inputStream)
+  public final LicenseProfileValidationResults validate(InputStream inputStream)
       throws LicenseJsonException {
     // read in json schema
     JsonNode node;
     try {
       node = getObjectMapper().readTree(inputStream);
     } catch (Exception e) {
-      throw new LicenseJsonException("issue reading input", e);
+      throw new LicenseJsonException("LicenseProfileJson: issue reading input", e);
     }
     return validate(node);
   }
 
-  @Override
-  public final LicenseJsonValidationResults validateLicenseJson(JsonNode node)
-      throws LicenseJsonException {
-    return validate(node);
-  }
-
-  private LicenseJsonValidationResults validate(final JsonNode node) throws LicenseJsonException {
+  public LicenseProfileValidationResults validate(final JsonNode node) throws LicenseJsonException {
     JsonSchema schema;
     try {
       schema = LicenseJsonSchema.getSchema();
     } catch (IOException e) {
-      throw new LicenseJsonException("could not load schema", e);
+      throw new LicenseJsonException("LicenseProfileJson: could not load schema", e);
     }
 
     if (node == null) {
-      throw new LicenseJsonException("could not load json");
+      throw new LicenseJsonException("LicenseProfileJson: could not load json");
     }
     Set<ValidationMessage> errors = schema.validate(node);
-    LicenseJsonValidationResults results = new LicenseJsonValidationResults();
+    LicenseProfileValidationResults results = new LicenseProfileValidationResults();
     results.setJsonSchemaErrors(errors);
     return results;
   }

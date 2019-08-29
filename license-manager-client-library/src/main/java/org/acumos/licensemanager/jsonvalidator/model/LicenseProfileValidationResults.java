@@ -24,7 +24,7 @@ import com.networknt.schema.ValidationMessage;
 import java.util.Set;
 
 /** Result object containing the validation error messages. */
-public class LicenseJsonValidationResults {
+public class LicenseProfileValidationResults {
 
   /** list of errors found while validating json schema. */
   private Set<ValidationMessage> jsonSchemaErrors;

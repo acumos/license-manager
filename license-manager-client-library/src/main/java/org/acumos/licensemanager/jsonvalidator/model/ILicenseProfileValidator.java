@@ -25,38 +25,38 @@ import java.io.InputStream;
 import org.acumos.licensemanager.jsonvalidator.exceptions.LicenseJsonException;
 
 /**
- * License JSON validator Input json in different formats string and will return a report if the
- * json is validated 1. correct json 2. validates against schema
+ * License Profile JSON validator Input json in different formats string and will return a report if
+ * the json is validated 1. valid json syntax 2. valid json against schema
  */
-public interface ILicenseJsonValidator {
+public interface ILicenseProfileValidator {
 
   /**
-   * Validates license json string against license schema.
+   * Validates license profile json string against license profile schema.
    *
    * @param jsonString a {@link java.lang.String} object.
    * @return ILicenseJsonVerification results of parsing jsonstring and any errors against json
    *     schema
    * @throws LicenseJsonException if any.
    */
-  LicenseJsonValidationResults validateLicenseJson(String jsonString) throws LicenseJsonException;
+  LicenseProfileValidationResults validate(String jsonString) throws LicenseJsonException;
 
   /**
-   * Validates license json node against license schema.
+   * Validates license profile json node against license profile schema.
    *
    * @param node a {@link com.fasterxml.jackson.databind.JsonNode} object.
-   * @return a {@link org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidationResults}
+   * @return a {@link org.acumos.licensemanager.jsonvalidator.model.LicenseProfileValidationResults}
    *     object.
    * @throws LicenseJsonException if any.
    */
-  LicenseJsonValidationResults validateLicenseJson(JsonNode node) throws LicenseJsonException;
+  LicenseProfileValidationResults validate(JsonNode node) throws LicenseJsonException;
 
   /**
-   * Validates license json node against license schema using input stream.
+   * Validates license profile json node against license schema using input stream.
    *
-   * @param node a {@link com.fasterxml.jackson.databind.JsonNode} object.
-   * @return a {@link org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidationResults}
+   * @param input a {@link java.io.InputStream} object.
+   * @return a {@link org.acumos.licensemanager.jsonvalidator.model.LicenseProfileValidationResults}
    *     object.
    * @throws LicenseJsonException if any.
    */
-  LicenseJsonValidationResults validateLicenseJson(InputStream node) throws LicenseJsonException;
+  LicenseProfileValidationResults validate(InputStream input) throws LicenseJsonException;
 }
