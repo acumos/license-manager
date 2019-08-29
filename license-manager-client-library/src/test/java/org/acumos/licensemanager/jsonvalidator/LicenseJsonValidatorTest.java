@@ -31,18 +31,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 import org.acumos.licensemanager.jsonvalidator.exceptions.LicenseJsonException;
-import org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidationResults;
+import org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidator;
+import org.acumos.licensemanager.jsonvalidator.model.LicenseProfileValidationResults;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-/** License Json Validator Test. */
+/** License Profile Json Validator Test. */
 public class LicenseJsonValidatorTest {
 
   @Test
   public void validLicenseJson() throws Exception {
     JsonNode goodJson = getJsonNodeFromClasspath("/good-license.json");
     LicenseJsonValidator validator = new LicenseJsonValidator();
-    LicenseJsonValidationResults results = validator.validateLicenseJson(goodJson);
+    LicenseProfileValidationResults results = validator.validate(goodJson);
     assertEquals(true, results.getJsonSchemaErrors().isEmpty());
   }
 
@@ -54,10 +55,9 @@ public class LicenseJsonValidatorTest {
     LicenseJsonValidator validator = new LicenseJsonValidator(objectMapper);
 
     try {
-      validator.validateLicenseJson("{}");
-      fail("LicenseJsonException exception expected");
+      validator.validate("{}");
     } catch (LicenseJsonException e) {
-      assertEquals("could not convert string to bytes", e.getMessage());
+      assertEquals("LicenseProfileJson: could not load json", e.getMessage());
     }
   }
 
@@ -65,7 +65,7 @@ public class LicenseJsonValidatorTest {
   public void minLicenseJson() throws Exception {
     JsonNode minLicense = getJsonNodeFromClasspath("/min-license.json");
     LicenseJsonValidator validator = new LicenseJsonValidator();
-    LicenseJsonValidationResults results = validator.validateLicenseJson(minLicense);
+    LicenseProfileValidationResults results = validator.validate(minLicense);
     System.out.println(results.getJsonSchemaErrors());
     assertEquals(0, results.getJsonSchemaErrors().size());
   }
@@ -75,7 +75,7 @@ public class LicenseJsonValidatorTest {
     // tests minimum/required field missing (as per schema)
     JsonNode minMissingLicense = getJsonNodeFromClasspath("/min-missing-license.json");
     LicenseJsonValidator validator = new LicenseJsonValidator();
-    LicenseJsonValidationResults results = validator.validateLicenseJson(minMissingLicense);
+    LicenseProfileValidationResults results = validator.validate(minMissingLicense);
     System.out.println(results.getJsonSchemaErrors());
     assertEquals(false, results.getJsonSchemaErrors().isEmpty());
   }
@@ -84,7 +84,7 @@ public class LicenseJsonValidatorTest {
   public void partialLicenseJson() throws Exception {
     JsonNode partialLicense = getJsonNodeFromClasspath("/partial-license.json");
     LicenseJsonValidator validator = new LicenseJsonValidator();
-    LicenseJsonValidationResults results = validator.validateLicenseJson(partialLicense);
+    LicenseProfileValidationResults results = validator.validate(partialLicense);
     System.out.println(results.getJsonSchemaErrors());
     assertEquals(0, results.getJsonSchemaErrors().size());
   }
@@ -96,7 +96,7 @@ public class LicenseJsonValidatorTest {
     Mockito.when(in.read()).thenThrow(new IOException());
     InputStream inputStreamSpy = Mockito.spy(in);
     try {
-      validator.validateLicenseJson(inputStreamSpy);
+      validator.validate(inputStreamSpy);
       fail("should have thrown error");
     } catch (LicenseJsonException e) {
       assertNotNull(e);
@@ -108,7 +108,7 @@ public class LicenseJsonValidatorTest {
   public void partialLicenseJsonAsString() throws Exception {
     String partialLicense = convertStreamToString("/partial-license.json");
     LicenseJsonValidator validator = new LicenseJsonValidator();
-    LicenseJsonValidationResults results = validator.validateLicenseJson(partialLicense);
+    LicenseProfileValidationResults results = validator.validate(partialLicense);
     System.out.println(results.getJsonSchemaErrors());
     assertEquals(0, results.getJsonSchemaErrors().size());
   }
@@ -117,11 +117,11 @@ public class LicenseJsonValidatorTest {
   public void invalidLicenseJson() throws Exception {
     JsonNode badJson = getJsonNodeFromClasspath("/bad-license.json");
     LicenseJsonValidator validator = new LicenseJsonValidator();
-    LicenseJsonValidationResults results = validator.validateLicenseJson(badJson);
+    LicenseProfileValidationResults results = validator.validate(badJson);
     assertEquals(false, results.getJsonSchemaErrors().isEmpty());
 
     JsonNode badJson2 = getJsonNodeFromClasspath("/invalid-types-license.json");
-    results = validator.validateLicenseJson(badJson2);
+    results = validator.validate(badJson2);
     assertEquals(false, results.getJsonSchemaErrors().isEmpty());
   }
 

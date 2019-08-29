@@ -18,5 +18,5 @@
  * ===============LICENSE_END==================================================
  */
 
-/** License json validation. */
+/** License Profile json validation. */
 package org.acumos.licensemanager.jsonvalidator;

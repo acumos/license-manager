@@ -50,9 +50,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
   - NOTE: you need to re-run copy task, if any changes to `iframe-license-editor.html` file.
 - Open browser and load http://localhost:3000/iframe-license-editor.html document.
 
-## Running license-profile-editor as web component for local testing
+## Running license-rtu-editor as web component for local testing
 
-- Open Terminal 1 and run `npm run start:lite-server` - this will start the lite-server on port 3000 and watches the `dist/license-profile-editor` directory for any changes.
+- Open Terminal 1 and run `npm run start:lite-server` - this will start the lite-server on port 3000 and watches the `dist/license-rtu-editor` directory for any changes.
 - Open Terminal 2 and run `npm run build:elements` - this will build and copy output under `dist` folder + copy the web-cmp.html file
 - Open browser and load http://localhost:3000/web-cmp.html document.
 
