@@ -24,8 +24,8 @@ import com.networknt.schema.ValidationMessage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.invoke.MethodHandles;
-import org.acumos.licensemanager.jsonvalidator.LicenseJsonValidator;
-import org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidationResults;
+import org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidator;
+import org.acumos.licensemanager.jsonvalidator.model.LicenseProfileValidationResults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class LicenseJsonValidatorMain {
     try {
       FileInputStream fio = new FileInputStream(file);
       LicenseJsonValidator validator = new LicenseJsonValidator();
-      LicenseJsonValidationResults results = validator.validateLicenseJson(fio);
+      LicenseProfileValidationResults results = validator.validate(fio);
       for (ValidationMessage message : results.getJsonSchemaErrors()) {
         System.out.println(message.getMessage());
       }
