@@ -22,6 +22,11 @@
 License RTU Editor Release Notes
 ============================================
 
+Version 0.0.2 30 Aug 2019
+--------------------------
+* No change - but release along with other sub-project -
+  License Manager Client Library
+
 Version 0.0.1, 12 August 2019
 -----------------------------
 
