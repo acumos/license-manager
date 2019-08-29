@@ -18,26 +18,26 @@
  * ===============LICENSE_END==================================================
  */
 
-package org.acumos.licensemanager.jsonvalidator.main;
+package org.acumos.licensemanager.profilevalidator.main;
 
 import com.networknt.schema.ValidationMessage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.invoke.MethodHandles;
-import org.acumos.licensemanager.jsonvalidator.LicenseJsonValidator;
-import org.acumos.licensemanager.jsonvalidator.model.LicenseJsonValidationResults;
+import org.acumos.licensemanager.profilevalidator.LicenseProfileValidator;
+import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** License JSON Verifier Main program. Input to main program: JSON file path */
-public class LicenseJsonValidatorMain {
+public class LicenseProfileValidatorMain {
 
   /** Logger for any exception handling. */
   private static final Logger LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   /** No not allow for utility class from being instantiated. */
-  protected LicenseJsonValidatorMain() {
+  protected LicenseProfileValidatorMain() {
     // prevents calls from subclass
     throw new UnsupportedOperationException();
   }
@@ -58,8 +58,8 @@ public class LicenseJsonValidatorMain {
     File file = new File(filePath);
     try {
       FileInputStream fio = new FileInputStream(file);
-      LicenseJsonValidator validator = new LicenseJsonValidator();
-      LicenseJsonValidationResults results = validator.validateLicenseJson(fio);
+      LicenseProfileValidator validator = new LicenseProfileValidator();
+      LicenseProfileValidationResults results = validator.validate(fio);
       for (ValidationMessage message : results.getJsonSchemaErrors()) {
         System.out.println(message.getMessage());
       }

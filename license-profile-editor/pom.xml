@@ -19,7 +19,7 @@
 
 	<groupId>org.acumos.license-manager</groupId>
   <artifactId>license-profile-editor</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>docker</packaging>
 
   <properties>
@@ -36,46 +36,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.7.6</version>
-        <executions>
-          <execution>
-            <id>install node and npm</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration> -->
-              <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
-              <nodeVersion>v10.9.0</nodeVersion>
-              <npmVersion>6.2.0</npmVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <!-- Optional configuration which provides for running any npm command -->
-            <configuration>
-              <arguments>install</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>ci-build</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run ci-build</arguments>
-              <environmentVariables>
-                <NODE_ENV>production</NODE_ENV>
-              </environmentVariables>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -106,12 +66,12 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.30.0</version>
+        <version>0.31.0</version>
         <!-- enables using 'docker' packaging above -->
         <extensions>true</extensions>
 
         <configuration>
-          <showLogs>true</showLogs>
+          <verbose>true</verbose>
           <pullRegistry>${docker.pull.registry}</pullRegistry>
           <pushRegistry>${docker.push.registry}</pushRegistry>
           <images>
@@ -119,6 +79,7 @@
               <!-- Specify a tag to avoid default tag "latest" -->
               <name>license-profile-editor:${project.version}</name>
               <build>
+
                 <!-- filter>@</filter-->
                 <contextDir>${project.basedir}</contextDir>
                 <dockerFile>Dockerfile</dockerFile>
@@ -127,7 +88,7 @@
                   <!-- Add tag with build number -->
                   <tag>${project.version}-b${build.number}</tag>
                 </tags>
-                <noCache/>
+                <noCache>true</noCache>
               </build>
             </image>
           </images>
@@ -136,7 +97,6 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>build</goal>
 							<goal>push</goal>
 						</goals>
 					</execution>

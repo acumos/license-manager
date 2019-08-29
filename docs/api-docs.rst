@@ -83,19 +83,50 @@ Learn more in `LicenseVerifier java docs <https://javadocs.acumos.org/org.acumos
 
 License Verification is using `CDS RTU APIs <https://docs.acumos.org/en/latest/submodules/common-dataservice/docs/server-api.html#right-to-use-controller>`_
 
-LicenseJsonValidationResults.validateLicenseJson
-================================================
+LicenseProfile.validate
+=======================
+
+Validate given License Profile JSON text.
 
 Example api call:
 
 .. code-block:: java
 
-    LicenseJsonValidator validator = new LicenseJsonValidator();
-    LicenseJsonValidationResults results = validator.validateLicenseJson(goodJson);
+    // where client is instance of ICommonDataServiceRestClient
+    LicenseProfile licProfile = new LicenseProfile(client);
+    LicenseProfileValidationResults results = licProfile.validate(licProfileJson);
     boolean isValid = results.getJsonSchemaErrors().isEmpty();
 
-Learn more in `LicenseJsonValidationResults java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/jsonvalidator/LicenseJsonValidator.html>`_
+Learn more in `LicenseJsonValidationResults java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/jsonvalidator/model/LicenseProfileValidationResults.html>`_
 
 `Json Schema <https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/license-profile.schema.json>`_
 
+
+LicenseProfile.getTemplates
+===========================
+
+Fetch list of default License Profile Templates.
+
+Example api call:
+
+.. code-block:: java
+
+    // where client is instance of ICommonDataServiceRestClient
+    LicenseProfile licProfile = new LicenseProfile(client);
+    List<MLPLicenseProfileTemplate> templates = licProfile.getTemplates();
+
+LicenseProfile.getTemplate(templateID)
+======================================
+
+Fetch License Profile Template for given templateID.
+
+Example api call:
+
+.. code-block:: java
+
+    // where client is instance of ICommonDataServiceRestClient
+    LicenseProfile licProfile = new LicenseProfile(client);
+    // where licProTplId is templateID of specific License Profile Template
+    // to fetch
+    MLPLicenseProfileTemplate licProTpl = licProfile.getTemplate(licProTplId);
 

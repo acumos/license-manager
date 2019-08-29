@@ -18,5 +18,31 @@
  * ===============LICENSE_END==================================================
  */
 
-/** License json validation. */
-package org.acumos.licensemanager.jsonvalidator;
+package org.acumos.licensemanager.profilevalidator.exceptions;
+
+import java.io.Serializable;
+
+/** Exception to abort license profile processing and report failure. */
+public class LicenseJsonException extends Exception implements Serializable {
+
+  private static final long serialVersionUID = -7896327154019469541L;
+
+  /**
+   * Creates exception for any License Json procesing error.
+   *
+   * @param message provide text for message
+   */
+  public LicenseJsonException(final String message) {
+    super(message);
+  }
+
+  /**
+   * Creates exception for any License Json procesing error.
+   *
+   * @param message provide text for message
+   * @param exception rest client response error
+   */
+  public LicenseJsonException(final String message, final Exception exception) {
+    super(message, exception);
+  }
+}

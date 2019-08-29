@@ -18,7 +18,7 @@
  * ===============LICENSE_END==================================================
  */
 
-package org.acumos.licensemanager.jsonvalidator.resource;
+package org.acumos.licensemanager.profilevalidator.resource;
 
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;

@@ -18,5 +18,5 @@
  * ===============LICENSE_END==================================================
  */
 
-/** Models used by license json validation. */
-package org.acumos.licensemanager.jsonvalidator.model;
+/** Resources required for supporting json validator. */
+package org.acumos.licensemanager.profilevalidator.resource;
