@@ -17,8 +17,8 @@ RUN npm run ci-test
 # default configuration to build for production
 ARG configuration=production
 
-## Build the angular app in mode based on configuration arg and store the artifacts in dist/license-profile-editor folder
-RUN npm run build --  --base-href /license-profile-editor/ --output-path=./dist/license-profile-editor --configuration $configuration
+## Build the angular app in mode based on configuration arg and store the artifacts in dist/license-rtu-editor folder
+RUN npm run build --  --base-href /license-rtu-editor/ --output-path=./dist/license-rtu-editor --configuration $configuration
 
 ### STAGE 1: Setup ###
 

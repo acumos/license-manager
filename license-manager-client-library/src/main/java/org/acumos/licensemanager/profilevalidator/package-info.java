@@ -9,7 +9,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * This file is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,32 +18,8 @@
  * ===============LICENSE_END==================================================
  */
 
-package org.acumos.licensemanager.jsonvalidator.model;
-
-import com.networknt.schema.ValidationMessage;
-import java.util.Set;
-
-/** Result object containing the validation error messages. */
-public class LicenseJsonValidationResults {
-
-  /** list of errors found while validating json schema. */
-  private Set<ValidationMessage> jsonSchemaErrors;
-
-  /**
-   * Setter for the field <code>jsonSchemaErrors</code>.
-   *
-   * @param errors a {@link java.util.Set} object.
-   */
-  public final void setJsonSchemaErrors(final Set<ValidationMessage> errors) {
-    jsonSchemaErrors = errors;
-  }
-
-  /**
-   * Getter for the field <code>jsonSchemaErrors</code>.
-   *
-   * @return the jsonSchemaErrors
-   */
-  public final Set<ValidationMessage> getJsonSchemaErrors() {
-    return jsonSchemaErrors;
-  }
-}
+/**
+ * Validates the structure of the license profile json document against the license profile json
+ * schema.
+ */
+package org.acumos.licensemanager.profilevalidator;

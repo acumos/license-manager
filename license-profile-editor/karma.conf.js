@@ -48,7 +48,10 @@ module.exports = function (config) {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
         flags: [
-          "--no-sandbox"]
+          "--no-sandbox",
+          // based on feedback from https://github.com/karma-runner/karma-chrome-launcher/issues/154#issuecomment-495339829
+          "--disable-dev-shm-usage"
+        ]
       }
     },
     browsers: ['ChromeHeadless'],

@@ -2,7 +2,6 @@
   "name": "license-profile-editor",
   "version": "0.0.0",
   "scripts": {
-    "-preinstall": "curl -LO  https://github.com/earlyster/Angular6-json-schema-form/releases/download/8.0.0-alpha/angular6-json-schema-form.tgz",
     "ng": "ng",
     "prestart": "cp ../license-manager-client-library/src/main/resources/license-profile.schema.json src/assets",
     "start": "ng serve",
@@ -58,7 +57,7 @@
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
-    "karma-chrome-launcher": "^2.2.0",
+    "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
