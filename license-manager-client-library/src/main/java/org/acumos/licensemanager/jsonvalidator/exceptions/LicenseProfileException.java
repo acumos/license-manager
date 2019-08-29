@@ -21,20 +21,12 @@
 package org.acumos.licensemanager.jsonvalidator.exceptions;
 
 import java.io.Serializable;
+import org.springframework.web.client.RestClientResponseException;
 
 /** Exception to abort license profile processing and report failure. */
-public class LicenseJsonException extends Exception implements Serializable {
+public class LicenseProfileException extends Exception implements Serializable {
 
-  private static final long serialVersionUID = -7896327154019469541L;
-
-  /**
-   * Creates exception for any License Json procesing error.
-   *
-   * @param message provide text for message
-   */
-  public LicenseJsonException(final String message) {
-    super(message);
-  }
+  private static final long serialVersionUID = 3714073159231864295L;
 
   /**
    * Creates exception for any License Json procesing error.
@@ -42,7 +34,8 @@ public class LicenseJsonException extends Exception implements Serializable {
    * @param message provide text for message
    * @param exception rest client response error
    */
-  public LicenseJsonException(final String message, final Exception exception) {
+  public LicenseProfileException(
+      final String message, final RestClientResponseException exception) {
     super(message, exception);
   }
 }
