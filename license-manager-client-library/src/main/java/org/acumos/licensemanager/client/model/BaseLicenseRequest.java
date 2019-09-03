@@ -20,70 +20,57 @@
 
 package org.acumos.licensemanager.client.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 /** When making a request for a license RTU consolidating common functionality. */
 public abstract class BaseLicenseRequest implements ICommonLicenseRequest {
 
-  /** Solution Id for CDS. */
-  private String solutionIdCds;
-  /** userIds to create RTUs for. */
-  private List<String> userIdsCds = new ArrayList<String>();
+  private UUID solutionId;
+  private UUID revisionId;
+  private UUID usageRequestId;
+  private String loggedInUserName;
 
-  /** siteWide RTU. */
-  private boolean siteWideRtu = false;
-
-  /**
-   * Set the solution ID used in CCDS queries.
-   *
-   * @param solutionId a {@link java.lang.String} object.
-   */
-  public final void setSolutionId(final String solutionId) {
-    solutionIdCds = solutionId;
+  public UUID getUsageRequestId() {
+    return usageRequestId;
   }
 
-  /**
-   * Set list of userIds that will be used to verify/create/update a RTU.
-   *
-   * @param userIds a List of userIds.
-   */
-  public final void setUserIds(final List<String> userIds) {
-    userIdsCds = userIds;
+  public String getLoggedInUserName() {
+    return loggedInUserName;
   }
 
-  /**
-   * Adds a user ID that will be used to verify/create/update a RTU.
-   *
-   * @param userId a {@link java.lang.String} object.
-   */
-  public final void addUserId(final String userId) {
-    userIdsCds.add(userId);
+  public void setLoggedInUserName(String loggedInUserName) {
+    this.loggedInUserName = loggedInUserName;
   }
 
-  @Override
-  public final String getSolutionId() {
-    return solutionIdCds;
+  public void setUsageRequestId(UUID usageRequestId) {
+    this.usageRequestId = usageRequestId;
   }
 
-  @Override
-  public final List<String> getUserIds() {
-    return userIdsCds;
+  public void setUsageRequestId(String usageRequestId) {
+    this.usageRequestId = UUID.fromString(usageRequestId);
   }
 
-  @Override
-  public final boolean isSiteWide() {
-    return siteWideRtu;
+  public void setRevisionId(String revisionId) {
+    this.revisionId = UUID.fromString(revisionId);
   }
 
-  /**
-   * Set to true if you want a solution to have a site wide right to use. This avoid having to
-   * create a RTU for every user.
-   *
-   * @param siteWide create rtu for solution for entire site
-   * @see org.acumos.cds.domain.MLPRightToUse#site
-   */
-  public final void setSiteWide(final boolean siteWide) {
-    siteWideRtu = siteWide;
+  public void setRevisionId(UUID revisionId) {
+    this.revisionId = revisionId;
+  }
+
+  public UUID getRevisionId() {
+    return revisionId;
+  }
+
+  public UUID getSolutionId() {
+    return solutionId;
+  }
+
+  public void setSolutionId(String solutionId) {
+    this.solutionId = UUID.fromString(solutionId);
+  }
+
+  public void setSolutionId(UUID solutionId) {
+    this.solutionId = solutionId;
   }
 }

@@ -20,20 +20,23 @@
 
 // package org.acumos.licensemanager.client.model;
 
-// import java.io.Serializable;
-// import java.util.List;
+// import org.acumos.licensemanager.exceptions.RightToUseException;
 
-// /** Construct a request to create a RTU. */
-// public interface ICreateRtu extends ICommonLicenseRequest, Serializable {
+// /**
+//  * License Creator will create a right to use for a user for entire site for a specific solution.
+//  * CreatedRtu
+//  */
+// public interface ILicenseRtuAssigner {
 
 //   /**
-//    * Optional - a list of Strings which will be converted to {@link
-//    * org.acumos.cds.domain.MLPRtuReference} during creation of the RTU. Recomended we use UUID
-// for
-//    * each rtu reference to be inline with new RTU system in Clio.
+//    * Create a RTU for siteWide or for a specific user.
 //    *
-//    * @return list of UUIs used for creating a MLPRtuReference
-//    * @see org.acumos.cds.domain.MLPRtuReference
+//    * <p>Requires: createRtu.siteWide to be true or createRtu.userId to be a user id (from CDS)
+//    * createRtu.solutionId (from CDS)
+//    *
+//    * @param createRtu create rtu request
+//    * @return IAssignedRtuResponse the response of the create rtu request
+//    * @throws org.acumos.licensemanager.exceptions.RightToUseException if any.
 //    */
-//   List<String> getRtuRefs();
+//   IAssignedRtuResponse createRtu(CreateRtuRequest createRtu) throws RightToUseException;
 // }

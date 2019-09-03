@@ -53,7 +53,7 @@ public class LicenseProfileTest {
       // template 1
       for (int tempId = 101; tempId <= 105; tempId++) {
         MLPLicenseProfileTemplate template = new MLPLicenseProfileTemplate();
-        template.setTemplateId(new Long(tempId));
+        template.setTemplateId(Long.valueOf(tempId));
         template.setTemplateName("License " + tempId);
         template.setTemplate("This is description for License " + tempId);
         template.setPriority(1);

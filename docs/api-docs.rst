@@ -26,7 +26,7 @@ This document defines the APIs that are being produced
 or consumed by the license management sub-component in Acumos.
 
 
-LicenseCreator.createRTU
+LicenseRtuAssigner.createRTU
 ========================
 
 User specific RTU with generated RTU id in library and
@@ -41,9 +41,9 @@ Simple example:
 .. code-block:: java
 
     // where client is instance of ICommonDataServiceRestClient
-    ILicenseCreator licenseCreator = new LicenseCreator(client);
+    ILicenseRtuAssigner LicenseRtuAssigner = new LicenseRtuAssigner(client);
     CreateRTURequest createRTURequest = new CreateRTURequest(solutionId, userId);
-    ICreatedRtu createdRtuInfo = licenseCreator.createRTU(createRTURequest);
+    ICreatedRtu createdRtuInfo = LicenseRtuAssigner.createRTU(createRTURequest);
 
 Site specific RTU as well as all options provided:
 
@@ -59,9 +59,9 @@ Site specific RTU as well as all options provided:
     createSiteWideRTURequest.setRtuRefs(new String[] { UUID.randomUUID().toString() });
     ICreatedRtu createdRtuInfo = licenseCreator.createRtu(createSiteWideRTURequest);
 
-More info see `LicenseCreator javadocs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/LicenseCreator.html>`_
+More info see `LicenseRtuAssigner javadocs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/LicenseRtuAssigner.html>`_
 
-LicenseCreator is using `CDS RTU APIs <https://docs.acumos.org/en/latest/submodules/common-dataservice/docs/server-api.html#right-to-use-controller>`_
+LicenseRtuAssigner is using `CDS RTU APIs <https://docs.acumos.org/en/latest/submodules/common-dataservice/docs/server-api.html#right-to-use-controller>`_
 
 
 LicenseVerifier.verifyRTU

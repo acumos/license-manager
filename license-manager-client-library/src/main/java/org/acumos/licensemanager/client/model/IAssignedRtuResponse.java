@@ -20,20 +20,41 @@
 
 // package org.acumos.licensemanager.client.model;
 
-// import java.io.Serializable;
 // import java.util.List;
+// import org.acumos.cds.domain.MLPRightToUse;
 
-// /** Construct a request to create a RTU. */
-// public interface ICreateRtu extends ICommonLicenseRequest, Serializable {
+// /**
+//  * The output of the RTU creation process {@link
+//  * org.acumos.licensemanager.client.model.ILicenseRtuAssigner}.
+//  */
+// public interface IAssignedRtuResponse {
+//   /**
+//    * True if rtu was updated.
+//    *
+//    * @return if the RTU was created
+//    */
+//   boolean isCreated();
 
 //   /**
-//    * Optional - a list of Strings which will be converted to {@link
-//    * org.acumos.cds.domain.MLPRtuReference} during creation of the RTU. Recomended we use UUID
-// for
-//    * each rtu reference to be inline with new RTU system in Clio.
+//    * True if rtu was updated.
 //    *
-//    * @return list of UUIs used for creating a MLPRtuReference
-//    * @see org.acumos.cds.domain.MLPRtuReference
+//    * @return if instead of creating we updated the rtu This will indicate that the rtu references
+//    *     will be overriden
 //    */
-//   List<String> getRtuRefs();
+//   boolean isUpdated();
+
+//   /**
+//    * Returns the original request for creating the RTU.
+//    *
+//    * @return original request
+//    */
+//   ICreateRtu getRequest();
+
+//   /**
+//    * Get the CDS {@link org.acumos.cds.domain.MLPRightToUse} created or updated during the
+//    * processing.
+//    *
+//    * @return list of Rtus created in CDS
+//    */
+//   List<MLPRightToUse> getRtus();
 // }
