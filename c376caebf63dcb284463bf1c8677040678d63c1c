@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "fe50d76d_74971ec6",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/jsonvalidator/package-info.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-03T18:25:26Z",
+      "side": 1,
+      "message": "Updated",
+      "parentUuid": "a99bf712_62fbad8f",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "523b23f8_4d8b1935",
         "filename": "license-profile-editor/Dockerfile",
         "patchSetId": 6
@@ -59,6 +83,30 @@
       "writtenOn": "2019-09-03T14:22:57Z",
       "side": 1,
       "message": "What is the failure?  The usual build machine has 4 cores but possibly not enough memory? Maybe we need to request an 8GB build node.  Please advise, this seems important to me.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a4e057a_9c227a48",
+        "filename": "license-profile-editor/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-03T18:25:26Z",
+      "side": 1,
+      "message": "Observed following failure - waiting for this patch https://gerrit.acumos.org/r/c/ci-management/+/5114 to merge and try with ubuntu+jdk11 image - to see if that solves the problem.  \n\n[ERROR] Failed to execute goal io.fabric8:docker-maven-plugin:0.31.0:build (default-build) on project license-profile-editor: Unable to build image [license-profile-editor:0.0.2-SNAPSHOT] : \"The command \u0027/bin/sh -c npm install\u0027 returned a non-zero code: 1\" -\u003e [Help 1]\norg.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal io.fabric8:docker-maven-plugin:0.31.0:build (default-build) on project license-profile-editor: Unable to build image [license-profile-editor:0.0.2-SNAPSHOT] : \"The command \u0027/bin/sh -c npm install\u0027 returned a non-zero code: 1\" \n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:213)\n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:154)\n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:146)\n    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)\n...\n...\n\n—————\n\n[ERROR] Failed to execute goal io.fabric8:docker-maven-plugin:0.31.0:build (default-build) on project license-profile-editor: Unable to build image [license-profile-editor:0.0.2-SNAPSHOT] : \"The command \u0027/bin/sh -c npm run ci-test -- --browsers ChromeHeadlessNoSandbox --watch\u003dfalse\u0027 returned a non-zero code: 1\" -\u003e [Help 1]\norg.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal io.fabric8:docker-maven-plugin:0.31.0:build (default-build) on project license-profile-editor: Unable to build image [license-profile-editor:0.0.2-SNAPSHOT] : \"The command \u0027/bin/sh -c npm run ci-test -- --browsers ChromeHeadlessNoSandbox --watch\u003dfalse\u0027 returned a non-zero code: 1\" \n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:213)\n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:154)\n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:146)\n    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)\n    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)\n    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:51)\n    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)\n    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:309)\n    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:194)\n    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:107)\n    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:955)\n    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:290)\n    at org.apache.maven.cli.MavenCli.main (MavenCli.java:194)\n    at sun.reflect.NativeMethodAccessorImpl.invoke0 (Native Method)\n    at sun.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:62)\n    at sun.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)\n    at java.lang.reflect.Method.invoke (Method.java:498)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:289)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:229)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:415)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:356)\nCaused by: org.apache.maven.plugin.MojoExecutionException: Unable to build image [license-profile-editor:0.0.2-SNAPSHOT] : \"The command \u0027/bin/sh -c npm run ci-test -- --browsers ChromeHeadlessNoSandbox --watch\u003dfalse\u0027 returned a non-zero code: 1\" \n    at io.fabric8.maven.docker.AbstractDockerMojo.execute (AbstractDockerMojo.java:233)\n    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:134)\n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:208)\n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:154)\n    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:146)\n    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)\n    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)\n    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:51)\n    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)\n    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:309)\n    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:194)\n    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:107)\n    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:955)\n    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:290)\n    at org.apache.maven.cli.MavenCli.main (MavenCli.java:194)\n    at sun.reflect.NativeMethodAccessorImpl.invoke0 (Native Method)\n    at sun.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:62)\n    at sun.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)\n    at java.lang.reflect.Method.invoke (Method.java:498)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:289)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:229)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:415)\n    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:356)\n\n...\n...",
+      "parentUuid": "523b23f8_4d8b1935",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "1d58c846_c85a2f6b",
+        "filename": "license-rtu-editor/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-03T18:25:26Z",
+      "side": 1,
+      "message": "Not personal Docker area and can be promoted as project image. If you provide steps / references to follow.",
+      "parentUuid": "36d826d2_dbc220fc",
+      "range": {
+        "startLine": 4,
+        "startChar": 5,
+        "endLine": 4,
+        "endChar": 15
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ecfb02a4_891f1e67",
         "filename": "license-rtu-editor/Dockerfile",
         "patchSetId": 6
@@ -105,6 +177,30 @@
       "writtenOn": "2019-09-03T14:22:57Z",
       "side": 1,
       "message": "Very concerned about this",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "262ebff0_3d4140bc",
+        "filename": "license-rtu-editor/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-03T18:25:26Z",
+      "side": 1,
+      "message": "mentioned failure details in another post",
+      "parentUuid": "ecfb02a4_891f1e67",
       "range": {
         "startLine": 18,
         "startChar": 0,
