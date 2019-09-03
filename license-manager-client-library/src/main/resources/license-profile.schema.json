@@ -63,6 +63,10 @@
     },
     "additionalInfo": {
       "type": "string"
+    },
+    "rtuRequired": {
+      "type": "boolean",
+      "description": "Right to use agreement required to use"
     }
   }
 }

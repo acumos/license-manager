@@ -23,13 +23,18 @@ package org.acumos.licensemanager.client.model;
 import com.google.common.collect.ImmutableMap;
 import java.util.EnumMap;
 import java.util.Map;
+import org.acumos.lum.handler.ApiException;
+import org.acumos.lum.model.PutAssetUsageSuccessResponse;
 
 /** Verified that there is a right to use for specified userId and solutionID. */
-public class LicenseVerification implements ILicenseVerification {
+public class LicenseRtuVerification implements ILicenseRtuVerification {
 
   /** List of allowed usages. */
   private Map<LicenseAction, Boolean> allowedToUse =
       new EnumMap<LicenseAction, Boolean>(LicenseAction.class);
+
+  private ApiException apiException;
+  private PutAssetUsageSuccessResponse lumResponse;
 
   /**
    * Add {@link org.acumos.licensemanager.client.model.LicenseAction} to be verified.
@@ -52,5 +57,25 @@ public class LicenseVerification implements ILicenseVerification {
       return false;
     }
     return allowedToUse.get(action).booleanValue();
+  }
+
+  /** @param responseException if there is an LUM api exception capture that here */
+  public void setApiException(ApiException responseException) {
+    apiException = responseException;
+  }
+
+  /** @return the apiException LUM api exception object */
+  public ApiException getApiException() {
+    return apiException;
+  }
+
+  /** @param response original response from LUM */
+  public void setLumResponse(PutAssetUsageSuccessResponse response) {
+    lumResponse = response;
+  }
+
+  /** @return the lumResponse */
+  public PutAssetUsageSuccessResponse getLumResponse() {
+    return lumResponse;
   }
 }

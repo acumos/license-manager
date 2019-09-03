@@ -20,62 +20,36 @@
 
 package org.acumos.licensemanager.client.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Request object to verify a user's right to use for a specific action passed to the {@link
- * org.acumos.licensemanager.client.model.ILicenseVerifier}.
+ * org.acumos.licensemanager.client.model.ILicenseRtuVerifier}.
  */
 public class VerifyLicenseRequest extends BaseLicenseRequest implements IVerifyLicenseRequest {
 
   /** License Actions to be verified. */
-  private List<LicenseAction> licenseAction = new ArrayList<LicenseAction>();
+  private LicenseAction licenseAction;
 
   /** Constructor for VerifyLicenseRequest. */
   public VerifyLicenseRequest() {}
 
   /**
-   * Constructor for VerifyLicenseRequest.
-   *
-   * @param action a {@link org.acumos.licensemanager.client.model.LicenseAction} object.
-   * @param solutionId a {@link java.lang.String} object.
-   * @param userId a {@link java.lang.String} object.
+   * @param action requested action
+   * @param solutionId cds solution id for a ai model in acumos
+   * @param revisionId cds revision id for a solution
+   * @param userId logged in user id
+   * @param usageRequestId software instance such as download id, deployment id, artifact id
    */
   public VerifyLicenseRequest(
-      final LicenseAction action, final String solutionId, final String userId) {
-    this.licenseAction.add(action);
-    setSolutionId(solutionId);
-    addUserId(userId);
-  }
-
-  /**
-   * Constructor for VerifyLicenseRequest.
-   *
-   * @param action an array of {@link org.acumos.licensemanager.client.model.LicenseAction} objects.
-   * @param solutionId a {@link java.lang.String} object.
-   * @param userId a {@link java.lang.String} object.
-   */
-  public VerifyLicenseRequest(
-      final LicenseAction[] action, final String solutionId, final String userId) {
-    this.licenseAction = Arrays.asList(action);
-    setSolutionId(solutionId);
-    addUserId(userId);
-  }
-
-  /**
-   * Constructor for VerifyLicenseRequest.
-   *
-   * @param action a {@link java.util.List} object.
-   * @param solutionId a {@link java.lang.String} object.
-   * @param userId a {@link java.lang.String} object.
-   */
-  public VerifyLicenseRequest(
-      final List<LicenseAction> action, final String solutionId, final String userId) {
+      final LicenseAction action,
+      final String solutionId,
+      final String revisionId,
+      final String userId,
+      final String usageRequestId) {
     this.licenseAction = action;
     setSolutionId(solutionId);
-    addUserId(userId);
+    setRevisionId(revisionId);
+    setUsageRequestId(usageRequestId);
+    setLoggedInUserName(userId);
   }
 
   /**
@@ -83,21 +57,12 @@ public class VerifyLicenseRequest extends BaseLicenseRequest implements IVerifyL
    *
    * @param action a {@link java.util.List} object.
    */
-  public final void setActions(final List<LicenseAction> action) {
+  public final void setAction(LicenseAction action) {
     this.licenseAction = action;
   }
 
   @Override
-  public final List<LicenseAction> getActions() {
+  public final LicenseAction getAction() {
     return licenseAction;
-  }
-
-  /**
-   * Convenience method to add additional actions.
-   *
-   * @param action {@link org.acumos.licensemanager.client.model.LicenseAction} object.
-   */
-  public final void addAction(final LicenseAction action) {
-    this.licenseAction.add(action);
   }
 }

@@ -21,18 +21,14 @@
 package org.acumos.licensemanager.exceptions;
 
 import java.io.Serializable;
-import java.util.List;
-import org.acumos.cds.domain.MLPRightToUse;
+import java.util.UUID;
 import org.springframework.web.client.RestClientResponseException;
 
 /** When getting, updating, or creating a right to use this exception captures the issue. */
 public class RightToUseException extends Exception implements Serializable {
 
-  /** Internal exception being wrapped by RTU exception. */
-  private final RestClientResponseException cdsRestClientException;
-
-  private String solutionId;
-  private List<MLPRightToUse> rtus;
+  private UUID solutionId;
+  private UUID revisionId;
 
   /**
    * Creates exception for any RTU operation error.
@@ -43,49 +39,37 @@ public class RightToUseException extends Exception implements Serializable {
   public RightToUseException(
       final String message, final RestClientResponseException restException) {
     super(message);
-    cdsRestClientException = restException;
   }
 
-  public String getSolutionId() {
+  public UUID getSolutionId() {
     return solutionId;
   }
 
-  public RightToUseException setSolutionId(String solutionId) {
+  public RightToUseException setSolutionId(UUID solutionId) {
     this.solutionId = solutionId;
     return this;
   }
 
-  /**
-   * Creates exception for RTU creation errors
-   *
-   * @param message provide text for message
-   * @param solutionId solution id that has an issue
-   * @param rtus list of rtus found based on solution
-   */
-  public RightToUseException(
-      final String message, final String solutionId, final List<MLPRightToUse> rtus) {
-    super(message);
-    cdsRestClientException = null;
-    this.setSolutionId(solutionId);
-    this.setRtus(rtus);
+  public UUID getRevisionId() {
+    return revisionId;
   }
 
-  /**
-   * Getter for the field <code>cdsRestClientException</code>.
-   *
-   * @return the cdsRestClientException
-   */
-  public final RestClientResponseException getCdsRestClientException() {
-    return cdsRestClientException;
-  }
-
-  public List<MLPRightToUse> getRtus() {
-    return rtus;
-  }
-
-  public RightToUseException setRtus(List<MLPRightToUse> rtus) {
-    this.rtus = rtus;
+  public RightToUseException setRevisionId(UUID revisionId) {
+    this.revisionId = revisionId;
     return this;
+  }
+
+  /**
+   * /** Creates exception for RTU creation errors
+   *
+   * @param message about the rtu exception
+   * @param solutionId for the model
+   * @param revisionId version of the model
+   */
+  public RightToUseException(final String message, final UUID solutionId, final UUID revisionId) {
+    super(message);
+    this.setSolutionId(solutionId);
+    this.setRevisionId(revisionId);
   }
 
   private static final long serialVersionUID = 3714073159231864295L;
