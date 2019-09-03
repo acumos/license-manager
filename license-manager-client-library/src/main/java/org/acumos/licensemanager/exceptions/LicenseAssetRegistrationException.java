@@ -22,19 +22,16 @@ package org.acumos.licensemanager.exceptions;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.springframework.web.client.RestClientResponseException;
 
 /** When getting, updating, or creating a right to use this exception captures the issue. */
-public class RightToUseException extends Exception implements Serializable {
+public class LicenseAssetRegistrationException extends Exception implements Serializable {
 
   /** Internal exception being wrapped by RTU exception. */
   private final RestClientResponseException cdsRestClientException;
 
-  private UUID solutionId;
-  private UUID revisionId;
-
+  private String solutionId;
   private List<MLPRightToUse> rtus;
 
   /**
@@ -43,27 +40,18 @@ public class RightToUseException extends Exception implements Serializable {
    * @param message provide text for message
    * @param restException rest client response error
    */
-  public RightToUseException(
+  public LicenseAssetRegistrationException(
       final String message, final RestClientResponseException restException) {
     super(message);
     cdsRestClientException = restException;
   }
 
-  public UUID getSolutionId() {
+  public String getSolutionId() {
     return solutionId;
   }
 
-  public RightToUseException setSolutionId(UUID solutionId) {
+  public LicenseAssetRegistrationException setSolutionId(String solutionId) {
     this.solutionId = solutionId;
-    return this;
-  }
-
-  public UUID getRevisionId() {
-    return revisionId;
-  }
-
-  public RightToUseException setRevisionId(UUID revisionId) {
-    this.revisionId = revisionId;
     return this;
   }
 
@@ -74,16 +62,18 @@ public class RightToUseException extends Exception implements Serializable {
    * @param solutionId solution id that has an issue
    * @param rtus list of rtus found based on solution
    */
-  public RightToUseException(
-      final String message,
-      final UUID solutionId,
-      final UUID revisionId,
-      final List<MLPRightToUse> rtus) {
+  public LicenseAssetRegistrationException(
+      final String message, final String solutionId, final List<MLPRightToUse> rtus) {
     super(message);
     cdsRestClientException = null;
     this.setSolutionId(solutionId);
-    this.setRevisionId(revisionId);
     this.setRtus(rtus);
+  }
+
+  public LicenseAssetRegistrationException(String message, final String solutionId) {
+    super(message);
+    cdsRestClientException = null;
+    this.setSolutionId(solutionId);
   }
 
   /**
@@ -99,10 +89,10 @@ public class RightToUseException extends Exception implements Serializable {
     return rtus;
   }
 
-  public RightToUseException setRtus(List<MLPRightToUse> rtus) {
+  public LicenseAssetRegistrationException setRtus(List<MLPRightToUse> rtus) {
     this.rtus = rtus;
     return this;
   }
 
-  private static final long serialVersionUID = 3714073159231864295L;
+  private static final long serialVersionUID = 1L;
 }

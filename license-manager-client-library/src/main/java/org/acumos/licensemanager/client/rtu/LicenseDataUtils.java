@@ -18,7 +18,7 @@
  * ===============LICENSE_END==================================================
  */
 
-package org.acumos.licensemanager.client;
+package org.acumos.licensemanager.client.rtu;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientResponseException;
 
 /** Internal class for working with right to use controller in the common data service. */
-class LicenseDataUtils {
+final class LicenseDataUtils {
   /** Logger for any exceptions that happen while creating a RTU with CDS. */
   private static final Logger LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

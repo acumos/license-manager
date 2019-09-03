@@ -21,6 +21,7 @@
 package org.acumos.licensemanager.client.model;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * When a Common Data service request is made for this library These are the common properties we
@@ -30,9 +31,16 @@ public interface ICommonLicenseRequest {
   /**
    * Get the solution ID used in CCDS queries.
    *
-   * @return a {@link java.lang.String} object.
+   * @return a {@link java.util.UUID} object.
    */
-  String getSolutionId();
+  UUID getSolutionId();
+
+  /**
+   * Get the revisiopn ID used in CCDS queries.
+   *
+   * @return a {@link java.util.UUID} object.
+   */
+  UUID getRevisionId();
 
   /**
    * Get list of userIds that will be used to verify/create/update a RTU.
@@ -40,13 +48,4 @@ public interface ICommonLicenseRequest {
    * @return a {@link java.lang.String} object.
    */
   List<String> getUserIds();
-
-  /**
-   * If set to true then the request to create a RTU will apply to every user using the acumos
-   * platform. If set to false then the RTU being created is a user specific RTU. Default is false.
-   *
-   * @return Is the right to use specific to a user or applicable site wide
-   * @see org.acumos.cds.domain.MLPRightToUse#site
-   */
-  boolean isSiteWide();
 }

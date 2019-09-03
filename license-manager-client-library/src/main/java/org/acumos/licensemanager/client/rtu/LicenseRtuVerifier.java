@@ -18,7 +18,7 @@
  * ===============LICENSE_END==================================================
  */
 
-package org.acumos.licensemanager.client;
+package org.acumos.licensemanager.client.rtu;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -35,12 +35,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * LicenseVerifier will verify that user or site has the RTU for a solution id for a specific
- * action.
+ * LicenseRtuVerifier will verify that user or site has the RTU for a solution id and revision Id
+ * for a specific action.
  *
  * <p>In Boreas release the action we only have one RTU for all actions.
  */
-public class LicenseVerifier implements ILicenseVerifier {
+final class LicenseRtuVerifier implements ILicenseVerifier {
 
   /** Logger for any exceptions that happen while creating a RTU with CDS. */
   private static final Logger LOGGER =
@@ -53,7 +53,7 @@ public class LicenseVerifier implements ILicenseVerifier {
    *
    * @param dataServiceClient a {@link org.acumos.cds.client.ICommonDataServiceRestClient} object.
    */
-  public LicenseVerifier(final ICommonDataServiceRestClient dataServiceClient) {
+  public LicenseRtuVerifier(final ICommonDataServiceRestClient dataServiceClient) {
     this.dataClient = dataServiceClient;
   }
 
@@ -79,8 +79,8 @@ public class LicenseVerifier implements ILicenseVerifier {
     boolean rightToUseFlag = false;
     // Check for user RTU if there is no sitewide RTU
     RtuSearchRequest searchRequest = new RtuSearchRequest();
-    searchRequest.setSolutionId(request.getSolutionId());
-    searchRequest.setSite(request.isSiteWide());
+    searchRequest.setSolutionId(request.getSolutionId().toString());
+    // searchRequest.setSite(request.isSiteWide());
     searchRequest.setUserIds(request.getUserIds());
     List<MLPRightToUse> rightsToUse = LicenseDataUtils.getRightToUses(dataClient, searchRequest);
 

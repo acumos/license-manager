@@ -43,8 +43,9 @@ public class CreateRtuRequest extends BaseLicenseRequest implements ICreateRtu, 
    * @param solId a {@link java.lang.String} object.
    * @param userIds an array of {@link java.lang.String} objects.
    */
-  public CreateRtuRequest(final String solId, final String[] userIds) {
+  public CreateRtuRequest(final String solId, final String revisionId, final String[] userIds) {
     setSolutionId(solId);
+    setRevisionId(revisionId);
     setUserIds(Arrays.asList(userIds));
   }
 

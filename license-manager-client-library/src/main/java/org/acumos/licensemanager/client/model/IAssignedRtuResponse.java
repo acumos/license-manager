@@ -25,9 +25,9 @@ import org.acumos.cds.domain.MLPRightToUse;
 
 /**
  * The output of the RTU creation process {@link
- * org.acumos.licensemanager.client.model.ILicenseCreator}.
+ * org.acumos.licensemanager.client.model.ILicenseRtuAssigner}.
  */
-public interface ICreatedRtuResponse {
+public interface IAssignedRtuResponse {
   /**
    * True if rtu was updated.
    *

@@ -26,7 +26,7 @@ import org.acumos.licensemanager.exceptions.RightToUseException;
  * License Creator will create a right to use for a user for entire site for a specific solution.
  * CreatedRtu
  */
-public interface ILicenseCreator {
+public interface ILicenseRtuAssigner {
 
   /**
    * Create a RTU for siteWide or for a specific user.
@@ -35,8 +35,8 @@ public interface ILicenseCreator {
    * createRtu.solutionId (from CDS)
    *
    * @param createRtu create rtu request
-   * @return ICreatedRtuResponse the response of the create rtu request
+   * @return IAssignedRtuResponse the response of the create rtu request
    * @throws org.acumos.licensemanager.exceptions.RightToUseException if any.
    */
-  ICreatedRtuResponse createRtu(ICreateRtu createRtu) throws RightToUseException;
+  IAssignedRtuResponse createRtu(ICreateRtu createRtu) throws RightToUseException;
 }

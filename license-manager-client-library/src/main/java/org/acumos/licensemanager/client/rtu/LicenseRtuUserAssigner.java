@@ -18,7 +18,7 @@
  * ===============LICENSE_END==================================================
  **/
 
-package org.acumos.licensemanager.client;
+package org.acumos.licensemanager.client.rtu;
 
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
@@ -29,10 +29,10 @@ import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPRightToUse;
 import org.acumos.cds.domain.MLPRtuReference;
 import org.acumos.cds.domain.MLPUser;
-import org.acumos.licensemanager.client.model.CreatedRtu;
+import org.acumos.licensemanager.client.model.AssignedRtu;
+import org.acumos.licensemanager.client.model.IAssignedRtuResponse;
 import org.acumos.licensemanager.client.model.ICreateRtu;
-import org.acumos.licensemanager.client.model.ICreatedRtuResponse;
-import org.acumos.licensemanager.client.model.ILicenseCreator;
+import org.acumos.licensemanager.client.model.ILicenseRtuAssigner;
 import org.acumos.licensemanager.client.model.RtuSearchRequest;
 import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.slf4j.Logger;
@@ -40,10 +40,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientResponseException;
 
 /**
- * LicenseCreator Library will create a right to use for either a solution and can be added for the
- * entire site or for a specific user.
+ * LicenseRtuUserAssigner Api will create a right to use for either a solution and can be added for
+ * the entire site or for a specific user.
  */
-public class LicenseCreator implements ILicenseCreator {
+final class LicenseRtuUserAssigner implements ILicenseRtuAssigner {
   /** Logger for any exceptions that happen while creating a RTU with CDS. */
   private static final Logger LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -55,12 +55,12 @@ public class LicenseCreator implements ILicenseCreator {
    *
    * @param dataServiceClient a {@link org.acumos.cds.client.ICommonDataServiceRestClient} object.
    */
-  public LicenseCreator(final ICommonDataServiceRestClient dataServiceClient) {
+  public LicenseRtuUserAssigner(final ICommonDataServiceRestClient dataServiceClient) {
     this.dataClient = dataServiceClient;
   }
 
   @Override
-  public final ICreatedRtuResponse createRtu(final ICreateRtu request) throws RightToUseException {
+  public final IAssignedRtuResponse createRtu(final ICreateRtu request) throws RightToUseException {
 
     if (request == null) {
       throw new IllegalArgumentException("request is not defined");
@@ -68,7 +68,7 @@ public class LicenseCreator implements ILicenseCreator {
     if (request.getSolutionId() == null) {
       throw new IllegalArgumentException("request solution id is not defined");
     }
-    if (request.getUserIds() == null && !request.isSiteWide()) {
+    if (request.getUserIds() == null) {
       throw new IllegalArgumentException("request userId or " + "siteWide is not defined");
     }
 
@@ -77,11 +77,11 @@ public class LicenseCreator implements ILicenseCreator {
     //       "only allow one user id was passed" + request.getUserIds().size());
     // }
 
-    CreatedRtu response = new CreatedRtu();
+    AssignedRtu response = new AssignedRtu();
     response.setRequest(request);
     // check if rtu reference already exists for solution id + userid
     RtuSearchRequest searchRequest = new RtuSearchRequest();
-    searchRequest.setSolutionId(request.getSolutionId());
+    searchRequest.setSolutionId(request.getSolutionId().toString());
     List<MLPRightToUse> rtus = LicenseDataUtils.getRightToUsesNoFilter(dataClient, searchRequest);
     // in Boreas only expect 1 rtu
     if (rtus != null && !rtus.isEmpty()) {
@@ -96,6 +96,7 @@ public class LicenseCreator implements ILicenseCreator {
         throw new RightToUseException(
             "Rtu already exists for solution id" + request.getSolutionId() + "with rtuId " + ref,
             request.getSolutionId(),
+            request.getRevisionId(),
             rtus);
       } else {
         updateRtu(request, response, rtus);
@@ -110,7 +111,7 @@ public class LicenseCreator implements ILicenseCreator {
     return response;
   }
 
-  private void removeRtuFromUsers(ICreateRtu request, CreatedRtu response)
+  private void removeRtuFromUsers(ICreateRtu request, AssignedRtu response)
       throws RightToUseException {
     // remove rtu from user that are not in request list
     // get the list of users for the rtu being updated
@@ -144,7 +145,7 @@ public class LicenseCreator implements ILicenseCreator {
     }
   }
 
-  private void grantRtuToUsers(final ICreateRtu request, CreatedRtu response)
+  private void grantRtuToUsers(final ICreateRtu request, AssignedRtu response)
       throws RightToUseException {
     if (!request.getUserIds().isEmpty() && !response.getRtus().isEmpty()) {
       for (MLPRightToUse rtu : response.getRtus()) {
@@ -162,22 +163,22 @@ public class LicenseCreator implements ILicenseCreator {
    * @param response responds with information about the rtu creation
    * @throws RightToUseException when then creation of RTU was unsuccessful
    */
-  private void createRightToUse(final ICreateRtu request, final CreatedRtu response)
+  private void createRightToUse(final ICreateRtu request, final AssignedRtu response)
       throws RightToUseException {
-    MLPRightToUse rightToUse = new MLPRightToUse(request.getSolutionId(), request.isSiteWide());
-    LicenseDataUtils.addRtuRefs(request, rightToUse);
-    rightToUse.setCreated(Instant.now());
+    // MLPRightToUse rightToUse = new MLPRightToUse(request.getSolutionId());
+    // LicenseDataUtils.addRtuRefs(request, rightToUse);
+    // rightToUse.setCreated(Instant.now());
 
-    try {
-      // create rtu for the solution
-      MLPRightToUse completeRtu = dataClient.createRightToUse(rightToUse);
-      response.addRtu(completeRtu);
-      response.setCreated(true);
-    } catch (RestClientResponseException ex) {
-      LOGGER.error("createRightToUse failed, server reports: {}", ex.getResponseBodyAsString());
-      throw new RightToUseException("createRightToUse failed", ex)
-          .setSolutionId(request.getSolutionId());
-    }
+    // try {
+    //   // create rtu for the solution
+    //   MLPRightToUse completeRtu = dataClient.createRightToUse(rightToUse);
+    //   response.addRtu(completeRtu);
+    //   response.setCreated(true);
+    // } catch (RestClientResponseException ex) {
+    //   LOGGER.error("createRightToUse failed, server reports: {}", ex.getResponseBodyAsString());
+    //   throw new RightToUseException("createRightToUse failed", ex)
+    //       .setSolutionId(request.getSolutionId());
+    // }
   }
 
   /**
@@ -220,11 +221,11 @@ public class LicenseCreator implements ILicenseCreator {
    * @throws RightToUseException when then creation of RTU was unsuccessful
    */
   private void updateRtu(
-      final ICreateRtu request, final CreatedRtu response, final List<MLPRightToUse> rtus)
+      final ICreateRtu request, final AssignedRtu response, final List<MLPRightToUse> rtus)
       throws RightToUseException {
     for (MLPRightToUse rtu : rtus) {
       LicenseDataUtils.addRtuRefs(request, rtu);
-      rtu.setSite(request.isSiteWide());
+      // rtu.setSite(request.isSiteWide());
       rtu.setModified(Instant.now());
       if (LicenseDataUtils.updateRightToUse(dataClient, rtu)) {
         response.addRtu(rtu);

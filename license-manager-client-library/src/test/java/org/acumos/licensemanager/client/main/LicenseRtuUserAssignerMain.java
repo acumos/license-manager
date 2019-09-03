@@ -22,25 +22,25 @@ package org.acumos.licensemanager.client.main;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import org.acumos.cds.client.CommonDataServiceRestClientImpl;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
-import org.acumos.licensemanager.client.model.ILicenseVerification;
-import org.acumos.licensemanager.client.model.LicenseAction;
-import org.acumos.licensemanager.client.model.LicenseVerification;
-import org.acumos.licensemanager.client.model.VerifyLicenseRequest;
+import org.acumos.licensemanager.client.model.CreateRtuRequest;
+import org.acumos.licensemanager.client.model.IAssignedRtuResponse;
 import org.acumos.licensemanager.client.rtu.LicenseAsset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpStatusCodeException;
 
 /**
- * License Verify Main program. Input to main program: String solutionId String userId
+ * License Verify Main program. Input to main program: String solutionId String userId boolean
+ * siteWide
  *
  * <p>Envirionment variables required to point to CCDS api ACUMOS_CDS_HOST ACUMOS_CDS_PORT
  * ACUMOS_CDS_USER ACUMOS_CDS_PASSWORD
  */
-public class LicenseVerifyMain {
+public class LicenseRtuUserAssignerMain {
 
   /** Logger for any exception handling. */
   private static final Logger LOGGER =
@@ -81,13 +81,14 @@ public class LicenseVerifyMain {
   private static final String NEXUS_REPO_PATH = System.getenv("NEXUS_REPO_PATH");
 
   /** No not allow for utility class from being instantiated. */
-  protected LicenseVerifyMain() {
+  protected LicenseRtuUserAssignerMain() {
     // prevents calls from subclass
     throw new UnsupportedOperationException();
   }
 
   /**
-   * String solutionId String userId.
+   * Main program can be used with the following arguments requires position order.
+   * LicenseRtuAssignerMain solutionId [userId] [siteWide]
    *
    * @param args an array of {@link java.lang.String} objects.
    * @throws java.lang.Exception if any.
@@ -103,17 +104,26 @@ public class LicenseVerifyMain {
         CommonDataServiceRestClientImpl.getInstance(url.toString(), USER_NAME, PASSWORD);
 
     try {
-      LicenseAsset licenseVerifier =
+      // use license manager to create license for solution + user id
+      final LicenseAsset licenseAsset =
           new LicenseAsset(client, lumServer.toExternalForm(), nexusServer.toExternalForm());
-      VerifyLicenseRequest verifyRequest =
-          new VerifyLicenseRequest(
-              new LicenseAction[] {LicenseAction.DOWNLOAD, LicenseAction.DEPLOY}, args[0], args[1]);
-      CompletableFuture<LicenseVerification> licenseResPromise =
-          licenseVerifier.verifyRtu(verifyRequest);
-      ILicenseVerification licenseRes = licenseResPromise.get();
-      System.out.println("Verified rtu");
-      System.out.println("deploy allowed? " + licenseRes.isAllowed(LicenseAction.DEPLOY));
-      System.out.println("download allowed? " + licenseRes.isAllowed(LicenseAction.DOWNLOAD));
+      CreateRtuRequest rtuRequest = new CreateRtuRequest();
+
+      rtuRequest.setSolutionId(args[0]);
+      if (args.length > 1) {
+        if (args[1].indexOf("siteWide") != -1) {
+          // rtuRequest.setSiteWide(true);
+          rtuRequest.setUserIds(new ArrayList<String>());
+        } else {
+          rtuRequest.addUserId(args[1]);
+        }
+      }
+
+      CompletableFuture<IAssignedRtuResponse> rtuResCompletableFuture =
+          licenseAsset.assignUsersToRtu(rtuRequest);
+      IAssignedRtuResponse rtuRes = rtuResCompletableFuture.get();
+      System.out.println("Created rtu" + rtuRes.isCreated());
+      System.out.println("rtus created? " + rtuRes.getRtus());
 
     } catch (HttpStatusCodeException ex) {
       LOGGER.error("basicSequenceDemo failed, server reports: {}", ex.getResponseBodyAsString());

@@ -26,10 +26,10 @@ import java.util.List;
 import org.acumos.cds.domain.MLPRightToUse;
 
 /**
- * Implements {@link org.acumos.licensemanager.client.model.ICreatedRtuResponse} which supports the
- * {@link org.acumos.licensemanager.client.model.ILicenseCreator}.
+ * Implements {@link org.acumos.licensemanager.client.model.IAssignedRtuResponse} which supports the
+ * {@link org.acumos.licensemanager.client.model.ILicenseRtuAssigner}.
  */
-public class CreatedRtu implements ICreatedRtuResponse, Serializable {
+public class AssignedRtu implements IAssignedRtuResponse, Serializable {
 
   private static final long serialVersionUID = 8159918115256669078L;
 

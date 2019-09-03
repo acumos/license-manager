@@ -22,26 +22,16 @@ package org.acumos.licensemanager.client.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /** When making a request for a license RTU consolidating common functionality. */
 public abstract class BaseLicenseRequest implements ICommonLicenseRequest {
 
-  /** Solution Id for CDS. */
-  private String solutionIdCds;
+  private UUID solutionId;
+  private UUID revisionId;
+
   /** userIds to create RTUs for. */
   private List<String> userIdsCds = new ArrayList<String>();
-
-  /** siteWide RTU. */
-  private boolean siteWideRtu = false;
-
-  /**
-   * Set the solution ID used in CCDS queries.
-   *
-   * @param solutionId a {@link java.lang.String} object.
-   */
-  public final void setSolutionId(final String solutionId) {
-    solutionIdCds = solutionId;
-  }
 
   /**
    * Set list of userIds that will be used to verify/create/update a RTU.
@@ -62,28 +52,50 @@ public abstract class BaseLicenseRequest implements ICommonLicenseRequest {
   }
 
   @Override
-  public final String getSolutionId() {
-    return solutionIdCds;
-  }
-
-  @Override
   public final List<String> getUserIds() {
     return userIdsCds;
   }
 
-  @Override
-  public final boolean isSiteWide() {
-    return siteWideRtu;
+  /**
+   * Required To create the swidTagId we will use the solutionId + revisionId
+   *
+   * @see {@link SWIDBody#setSwTagId(String)}
+   * @see {@link PutSwidTagRequest#setSwidTag(SWIDBody)}
+   */
+  public void setRevisionId(String revisionId) {
+    this.revisionId = UUID.fromString(revisionId);
   }
 
   /**
-   * Set to true if you want a solution to have a site wide right to use. This avoid having to
-   * create a RTU for every user.
+   * Required To create the swidTagId we will use the solutionId + revisionId
    *
-   * @param siteWide create rtu for solution for entire site
-   * @see org.acumos.cds.domain.MLPRightToUse#site
+   * @see {@link SWIDBody#setSwTagId(String)}
+   * @see {@link PutSwidTagRequest#setSwidTag(SWIDBody)}
    */
-  public final void setSiteWide(final boolean siteWide) {
-    siteWideRtu = siteWide;
+  public void setRevisionId(UUID revisionId) {
+    this.revisionId = revisionId;
+  }
+
+  public UUID getRevisionId() {
+    return revisionId;
+  }
+
+  public UUID getSolutionId() {
+    return solutionId;
+  }
+
+  /**
+   * Required SolutionId maps to the software persistent id in LUM The solutionId is the UUID that
+   * represents the software
+   *
+   * @see {@link SWIDBody#setSwPersistentId(java.util.UUID)}
+   * @see {@link PutSwidTagRequest#setSwidTag(SWIDBody)}
+   */
+  public void setSolutionId(String solutionId) {
+    this.solutionId = UUID.fromString(solutionId);
+  }
+
+  public void setSolutionId(UUID solutionId) {
+    this.solutionId = solutionId;
   }
 }

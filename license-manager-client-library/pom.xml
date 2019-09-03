@@ -39,9 +39,14 @@
 		https://nexus.acumos.org/content/repositories/releases/ -->
 	<dependencies>
 		<dependency>
+			<groupId>org.acumos.license-usage-manager</groupId>
+			<artifactId>lum-java-rest-client</artifactId>
+			<version>0.23.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
+			<version>3.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -53,6 +58,12 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>2.27.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.specto</groupId>
+			<artifactId>hoverfly-java</artifactId>
+			<version>0.12.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
