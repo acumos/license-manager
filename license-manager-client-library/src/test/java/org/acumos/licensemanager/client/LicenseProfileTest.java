@@ -53,7 +53,7 @@ public class LicenseProfileTest {
       // template 1
       for (int tempId = 101; tempId <= 105; tempId++) {
         MLPLicenseProfileTemplate template = new MLPLicenseProfileTemplate();
-        template.setTemplateId(new Long(tempId));
+        template.setTemplateId(Long.valueOf(tempId));
         template.setTemplateName("License " + tempId);
         template.setTemplate("This is description for License " + tempId);
         template.setPriority(1);
@@ -96,7 +96,7 @@ public class LicenseProfileTest {
     MLPLicenseProfileTemplate licTemplate = templates.get(0);
     assertEquals(
         "Expected to receive first template with ID 101",
-        new Long(101),
+        Long.valueOf(101),
         licTemplate.getTemplateId());
     assertEquals(
         "Expected to receive first template with name 'License 101'",
@@ -115,7 +115,7 @@ public class LicenseProfileTest {
 
     assertEquals("Expected to receive template with ID 101", true, licTemplate != null);
     assertEquals(
-        "Expected to receive template with ID 101", new Long(101), licTemplate.getTemplateId());
+        "Expected to receive template with ID 101", Long.valueOf(101), licTemplate.getTemplateId());
     assertEquals(
         "Expected to receive template with name 'License 101'",
         "License 101",

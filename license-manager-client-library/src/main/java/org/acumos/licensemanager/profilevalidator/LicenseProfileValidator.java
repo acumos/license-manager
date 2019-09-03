@@ -36,6 +36,19 @@ import org.acumos.licensemanager.profilevalidator.resource.LicenseJsonSchema;
 /**
  * LicenseProfileValidator will verify the license.json to ensure there are no json errors or json
  * schema errors
+ *
+ * <p>Example json schema validation errors:
+ *
+ * <ul>
+ *   <li>$.keyword: is missing but it is required
+ *   <li>$.licenseName: is missing but it is required
+ *   <li>$.copyright: is missing but it is required
+ *   <li>$.keyword: integer found, string expected
+ * </ul>
+ *
+ * <p>If content is not json then you will get an exception
+ * org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException:
+ * LicenseProfileJson: issue reading input
  */
 public class LicenseProfileValidator implements ILicenseProfileValidator {
 

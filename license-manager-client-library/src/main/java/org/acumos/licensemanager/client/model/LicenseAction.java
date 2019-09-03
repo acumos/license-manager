@@ -23,7 +23,21 @@ package org.acumos.licensemanager.client.model;
 /** Actions that require a license / right to use. */
 public enum LicenseAction {
   /** Download action in the portal Or through docker pull. */
-  DOWNLOAD,
+  DOWNLOAD("acumos:download"),
+  /** Allow a model to be transfered by federation gateway */
+  TRANSFER("transfer"),
+  /** Allow a source model to be aggregated into a composite solution */
+  AGGREGATE("aggregate"),
   /** Deploy action in the portal. */
-  DEPLOY
+  DEPLOY("acumos:deploy");
+
+  private String action;
+
+  public String getAction() {
+    return action;
+  }
+
+  private LicenseAction(String action) {
+    this.action = action;
+  }
 }

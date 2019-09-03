@@ -65,9 +65,9 @@
     "additionalInfo": {
       "type": "string"
     },
-    "rtuRequired":{
+    "rtuRequired": {
       "type": "boolean",
-      "description": "When true a right to use must be provided by the supplier to enable use."
+      "description": "Right to use agreement required to use"
     }
   }
 }

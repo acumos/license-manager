@@ -20,19 +20,20 @@
 
 package org.acumos.licensemanager.client.model;
 
+import java.util.concurrent.CompletableFuture;
 import org.acumos.licensemanager.exceptions.RightToUseException;
 
 /** An object that verifies the license by using the right to use authority. */
-public interface ILicenseVerifier {
+public interface ILicenseRtuVerifier {
 
   /**
    * Checks for siteWide RTU for a solutionId If no siteWide RTU exists check for userId.
    *
    * @param licenseDownloadRequest a {@link
-   *     org.acumos.licensemanager.client.model.IVerifyLicenseRequest} object.
-   * @return a {@link org.acumos.licensemanager.client.model.ILicenseVerification} object.
+   *     org.acumos.licensemanager.client.model.VerifyLicenseRequest} object.
+   * @return a {@link org.acumos.licensemanager.client.model.ILicenseRtuVerification} object.
    * @throws RightToUseException if any.
    */
-  ILicenseVerification verifyRtu(IVerifyLicenseRequest licenseDownloadRequest)
+  CompletableFuture<LicenseRtuVerification> verifyRtu(VerifyLicenseRequest licenseDownloadRequest)
       throws RightToUseException;
 }

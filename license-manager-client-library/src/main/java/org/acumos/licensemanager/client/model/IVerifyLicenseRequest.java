@@ -20,19 +20,12 @@
 
 package org.acumos.licensemanager.client.model;
 
-import java.util.List;
-
 /**
  * A request object that must be created before calling {@link
- * org.acumos.licensemanager.client.model .ILicenseVerifier#verifyRtu(IVerifyLicenseRequest)}.
+ * org.acumos.licensemanager.client.model .ILicenseRtuVerifier#verifyRtu(IVerifyLicenseRequest)}.
  * CreatedRtu
  */
 public interface IVerifyLicenseRequest extends ICommonLicenseRequest {
 
-  /**
-   * Get the list of actions to be verified.
-   *
-   * @return a {@link java.util.List} object.
-   */
-  List<LicenseAction> getActions();
+  LicenseAction getAction();
 }

@@ -20,41 +20,23 @@
 
 package org.acumos.licensemanager.client.model;
 
-import java.util.List;
-import org.acumos.cds.domain.MLPRightToUse;
+import java.util.Map;
 
-/**
- * The output of the RTU creation process {@link
- * org.acumos.licensemanager.client.model.ILicenseCreator}.
- */
-public interface ICreatedRtuResponse {
-  /**
-   * True if rtu was updated.
-   *
-   * @return if the RTU was created
-   */
-  boolean isCreated();
+/** ILicenseVerification interface. CreatedRtu */
+public interface ILicenseRtuVerification {
 
   /**
-   * True if rtu was updated.
+   * Returns the list of actions for which are allowed to use.
    *
-   * @return if instead of creating we updated the rtu This will indicate that the rtu references
-   *     will be overriden
+   * @return a {@link java.util.Map} object.
    */
-  boolean isUpdated();
+  Map<LicenseAction, Boolean> getAllowedToUse();
 
   /**
-   * Returns the original request for creating the RTU.
+   * Convenience method to pass a license action and return true if a RTU exists.
    *
-   * @return original request
+   * @param action a {@link org.acumos.licensemanager.client.model.LicenseAction} object.
+   * @return a boolean.
    */
-  ICreateRtu getRequest();
-
-  /**
-   * Get the CDS {@link org.acumos.cds.domain.MLPRightToUse} created or updated during the
-   * processing.
-   *
-   * @return list of Rtus created in CDS
-   */
-  List<MLPRightToUse> getRtus();
+  boolean isAllowed(LicenseAction action);
 }
