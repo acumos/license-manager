@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "525ab048_6da60751",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/jsonvalidator/model/LicenseJsonValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-03T14:22:57Z",
+      "side": 1,
+      "message": "It\u0027s common to use \"Impl\" as the suffix on a class that provides the sole implementation of a well-known interface, please consider it.",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 33
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a99bf712_62fbad8f",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/jsonvalidator/package-info.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-03T14:22:57Z",
+      "side": 1,
+      "message": "This file is optional. If you\u0027re not going to provide a few sentences of text to explain the package, then I would skip it entirely.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "523b23f8_4d8b1935",
+        "filename": "license-profile-editor/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-03T14:22:57Z",
+      "side": 1,
+      "message": "What is the failure?  The usual build machine has 4 cores but possibly not enough memory? Maybe we need to request an 8GB build node.  Please advise, this seems important to me.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36d826d2_dbc220fc",
+        "filename": "license-rtu-editor/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-03T14:22:57Z",
+      "side": 1,
+      "message": "Is this your personal Docker area?  Can this be promoted to a project image?  I have a collection of them already.",
+      "range": {
+        "startLine": 4,
+        "startChar": 5,
+        "endLine": 4,
+        "endChar": 15
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecfb02a4_891f1e67",
+        "filename": "license-rtu-editor/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2019-09-03T14:22:57Z",
+      "side": 1,
+      "message": "Very concerned about this",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "c376caebf63dcb284463bf1c8677040678d63c1c",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
