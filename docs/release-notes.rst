@@ -22,10 +22,12 @@
 License Manager Client Library Release Notes
 ============================================
 
-Version 0.0.14 3 Sept 2019
+Version 0.0.14 4 Sept 2019
 --------------------------
 * LicenseProfile APIs - getTemplate(s) `ACUMOS-3387 <https://jira.acumos.org/browse/ACUMOS-3387>`_
 * LicenseProfile APIs - validate `ACUMOS-3336 <https://jira.acumos.org/browse/ACUMOS-3336>`_
+* LicenseAsset APIs - register `ACUMOS-3339 <https://jira.acumos.org/browse/ACUMOS-3339>`_
+
 
 Version 0.0.13 11 Jul 2019
 --------------------------
