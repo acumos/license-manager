@@ -17,10 +17,11 @@
 	-->
   <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.acumos.license-manager</groupId>
+  <groupId>org.acumos.license-manager</groupId>
   <artifactId>license-rtu-editor</artifactId>
   <version>0.0.3-SNAPSHOT</version>
   <packaging>docker</packaging>
+	<description>The License Right to Use Editor is a webform that helps in the creation and early validation of a license agreement used by the Acumos portal and License usage manager. Developed by EST.tech.</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -94,13 +95,24 @@
           </images>
         </configuration>
         <!-- build Docker images in install phase, push in deploy phase -->
-				<executions>
-					<execution>
-						<goals>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>push</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.7.1</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.0.0</version>
       </plugin>
     </plugins>
   </build>

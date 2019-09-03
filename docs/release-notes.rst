@@ -22,11 +22,34 @@
 License Manager Client Library Release Notes
 ============================================
 
-Version 0.0.15 19 Sept 2019
----------------------------
-* Adding rtuRequired flag to profile to activate lum entitlement requirement during software registration `ACUMOS-3458 <https://jira.acumos.org/browse/ACUMOS-3458>`_
 
-Version 0.0.14 3 Sept 2019
+Version 1.0.0 23 Sept 2019
+---------------------------
+
+* Adding rtuRequired flag to profile to activate lum entitlement requirement during software registration `ACUMOS-3458 <https://jira.acumos.org/browse/ACUMOS-3458>`_
+  New api 
+  org.acumos.licensemanager.client.rtu.LicenseAsset
+    - register software with LUM  `ACUMOS-3339 <https://jira.acumos.org/browse/ACUMOS-3339>`_
+  org.acumos.licensemanager.client.rtu.LicenseRtuVerifier
+    - verfiyRtu software with LUM  `ACUMOS-3228 <https://jira.acumos.org/browse/ACUMOS-3228>`_
+* New dependency org.acumos.license-usage-manager:lum:java-rest-client 
+* Updatd CDS dependency to 3.0.0
+* Java 11 support 
+* Removed RTU creation APIs -- LUM agreement api will be used to create rtu
+    org.acumos.licensemanager.client.LicenseCreator
+    org.acumos.licensemanager.client.model.CreatedRtu
+    org.acumos.licensemanager.client.model.CreateRtuRequest
+    org.acumos.licensemanager.client.model.ICreatedRtuResponse
+    org.acumos.licensemanager.client.model.ILicenseCreator
+* Renamed APIs
+    org.acumos.licensemanager.client.LicenseVerifier -> org.acumos.licensemanager.client.rtu.LicenseRtuVerifier
+* Updated classes
+  org.acumos.licensemanager.client.model.BaseLicenseRequest
+  org.acumos.licensemanager.client.model.ICommonLicenseRequest
+  org.acumos.licensemanager.exceptions.RightToUseException
+  org.acumos.licensemanager.client.model.VerifyLicenseRequest
+
+Version 0.0.14 4 Sept 2019
 --------------------------
 * LicenseProfile APIs - getTemplate(s) `ACUMOS-3387 <https://jira.acumos.org/browse/ACUMOS-3387>`_
 * LicenseProfile APIs - validate `ACUMOS-3336 <https://jira.acumos.org/browse/ACUMOS-3336>`_
