@@ -18,14 +18,24 @@
  * ===============LICENSE_END==================================================
  */
 
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+ /*
+  * importing theme here to apply the theme css rules to shadow dom
+  */
+ @import "../../theme.scss";
 
-.mat-toolbar, .mat-card, .mat-raised-button {
+ .license-profile-editor {
   font-family: "Open Sans";
-}
+  input, button {
+    font-family: "Open Sans";
+  }
 
-.mat-toolbar.mat-primary {
-  background: #671c9d;
+  .mat-raised-button {
+    color: #2f2f2f;
+    background-color: #ffffff;
+    border: 1px solid #d5d5d5;
+    padding: 0px 20px 0px 20px;
+  }
+
 }
 
 .mat-form-field {
@@ -59,6 +69,34 @@
       color: #b4b4b4;
     }
   }
+}
+
+.mat-raised-button:hover {
+  background-color: #e5e3e8;
+  border: 1px solid #b1b1b1;
+}
+
+.mat-raised-button[disabled][disabled] {
+  color: #c6c5c5;
+  background-color: #e5e3e8;
+  border: 1px solid #dadada;
+}
+
+.mat-raised-button.mat-primary {
+  color: #ffffff;
+  background-color: #671c9d;
+  padding: 0px 20px 0px 20px;
+  border: 1px solid #671c9d;
+}
+
+.mat-raised-button.mat-primary[disabled][disabled] {
+  color: #c6c5c5;
+  background-color: #efefef;
+  border: 1px solid #dadada;
+}
+
+.mat-raised-button.mat-primary:hover {
+  background-color: #4f147a;
 }
 
 .mat-raised-button.btn-cancel {
