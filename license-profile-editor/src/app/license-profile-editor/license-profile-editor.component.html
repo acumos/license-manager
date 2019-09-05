@@ -41,10 +41,10 @@
 
   <!-- <button mat-raised-button [disabled]="!isValid" (click)="downloadLicenseProfile('txt')">Download Text</button>&nbsp; -->
   <button *ngIf="mode !== 'iframe'" mat-raised-button [disabled]="!isValid" 
-    (click)="downloadLicenseProfile('json')">Download JSON</button>
+    (click)="downloadLicenseProfile('json')" class="btn-primary">Download JSON</button>
   <button *ngIf="mode === 'iframe'" mat-raised-button [disabled]="!isValid" 
-    (click)="saveLicenseProfile()">Save</button>
-  <button *ngIf="mode === 'iframe'" mat-raised-button  class="cancel-btn"
+    (click)="saveLicenseProfile()" class="btn-primary">Save</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button class="btn-secondary btn-cancel"
     (click)="cancelLicenseProfile()">Cancel</button>
 
 </mat-card>

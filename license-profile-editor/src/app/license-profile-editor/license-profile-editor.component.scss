@@ -20,14 +20,12 @@
 
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
-
-mat-card {
-  max-width: 40em;
-  margin: 2em auto;
+.mat-toolbar, .mat-card, .mat-raised-button {
+  font-family: "Open Sans";
 }
 
-.example-input-form {
-  width: 100%;
+.mat-toolbar.mat-primary {
+  background: #671c9d;
 }
 
 .mat-form-field {
@@ -48,8 +46,53 @@ mat-card {
   margin: 0;
   overflow: auto;
   width: 100%;
+  max-width: 40em;
+
+  mat-form-field {
+    input, .mat-form-field-label {
+      color: #2f2f2f;
+    }
+    input::placeholder {
+      color: #b4b4b4;
+    }
+  }
 }
 
-.mat-raised-button.cancel-btn {
+.mat-raised-button.btn-cancel {
   margin-left: 10px;
+}
+
+.mat-raised-button.btn-primary {
+  color: #ffffff;
+  background-color: #671c9d;
+  padding: 0px 20px 0px 20px;
+  border: 1px solid #671c9d;
+}
+
+.btn-primary[disabled][disabled] {
+  color: #c6c5c5;
+  background-color: #efefef;
+  border: 1px solid #dadada;
+}
+
+.btn-primary:hover {
+  background-color: #4f147a;
+}
+
+.mat-raised-button.btn-secondary {
+  color: #2f2f2f;
+  background-color: #ffffff;
+  border: 1px solid #d5d5d5;
+  padding: 0px 20px 0px 20px;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e3e8;
+  border: 1px solid #b1b1b1;
+}
+
+.btn-secondary[disabled][disabled] {
+  color: #c6c5c5;
+  background-color: #e5e3e8;
+  border: 1px solid #dadada;
 }
