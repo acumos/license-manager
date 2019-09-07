@@ -24,28 +24,51 @@
 <mat-card>After an agreement is reached you can use this web form to create a right use your model.</mat-card>
 
 <mat-card>
-  <h3>Here is a form to help you start:</h3> <button (click)="showExample('example001.json')" mat-button
-    color="primary">Load Example Data</button>
+  <h3>Here is a form to help you start:</h3>
 
-  <json-schema-form *ngIf="jsonSchema" 
-    [(data)]="jsonData"
-    [schema]="jsonSchema"
-    [layout]="formLayout"
-    [options]="jsonFormOptions"
-    framework="material-design"
-    loadExternalAssets="false"
-    (isValid)="isValidFn($event)"
-    >
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="showExample('example001.json')">
+      Use solution all versions unlimited
+    </button>
+    <button mat-menu-item (click)="showExample('example002.json')">
+      Allow all software from company
+    </button>
+    <button mat-menu-item (click)="showExample('example003.json')">
+      Allow all software from a catalog
+    </button>
+    <button mat-menu-item (click)="showExample('example004.json')">
+      Allow all software from public catalogs
+    </button>
+    <button mat-menu-item (click)="showExample('example005.json')">
+      Allow face-detect-model to be used
+    </button>
+    <button mat-menu-item (click)="showExample('example006.json')">
+      Allow face-detect-model specfic version to be used
+    </button>
+    <button mat-menu-item (click)="showExample('example007.json')">
+      Allow action constraints
+    </button>
+    <button mat-menu-item (click)="showExample('example008.json')">
+      Allow specific id of software and version
+    </button>
+    <button mat-menu-item (click)="showExample('example009.json')">
+      Multiple actions with constraints
+      </button>
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="appMenu">
+    Examples
+  </button>
+
+
+  <json-schema-form *ngIf="jsonSchema" [(data)]="jsonData" [schema]="jsonSchema" [layout]="formLayout"
+    [options]="jsonFormOptions" framework="material-design" loadExternalAssets="false" (isValid)="isValidFn($event)">
   </json-schema-form>
   <!----  <h4>Submitted data:</h4> -->
   <!-- <pre *ngIf="!displayData">(none)</pre>
       <pre *ngIf="displayData">{{displayData | json}}</pre> -->
 
-  <button *ngIf="mode !== 'iframe'" mat-raised-button [disabled]="!isValid" 
-  (click)="downloadRTU()">Download</button>
-  <button *ngIf="mode === 'iframe'" mat-raised-button [disabled]="!isValid" 
-    (click)="saveRTU()">Save</button>
-  <button *ngIf="mode === 'iframe'" mat-raised-button  class="cancel-btn"
-    (click)="cancelRTU()">Cancel</button>
-  
+  <button *ngIf="mode !== 'iframe'" mat-raised-button [disabled]="!isValid" (click)="downloadRTU()">Download</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button [disabled]="!isValid" (click)="saveRTU()">Save</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button class="cancel-btn" (click)="cancelRTU()">Cancel</button>
+
 </mat-card>

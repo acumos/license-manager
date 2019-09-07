@@ -90,7 +90,6 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   ngOnInit() {
-
     // attempt to read mode value from the query param, if not given as input
     if (!this.mode) {
       this.initQueryParams();
@@ -120,7 +119,35 @@ export class LicenseRtuEditorComponent implements OnInit {
     this.formLayout = [
       { type: 'flex', 'flex-flow': 'row wrap' },
       { key: 'uid' },
-      'target',
+      {
+        key: 'target',
+        type: 'fieldset',
+        items: [{
+          key: 'target.refinement',
+          type: 'array',
+          listItems: 1,
+          items: [{
+            type: 'div',
+            displayFlex: true,
+            'flex-direction': 'col',
+            items: [{
+              key: 'target.refinement[].leftOperand'
+            },
+            {
+              key: 'target.refinement[].operator'
+            },
+            {
+              key: 'target.refinement[].rightOperand',
+              type: 'array',
+              items: [
+                {
+                  key: 'target.refinement[].rightOperand[]'
+                }
+              ]
+            }]
+          }]
+        }]
+      },
       {
         key: 'assigner',
         type: 'fieldset',
@@ -138,6 +165,29 @@ export class LicenseRtuEditorComponent implements OnInit {
           'assignee.vcard:fn',
           'assignee.uid',
           'assignee.vcard:hasEmail',
+          {
+            key: 'assignee.refinement',
+            type: 'array',
+            listItems: 0,
+            items: [{
+              type: 'div',
+              displayFlex: true,
+              'flex-direction': 'col',
+              items: [{
+                key: 'assignee.refinement[].leftOperand'
+              },
+              {
+                key: 'assignee.refinement[].operator'
+              },
+              {
+                key: 'assignee.refinement[].rightOperand',
+                type: 'fieldset',
+                items: [{
+                  key: 'assignee.refinement[].rightOperand.@value'
+                }]
+              }]
+            }]
+          }
         ]
       },
       {
@@ -229,41 +279,16 @@ export class LicenseRtuEditorComponent implements OnInit {
                   key: 'prohibition[].action[].action'
                 }
               ]
-            }, {
-              key: 'prohibition[].constraint',
-              type: 'array',
-              listItems: 0,
-              items: [
-                {
-                  key: 'prohibition[].constraint[].leftOperand'
-                },
-                {
-                  key: 'prohibition[].constraint[].operator'
-                },
-                {
-                  key: 'prohibition[].constraint[].rightOperand',
-                  type: 'fieldset',
-                  items: [
-                    {
-                      key: 'prohibition[].constraint[].rightOperand.@value'
-                    }, {
-                      key: 'prohibition[].constraint[].rightOperand.@type'
-                    }
-                  ]
-                },
-              ]
             }
           ]
         }]
-      },
-      {
-        key: 'conflict'
       }
     ];
   }
 
   showExample(id: string) {
     this.service.getSample(id).subscribe((data) => {
+      this.rtuEditorForm.formInitialized = false;
       this.jsonData = data;
     });
   }
@@ -280,7 +305,7 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   saveRTU() {
-    const formData = this.rtuEditorForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     // - post license profile JSON data
     this.sendMessage({
       key: 'output',
@@ -296,8 +321,29 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   async downloadRTU() {
-    const formData = this.rtuEditorForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     this.download(formData);
+  }
+
+  getLicenseProfileDataToSave() {
+    const formData = this.rtuEditorForm.jsf.validData;
+    if (formData) {
+      if (formData.prohibition && formData.prohibition.length) {
+        for (const item of formData.prohibition) {
+          const prohibiteRule = { ...item };
+          console.log(prohibiteRule);
+          prohibiteRule.constraint = [{
+            '@type': 'Constraint',
+            leftOperand: 'count',
+            operator: 'lteq',
+            rightOperand: '0'
+          }];
+          formData.permission.push(prohibiteRule);
+        }
+      }
+      delete formData.prohibition;
+    }
+    return formData;
   }
 
   // create a yaml (text) or json file from the json model

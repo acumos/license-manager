@@ -30,7 +30,15 @@
         "leftOperand": "lum:swPersistentId",
         "operator": "lum:in",
         "rightOperand": [
-          "fc30e346-2445-4505-b87d-978a8dc1d0ae"
+          "d303fff1-6e20-4f0b-bb0d-6d3f2d4207f8"
+        ]
+      },
+      {
+        "@type": "refinement",
+        "leftOperand": "lum:swTagId",
+        "operator": "lum:in",
+        "rightOperand": [
+          "e466e680-65fd-4695-bc6e-238b54dff242"
         ]
       }
     ],

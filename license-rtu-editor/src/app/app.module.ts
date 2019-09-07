@@ -30,8 +30,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material';
+import { MatMenuModule } from '@angular/material/menu';
 import { MaterialDesignFrameworkModule } from '@earlyster/angular6-json-schema-form';
 import { HttpClientModule } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,
     MatGridListModule,
+    MatMenuModule,
+    MatIconModule,
     MaterialDesignFrameworkModule,
     HttpClientModule
   ],
@@ -51,7 +55,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class AppModule {
 
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector) { }
 
   ngDoBootstrap() {
     // using createCustomElement from angular package it will convert angular component to stander web component
@@ -61,4 +65,4 @@ export class AppModule {
     // using built in the browser to create your own custome element name
     customElements.define('license-rtu-editor', el);
   }
- }
+}

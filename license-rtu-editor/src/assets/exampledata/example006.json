@@ -27,10 +27,18 @@
     "refinement": [
       {
         "@type": "refinement",
-        "leftOperand": "lum:swPersistentId",
+        "leftOperand": "lum:swProductName",
         "operator": "lum:in",
         "rightOperand": [
-          "fc30e346-2445-4505-b87d-978a8dc1d0ae"
+          "face-detect-model"
+        ]
+      },
+      {
+        "@type": "refinement",
+        "leftOperand": "lum:swTagId",
+        "operator": "lum:in",
+        "rightOperand": [
+          "d303fff1-6e20-4f0b-bb0d-6d3f2d4207f8"
         ]
       }
     ],
