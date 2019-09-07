@@ -223,12 +223,12 @@ export class LicenseProfileEditorComponent implements OnInit {
         data = JSON.stringify(this.jsonData);
         fileName = 'license.json';
         break;
-      case 'txt':
-        fileName = 'LICENSE';
-        mimeType = { type: 'plain/text' };
-        const json2yaml = await import('json2yaml');
-        data = json2yaml.stringify(this.jsonData);
-        break;
+      // case 'txt':
+      //   fileName = 'LICENSE';
+      //   mimeType = { type: 'plain/text' };
+      //   const json2yaml = await import('json2yaml');
+      //   data = json2yaml.stringify(this.jsonData);
+      //   break;
     }
     this.downloadFile(data, mimeType, fileName);
   }

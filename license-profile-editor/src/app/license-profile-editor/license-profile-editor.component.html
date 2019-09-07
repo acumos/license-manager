@@ -27,11 +27,11 @@
   <mat-card>
     <json-schema-form *ngIf="jsonSchema" 
       #licenseProfile
-      [(data)]="jsonData"
+      [data]="jsonData"
       [schema]="jsonSchema"
       [layout]="formLayout"
       [options]="jsonFormOptions"
-      framework="material-design"
+      framework="acumos-material-design"
       loadExternalAssets="false"
       (isValid)="isValidFn($event)"
       >

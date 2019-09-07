@@ -22,6 +22,14 @@
 License RTU Editor Release Notes
 ============================================
 
+Version 0.0.3 20 Sep 2019
+--------------------------
+* Provide a webform editor to create RTU Agreement `ACUMOS-3310 <https://jira.acumos.org/browse/ACUMOS-3310>`_
+* Removed RTU prohibitions > constraints node `ACUMOS-3311 <https://jira.acumos.org/browse/ACUMOS-3311>`_
+* Added RTU target > refinement node `ACUMOS-3312 <https://jira.acumos.org/browse/ACUMOS-3312>`_
+* Added RTU assignee > refinement node `ACUMOS-3313 <https://jira.acumos.org/browse/ACUMOS-3313>`_
+* Added RTU permission > constraints node `ACUMOS-3343 <https://jira.acumos.org/browse/ACUMOS-3343>`_
+
 Version 0.0.2 30 Aug 2019
 --------------------------
 * No change - but release along with other sub-project -

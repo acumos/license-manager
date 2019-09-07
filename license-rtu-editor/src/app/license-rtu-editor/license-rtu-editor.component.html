@@ -24,28 +24,61 @@
 <mat-card>After an agreement is reached you can use this web form to create a right use your model.</mat-card>
 
 <mat-card>
-  <h3>Here is a form to help you start:</h3> <button (click)="showExample('example001.json')" mat-button
-    color="primary">Load Example Data</button>
+  <h3>Here is a form to help you start:</h3>
+
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="showExample('example001.json')">
+      Use solution all versions no transfer, aggregate
+    </button>
+    <button mat-menu-item (click)="showExample('example002.json')">
+      Allow all software from a company
+    </button>
+    <button mat-menu-item (click)="showExample('example003.json')">
+      Allow all software from a catalog
+    </button>
+    <button mat-menu-item (click)="showExample('example004.json')">
+      Allow all software from public catalogs
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="faceDetectModel">Face Detect Model</button>
+
+
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="appMenu">
+    Examples
+  </button>
+
+  <mat-menu #faceDetectModel="matMenu">
+    <button mat-menu-item (click)="showExample('example005.json')">
+      Any usage
+    </button>
+    <button mat-menu-item (click)="showExample('example006.json')">
+      specfic version to be used
+    </button>
+    <button mat-menu-item (click)="showExample('example007.json')">
+      specfic version, 10 users, expires
+      constrained actions, prohibitions
+    </button>
+  </mat-menu>
+
 
   <json-schema-form *ngIf="jsonSchema" 
-    [(data)]="jsonData"
+    [data]="jsonData"
     [schema]="jsonSchema"
     [layout]="formLayout"
     [options]="jsonFormOptions"
-    framework="material-design"
+    framework="acumos-material-design"
     loadExternalAssets="false"
-    (isValid)="isValidFn($event)"
-    >
+    (isValid)="isValidFn($event)">
   </json-schema-form>
   <!----  <h4>Submitted data:</h4> -->
   <!-- <pre *ngIf="!displayData">(none)</pre>
       <pre *ngIf="displayData">{{displayData | json}}</pre> -->
 
-  <button *ngIf="mode !== 'iframe'" mat-raised-button [disabled]="!isValid" 
-  (click)="downloadRTU()">Download</button>
-  <button *ngIf="mode === 'iframe'" mat-raised-button [disabled]="!isValid" 
-    (click)="saveRTU()">Save</button>
-  <button *ngIf="mode === 'iframe'" mat-raised-button  class="cancel-btn"
+  <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
+    [disabled]="!isValid" (click)="downloadRTU()">Download</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button color="primary"
+    [disabled]="!isValid" (click)="saveRTU()">Save</button>
+  <button *ngIf="mode === 'iframe'" mat-raised-button class="cancel-btn"
     (click)="cancelRTU()">Cancel</button>
-  
+
 </mat-card>
