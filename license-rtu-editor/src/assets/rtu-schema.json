@@ -7,11 +7,10 @@
   "required": [
     "@context",
     "@type",
-    "uid",
-    "assigner",
+    "target",
     "assignee",
-    "permission",
-    "conflict"
+    "assigner",
+    "permission"
   ],
   "properties": {
     "@context": {
@@ -27,7 +26,7 @@
           "$id": "#/properties/@context/properties/@vocab",
           "type": "string",
           "title": "The @vocab Schema",
-          "default": "https://www.w3.org/ns/odrl.jsonld",
+          "default": "https://www.w3.org/ns/odrl.jsonld#",
           "examples": [
             "https://www.w3.org/ns/odrl.jsonld"
           ],
@@ -61,7 +60,7 @@
       "title": "Agreement UID",
       "default": "",
       "examples": [
-        "http://lumserver/agreement/93e41ce5-e4bf-446f-87fa-4f1c6b780220"
+        "acumos://software-licensor/CompanyB/agreement/<target-uuid>"
       ],
       "pattern": "^(.*)$"
     },
@@ -71,29 +70,30 @@
       "title": "Subscriber",
       "required": [
         "@type",
-        "uid",
         "vcard:fn",
-        "vcard:hasEmail"
+        "vcard:hasEmail",
+        "vcard:hasUrl"
       ],
       "properties": {
         "@type": {
           "$id": "#/properties/assignee/properties/@type",
           "type": "array",
           "title": "The @type Schema",
+          "default": ["Party","vcard:Organization"],
           "items": {
             "$id": "#/properties/assignee/properties/@type/items",
             "type": "string",
             "title": "The Items Schema",
-            "default": "PartyCollection",
+            "default": "Party",
             "examples": [
-              "PartyCollection",
-              "vcard:Group"
+              "Party",
+              "vcard:Organization"
             ],
             "pattern": "^(.*)$"
           }
         },
-        "uid": {
-          "$id": "#/properties/assignee/properties/uid",
+        "vcard:hasUrl": {
+          "$id": "#/properties/assignee/properties/vcard:hasUrl",
           "type": "string",
           "title": "Company/Team URL",
           "default": "",
@@ -121,6 +121,87 @@
             "teamA@example.com"
           ],
           "pattern": "^(.*)$"
+        },
+        "refinement": {
+          "$id": "#/properties/assignee/properties/refinement",
+          "type": "array",
+          "title": "Assignee Refinement(s)",
+          "items": {
+            "$id": "#/properties/assignee/properties/refinement/items",
+            "type": "object",
+            "title": "The Items Schema",
+            "required": [
+              "@type",
+              "leftOperand",
+              "operator",
+              "rightOperand"
+            ],
+            "properties": {
+              "@type": {
+                "$id": "#/properties/assignee/properties/refinement/items/properties/@type",
+                "type": "string",
+                "title": "The @type Schema",
+                "default": "Constraint",
+                "examples": [
+                  "Constraint"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "leftOperand": {
+                "$id": "#/properties/assignee/properties/refinement/items/properties/leftOperand",
+                "type": "string",
+                "title": "Refine Assignee by",
+                "default":  "lum:countUniqueUsers",
+                "enum": [
+                  "lum:countUniqueUsers"
+                ],
+                "examples": [
+                  "lum:countUniqueUsers"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "operator": {
+                "$id": "#/properties/assignee/properties/refinement/items/properties/operator",
+                "type": "string",
+                "title": "Operator",
+                "default": "lteq",
+                "enum": [
+                  "lteq"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "rightOperand": {
+                "$id": "#/properties/assignee/properties/refinement/items/properties/rightOperand",
+                "type": "object",
+                "title": "Limited to value",
+                "required": [
+                  "@value"
+                ],
+                "properties": {
+                  "@value": {
+                    "$id": "#/properties/assignee/properties/refinement/items/properties/rightOperand/properties/@value",
+                    "type": "string",
+                    "title": "Limited to",
+                    "default": "",
+                    "examples": [
+                      "1"
+                    ],
+                    "pattern": "^(.*)$"
+                  },
+                  "@type": {
+                    "$id": "#/properties/assignee/properties/refinement/items/properties/rightOperand/properties/@type",
+                    "type": "string",
+                    "title": "Data format",
+                    "default": "xsd:integer",
+                    "examples": [
+                      "xsd:integer"
+                    ],
+                    "pattern": "^(.*)$"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -130,14 +211,16 @@
       "title": "Supplier",
       "required": [
         "@type",
-        "uid",
         "vcard:fn",
-        "vcard:hasEmail"
+        "vcard:hasEmail",
+        "vcard:hasUrl"
+
       ],
       "properties": {
         "@type": {
           "$id": "#/properties/assigner/properties/@type",
           "type": "array",
+          "default": ["Party","vcard:Organization"],
           "title": "The @type Schema",
           "items": {
             "$id": "#/properties/assigner/properties/@type/items",
@@ -151,13 +234,24 @@
             "pattern": "^(.*)$"
           }
         },
+
         "uid": {
           "$id": "#/properties/assigner/properties/uid",
           "type": "string",
-          "title": "Company URL",
+          "title": "Assignee UID",
           "default": "",
           "examples": [
-            "http://companya.com/"
+            "acumos://software-licensor/CompanyB/assigner/<target-uuid>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "vcard:hasUrl": {
+          "$id": "#/properties/assigner/properties/vcard:hasUrl",
+          "type": "string",
+          "title": "Company/Team URL",
+          "default": "",
+          "examples": [
+            "http://example.com/team/A"
           ],
           "pattern": "^(.*)$"
         },
@@ -185,13 +279,94 @@
     },
     "target": {
       "$id": "#/properties/target",
-      "type": "string",
-      "title": "Target Asset IRI",
-      "default": "",
-      "examples": [
-        "http://acumos-bionic-2:30883/example-model_f81e8a22-5cfa-4053-9a66-b884d2dc0473:1"
+      "type": "object",
+      "title": "Target Asset(s) or Asset Collection(s) ",
+      "required": [
+        "@type",
+        "refinement"
       ],
-      "pattern": "^(.*)$"
+      "properties": {
+        "@type": {
+          "$id": "#/properties/target/properties/@type",
+          "type": "string",
+          "title": "Target",
+          "default": "Target",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "refinement": {
+          "$id": "#/properties/target/items/properties/refinement",
+          "type": "array",
+          "title": "",
+          "items": {
+            "$id": "#/properties/target/items/properties/refinement/items",
+            "type": "object",
+            "title": "The Items Schema",
+            "required": [
+              "@type",
+              "leftOperand",
+              "operator",
+              "rightOperand"
+            ],
+            "properties": {
+              "@type": {
+                "$id": "#/properties/target/items/properties/refinement/items/properties/@type",
+                "type": "string",
+                "title": "The @type Schema",
+                "default": "Constraint",
+                "examples": [
+                  "refinement"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "leftOperand": {
+                "$id": "#/properties/target/items/properties/refinement/items/properties/leftOperand",
+                "type": "string",
+                "title": "Refine Target by",
+                "default": "lum:swPersistentId",
+                "enum": [
+                  "lum:swPersistentId",
+                  "lum:swTagId",
+                  "lum:swProductName",
+                  "lum:swLicensor",
+                  "lum:swCategory",
+                  "lum:swCatalogId",
+                  "lum:swCatalogType"
+                ],
+                "examples": [
+                  "lum:swPersistentId"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "operator": {
+                "$id": "#/properties/target/items/properties/refinement/items/properties/operator",
+                "type": "string",
+                "title": "Operator",
+                "default": "lum:in",
+                "enum": [
+                  "lum:in"
+                ],
+                "examples": [
+                  "lum:in"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "rightOperand": {
+                "$id": "#/properties/target/items/properties/refinement/items/properties/rightOperand",
+                "type": "array",
+                "title": "Target Identifier(s)",
+                "items": {
+                  "$id": "#/properties/target/items/properties/refinement/items/properties/rightOperand/items",
+                  "type": "string",
+                  "title": "Target Identifier"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "permission": {
       "$id": "#/properties/permission",
@@ -206,11 +381,17 @@
           "action"
         ],
         "properties": {
+          "uid": {
+            "type": "string",
+            "examples": ["acumos://software-licensor/CompanyB/permission/<target-uuid>"
+            ]
+          },
           "@type": {
             "$id": "#/properties/permission/items/properties/@type",
             "type": "string",
             "title": "The @type Schema",
             "default": "Rule",
+            
             "examples": [
               "Rule"
             ],
@@ -219,43 +400,22 @@
           "action": {
             "$id": "#/properties/permission/items/properties/action",
             "type": "array",
-            "title": "Permitted Actions",
+            "title": "Actions",
+            "default": ["acumos:download"],
             "items": {
               "$id": "#/properties/permission/items/properties/action/items",
-              "type": "object",
-              "title": "The Items Schema",
-              "required": [
-                "@type",
-                "action"
-              ],
-              "properties": {
-                "@type": {
-                  "$id": "#/properties/permission/items/properties/action/items/properties/@type",
-                  "type": "string",
-                  "title": "Type",
-                  "default": "Action",
-                  "examples": [
-                    "Action"
-                  ],
-                  "pattern": "^(.*)$"
-                },
-                "action": {
-                  "$id": "#/properties/permission/items/properties/action/items/properties/action",
-                  "type": "string",
-                  "title": "Permitted Actions",
-                  "enum": [
-                    "acumos:deploy",
-                    "acumos:download",
-                    "modelrunner:predict",
-                    "modelrunner:train"
-                  ],
-                  "default": "",
-                  "examples": [
-                    "install"
-                  ],
-                  "pattern": "^(.*)$"
-                }
-              }
+              "type": "string",
+              "title": "Actions",
+              "default": "acumos:download",
+              "enum": [
+                "use",
+                "transfer",
+                "aggregate",
+                "acumos:deploy",
+                "acumos:download",
+                "modelrunner:predict",
+                "modelrunner:train"
+              ]
             }
           },
           "constraint": {
@@ -273,6 +433,11 @@
                 "rightOperand"
               ],
               "properties": {
+                "uid": {
+                  "type": "string",
+                  "examples": ["acumos://software-licensor/CompanyB/constraint/<target-uuid>"
+                  ]
+                },
                 "@type": {
                   "$id": "#/properties/permission/items/properties/constraint/items/properties/@type",
                   "type": "string",
@@ -308,7 +473,7 @@
                     "gteq",
                     "lt",
                     "lteq",
-                    "in"
+                    "lum:in"
                   ],
                   "examples": [
                     "lt"
@@ -356,21 +521,6 @@
         }
       }
     },
-    "conflict": {
-      "$id": "#/properties/conflict",
-      "type": "string",
-      "title": "Conflict resolution: Invalid, Permissions override Prohibitions, Probitions override Prohibitions ",
-      "enum": [
-        "invalid",
-        "perm",
-        "prohibit"
-      ],
-      "default": "invalid",
-      "examples": [
-        "install"
-      ],
-      "pattern": "^(.*)$"
-    },
     "prohibition": {
       "$id": "#/properties/prohibition",
       "type": "array",
@@ -398,137 +548,21 @@
             "$id": "#/properties/prohibition/items/properties/action",
             "type": "array",
             "title": "Prohibited Actions",
+            "default": ["transfer"],
             "items": {
               "$id": "#/properties/prohibition/items/properties/action/items",
-              "type": "object",
-              "title": "The Items Schema",
-              "required": [
-                "@type",
-                "action"
-              ],
-              "properties": {
-                "@type": {
-                  "$id": "#/properties/prohibition/items/properties/action/items/properties/@type",
-                  "type": "string",
-                  "title": "Type",
-                  "default": "Action",
-                  "examples": [
-                    "Action"
-                  ],
-                  "pattern": "^(.*)$"
-                },
-                "action": {
-                  "$id": "#/properties/prohibition/items/properties/action/items/properties/action",
-                  "type": "string",
-                  "title": "Prohibited Actions",
-                  "enum": [
-                    "acumos:deploy",
-                    "acumos:download",
-                    "modelrunner:predict",
-                    "modelrunner:train"
-                  ],
-                  "default": "",
-                  "examples": [
-                    "install"
-                  ],
-                  "pattern": "^(.*)$"
-                }
-              }
-            }
-          },
-          "constraint": {
-            "$id": "#/properties/prohibition/items/properties/constraint",
-            "type": "array",
-            "title": "Action(s) Constraints",
-            "items": {
-              "$id": "#/properties/prohibition/items/properties/constraint/items",
-              "type": "object",
-              "title": "The Items Schema",
-              "required": [
-                "@type",
-                "leftOperand",
-                "operator",
-                "rightOperand"
-              ],
-              "properties": {
-                "@type": {
-                  "$id": "#/properties/prohibition/items/properties/constraint/items/properties/@type",
-                  "type": "string",
-                  "title": "The @type Schema",
-                  "default": "Constraint",
-                  "examples": [
-                    "Constraint"
-                  ],
-                  "pattern": "^(.*)$"
-                },
-                "leftOperand": {
-                  "$id": "#/properties/prohibition/items/properties/constraint/items/properties/leftOperand",
-                  "type": "string",
-                  "title": "Limit use by",
-                  "default": "count",
-                  "enum": [
-                    "count",
-                    "dateTime"
-                  ],
-                  "examples": [
-                    "dateTime"
-                  ],
-                  "pattern": "^(.*)$"
-                },
-                "operator": {
-                  "$id": "#/properties/prohibition/items/properties/constraint/items/properties/operator",
-                  "type": "string",
-                  "title": "Operator",
-                  "default": "lt",
-                  "enum": [
-                    "eq",
-                    "gt",
-                    "gteq",
-                    "lt",
-                    "lteq",
-                    "in"
-                  ],
-                  "examples": [
-                    "lt"
-                  ],
-                  "pattern": "^(.*)$"
-                },
-                "rightOperand": {
-                  "$id": "#/properties/prohibition/items/properties/constraint/items/properties/rightOperand",
-                  "type": "object",
-                  "title": "Limited to value",
-                  "required": [
-                    "@value"
-                  ],
-                  "properties": {
-                    "@value": {
-                      "$id": "#/properties/prohibition/items/properties/constraint/items/properties/rightOperand/properties/@value",
-                      "type": "string",
-                      "title": "Limited to",
-                      "default": "",
-                      "examples": [
-                        "2019-12-31"
-                      ],
-                      "pattern": "^(.*)$"
-                    },
-                    "@type": {
-                      "$id": "#/properties/prohibition/items/properties/constraint/items/properties/rightOperand/properties/@type",
-                      "type": "string",
-                      "title": "Data format",
-                      "default": "xsd:integer",
-                      "enum": [
-                        "xsd:integer",
-                        "xsd:date",
-                        "xsd:dateTime"
-                      ],
-                      "examples": [
-                        "xsd:date"
-                      ],
-                      "pattern": "^(.*)$"
-                    }
-                  }
-                }
-              }
+              "type": "string",
+              "title": "Prohibited Actions",
+              "default": "transfer",
+              "enum": [
+                "use",
+                "transfer",
+                "aggregate",
+                "acumos:deploy",
+                "acumos:download",
+                "modelrunner:predict",
+                "modelrunner:train"
+              ]
             }
           }
         }
