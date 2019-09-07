@@ -57,8 +57,8 @@ export class LicenseRtuEditorComponent implements OnInit {
    * Utils.ts if more usage required.
    */
   initQueryParams() {
-    const search = decodeURIComponent( window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ) );
-    const definitions = search.split( '&' );
+    const search = decodeURIComponent(window.location.href.slice(window.location.href.indexOf('?') + 1));
+    const definitions = search.split('&');
 
     definitions.forEach((val) => {
       const parts = val.split('=', 2);
@@ -69,9 +69,9 @@ export class LicenseRtuEditorComponent implements OnInit {
   // addEventListener and old browser support
   bindEvent(element, eventName, eventHandler) {
     if (element.addEventListener) {
-        element.addEventListener(eventName, eventHandler, false);
+      element.addEventListener(eventName, eventHandler, false);
     } else if (element.attachEvent) {
-        element.attachEvent('on' + eventName, eventHandler);
+      element.attachEvent('on' + eventName, eventHandler);
     }
   }
 
@@ -109,7 +109,8 @@ export class LicenseRtuEditorComponent implements OnInit {
 
     this.jsonFormOptions = {
       addSubmit: false, // Add a submit button if layout does not have one
-      debug: true,
+      debug: false,
+      returnEmptyFields: false, // Don't return values for empty input fields
       setSchemaDefaults: true, // Always use schema defaults for empty fields
       defautWidgetOptions: {
         feedback: true, // Show inline feedback icons
@@ -119,14 +120,41 @@ export class LicenseRtuEditorComponent implements OnInit {
 
     this.formLayout = [
       { type: 'flex', 'flex-flow': 'row wrap' },
-      { key: 'uid' },
-      'target',
+      {
+        key: 'target',
+        type: 'fieldset',
+        items: [{
+          key: 'target.refinement',
+          type: 'array',
+          listItems: 1,
+          items: [{
+            type: 'div',
+            displayFlex: true,
+            'flex-flow': 'row wrap',
+            items: [{
+              key: 'target.refinement[].leftOperand'
+            },
+            {
+              key: 'target.refinement[].operator'
+            },
+            {
+              key: 'target.refinement[].rightOperand',
+              type: 'array',
+              items: [
+                {
+                  key: 'target.refinement[].rightOperand[]'
+                }
+              ]
+            }]
+          }]
+        }]
+      },
       {
         key: 'assigner',
         type: 'fieldset',
         items: [
           'assigner.vcard:fn',
-          'assigner.uid',
+          'assigner.vcard:hasUrl',
           'assigner.vcard:hasEmail',
 
         ]
@@ -136,65 +164,76 @@ export class LicenseRtuEditorComponent implements OnInit {
         type: 'fieldset',
         items: [
           'assignee.vcard:fn',
-          'assignee.uid',
+          // 'assignee.uid',
+          'assignee.vcard:hasUrl',
           'assignee.vcard:hasEmail',
+          {
+            key: 'assignee.refinement',
+            type: 'array',
+            listItems: 0,
+            items: [{
+              key: 'assignee.refinement[].@type',
+              condition: 'false'
+            }, {
+              type: 'div',
+              displayFlex: true,
+              'flex-flow': 'row wrap',
+              key: 'assignee.refinement[]',
+              items: [{
+                key: 'assignee.refinement[].leftOperand'
+              },
+              {
+                key: 'assignee.refinement[].operator'
+              },
+              {
+                key: 'assignee.refinement[].rightOperand.@value'
+              }]
+            }]
+          }
         ]
       },
       {
         key: 'permission',
-        type: 'fieldset',
+        type: 'array',
+        listItems: 1,
         items: [{
           type: 'div',
-          displayFlex: true,
-          'flex-direction': 'row',
+          display: 'flex',
+          'flex-flow': 'row wrap',
           items: [
             {
               key: 'permission[].action',
-              type: 'array',
-              listItems: 1,
-              items: [
-                // adding the @type with condition: false as there is layout issue in schema editor code
-                // - layout:
-                //   For the FormArray type, the layout system creates a fieldset if the list item has
-                //   MORE than one property to display and under that fieldset it adds a FormGroup control
-                //   for each list item entry.
-                // - problem:
-                //   If the array item is configured to show single property then
-                //   the DOM structure is created without fieldset container for the child items.
-                //   Instead the FormGroup entry directly gets set as child item (with @type & action form controls)
-                //   - Clicking the Remove icon to remove the array item, removes the "action" form control
-                //     from the FormGroup parent and leaves the "@type" form control in parent FormGroup.
-                //     Now, as that FormControl remains/cached in FormArray, it results in
-                //     form validation error as the FormGroup has "@type" form control
-                //     but missing required "action" property.
-                // - solution:
-                //    Expected behavior: The FormGroup (with form controls for @type & action) array item entry
-                //    shall be removed from the parent FormArray.
-                //    To avoid above problem, adding the @type with "condition: false"
-                //    - (a) To keep the items entry > 1 (so that fieldset container gets added)
-                //    - (b) To keep the @type property hidden on screen
-                {
-                  key: 'permission[].action[].@type',
-                  condition: 'false'
-                },
-                {
-                  key: 'permission[].action[].action'
-                }
-              ]
+              flex: '1 1 auto',
             }, {
               key: 'permission[].constraint',
               type: 'array',
               listItems: 0,
-              items: [
+              flex: '3 3 auto',
+              items: [{
+                key: 'permission[].constraint[].@type',
+                condition: 'false'
+              }, {
+                type: 'div',
+                display: 'flex',
+                'flex-flow': 'row wrap',
+                'justify-content': 'flex-start',
+                key: 'permission[].constraint[]',
+                items: [
                 {
-                  key: 'permission[].constraint[].leftOperand'
+                  key: 'permission[].constraint[].leftOperand',
+                  flex: '1 1 auto'
                 },
                 {
-                  key: 'permission[].constraint[].operator'
+                  key: 'permission[].constraint[].operator',
+                  flex: '1 1 auto'
                 },
                 {
                   key: 'permission[].constraint[].rightOperand',
-                  type: 'fieldset',
+                  type: 'div',
+                  display: 'flex',
+                  flex: '2 2 auto',
+                  'flex-flow': 'col wrap',
+                  notitle: true,
                   items: [
                     {
                       key: 'permission[].constraint[].rightOperand.@value'
@@ -202,68 +241,32 @@ export class LicenseRtuEditorComponent implements OnInit {
                       key: 'permission[].constraint[].rightOperand.@type'
                     }
                   ]
-                },
-              ]
+                }]
+              }]
             },
           ]
         }]
       },
       {
         key: 'prohibition',
-        type: 'fieldset',
-        items: [{
-          type: 'div',
-          displayFlex: true,
-          'flex-direction': 'row',
-          items: [
-            {
-              key: 'prohibition[].action',
-              type: 'array',
-              listItems: 1,
-              items: [
-                {
-                  key: 'prohibition[].action[].@type',
-                  condition: 'false'
-                },
-                {
-                  key: 'prohibition[].action[].action'
-                }
-              ]
-            }, {
-              key: 'prohibition[].constraint',
-              type: 'array',
-              listItems: 0,
-              items: [
-                {
-                  key: 'prohibition[].constraint[].leftOperand'
-                },
-                {
-                  key: 'prohibition[].constraint[].operator'
-                },
-                {
-                  key: 'prohibition[].constraint[].rightOperand',
-                  type: 'fieldset',
-                  items: [
-                    {
-                      key: 'prohibition[].constraint[].rightOperand.@value'
-                    }, {
-                      key: 'prohibition[].constraint[].rightOperand.@type'
-                    }
-                  ]
-                },
-              ]
-            }
-          ]
-        }]
-      },
-      {
-        key: 'conflict'
+        type: 'array',
+        listItems: 0,
+        items: [
+          {
+            key: 'prohibition[].@type',
+            condition: 'false'
+          },
+          {
+            key: 'prohibition[].action'
+          }
+        ]
       }
     ];
   }
 
   showExample(id: string) {
     this.service.getSample(id).subscribe((data) => {
+      this.rtuEditorForm.formInitialized = false;
       this.jsonData = data;
     });
   }
@@ -280,7 +283,7 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   saveRTU() {
-    const formData = this.rtuEditorForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     // - post license profile JSON data
     this.sendMessage({
       key: 'output',
@@ -296,9 +299,73 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   async downloadRTU() {
-    const formData = this.rtuEditorForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     this.download(formData);
   }
+
+  getLicenseProfileDataToSave() {
+    const formData = this.rtuEditorForm.jsf.validData;
+    if (formData) {
+      this.addUIDIfMissing(formData);
+    }
+    return formData;
+  }
+
+  /**
+   * Auto generates the uid need by LUM
+   * Makes sure that the values are encoded
+   * @param formData
+   */
+  addUIDIfMissing(formData: any) {
+    // add uid to: agreement
+    // get company name of software licensor from Assigner
+    const companyName = formData.assigner['vcard:fn'];
+    let type = '';
+    if (!formData.uid) {
+      type = 'agreement';
+      formData.uid = this.createUID(type, companyName);
+    } else {
+      formData.uid = encodeURI(formData.uid);
+    }
+
+
+    if (formData.permission) {
+      formData.permission.forEach(rule => {
+        if (!rule.uid) {
+          rule.uid = this.createUID('permission', companyName);
+        } else {
+          rule.uid = encodeURI(rule.uid);
+        }
+
+      });
+    }
+
+    if (formData.prohibition) {
+      formData.prohibition.forEach(rule => {
+        if (!rule.uid) {
+          rule.uid = this.createUID('prohibition', companyName);
+        } else {
+          rule.uid = encodeURI(rule.uid);
+        }
+
+      });
+    }
+
+
+  }
+
+  createUID(type: string, companyName: string): string {
+    return `acumos://software-licensor/${encodeURIComponent(companyName)}/${type}/${this.uuidv4()}`;
+  }
+
+  uuidv4() {
+    // tslint:disable-next-line:whitespace
+    return ([1e7] as any + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) =>
+      // tslint:disable-next-line:no-bitwise
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
+
 
   // create a yaml (text) or json file from the json model
   async download(formData) {
