@@ -1,67 +1,83 @@
 {
   "@context": {
-    "@vocab": "https://www.w3.org/ns/odrl.jsonld",
+    "@vocab": "https://www.w3.org/ns/odrl.jsonld#",
     "vcard": "http://www.w3.org/2006/vcard/ns#"
   },
   "@type": "Agreement",
-  "uid": "93e41ce5-e4bf-446f-87fa-4f1c6b780220",
-  "target": "http://acumos-bionic-2:30883/example-model_f81e8a22-5cfa-4053-9a66-b884d2dc0473:1",
+  "assignee": {
+    "@type": [
+      "Party",
+      "vcard:Organization"
+    ],
+    "vcard:hasUrl": "companyb.com",
+    "vcard:fn": "Company B",
+    "vcard:hasEmail": "team@companyb.com",
+    "refinement": [
+      {
+        "@type": "Constraint",
+        "leftOperand": "lum:countUniqueUsers",
+        "operator": "lteq",
+        "rightOperand": {
+          "@value": "10",
+          "@type": "xsd:integer"
+        }
+      }
+    ]
+  },
   "assigner": {
     "@type": [
       "Party",
       "vcard:Organization"
     ],
-    "uid": "http://companya.com/",
+    "vcard:hasUrl": "companya.com",
     "vcard:fn": "Company A",
     "vcard:hasEmail": "sales@companya.com"
   },
-  "assignee": {
-    "@type": [
-      "PartyCollection",
-      "vcard:Group"
+  "target": {
+    "refinement": [
+      {
+        "@type": "Constraint",
+        "leftOperand": "lum:swProductName",
+        "operator": "lum:in",
+        "rightOperand": [
+          "face-detect"
+        ]
+      }
     ],
-    "uid": "http://example.com/team/A",
-    "vcard:fn": "Team A",
-    "vcard:hasEmail": "teamA@example.com"
+    "@type": "Target"
   },
   "permission": [
     {
       "@type": "Rule",
       "action": [
-        {
-          "@type": "Action",
-          "action": "acumos:deploy"
-        }
+        "acumos:deploy",
+        "acumos:download",
+        "modelrunner:predict",
+        "modelrunner:train"
       ],
       "constraint": [
         {
           "@type": "Constraint",
-          "leftOperand": "dateTime",
+          "leftOperand": "count",
           "operator": "lt",
           "rightOperand": {
-            "@value": "2019-12-31",
-            "@type": "xsd:date"
+            "@value": "100",
+            "@type": "xsd:integer"
           }
-        },
-        {
-          "@type": "Constraint",
-          "leftOperand": "count",
-          "operator": "lteq",
-          "rightOperand": "20"
         }
-      ]
+      ],
+      "uid": "acumos://software-licensor/Company%20A/permission/98378924-84ff-41f5-87ac-02fd2012c727"
     }
   ],
   "prohibition": [
     {
       "@type": "Rule",
       "action": [
-        {
-          "@type": "Action",
-          "action": "modelrunner:train"
-        }
-      ]
+        "transfer",
+        "aggregate"
+      ],
+      "uid": "acumos://software-licensor/Company%20A/prohibition/cb32d403-3d34-4468-9b41-1c1beaf4aba7"
     }
   ],
-  "conflict": "invalid"
+  "uid": "acumos://software-licensor/Company%20A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106"
 }
