@@ -52,18 +52,22 @@ Build Prerequisites
 Build Instructions
 -------------------
 
-1. Browse to your preferred directory and run below command:
+1. Browse to your preferred directory and run below commands:
 
   ``git clone "https://gerrit.acumos.org/r/license-manager"``
+  ``cd license-profile-editor``
 
-2. Build via this command:
+2. Install node modules
+
+  ``npm install``
+
+3. Build via this command:
 
    ``mvn clean install``
 
-3. Above command builds
+4. Above command builds
    ``license-profile-editor``
    docker image.
-
 
 Portal UI Integration (docker-compose)
 --------------------------------------

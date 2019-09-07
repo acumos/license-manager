@@ -21,6 +21,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injector } from '@angular/core';
 
+import { AcumosMaterialDesignFramework } from './AcumosMaterialDesignFramework';
 import { LicenseRtuEditorComponent } from './license-rtu-editor/license-rtu-editor.component';
 import { createCustomElement } from '@angular/elements';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,8 +31,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material';
-import { MaterialDesignFrameworkModule } from '@earlyster/angular6-json-schema-form';
+import { MatMenuModule } from '@angular/material/menu';
+import { MaterialDesignFrameworkModule, ɵb as Framework } from '@earlyster/angular6-json-schema-form';
 import { HttpClientModule } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -42,10 +45,18 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,
     MatGridListModule,
+    MatMenuModule,
+    MatIconModule,
     MaterialDesignFrameworkModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: Framework,
+      useClass: AcumosMaterialDesignFramework,
+      multi: true
+    }
+  ],
   entryComponents: [LicenseRtuEditorComponent]
 
 })
