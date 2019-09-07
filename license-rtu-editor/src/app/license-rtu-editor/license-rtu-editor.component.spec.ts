@@ -26,6 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatGridListModule } from '@angular/material';
 import { MaterialDesignFrameworkModule } from '@earlyster/angular6-json-schema-form';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('LicenseRtuEditorComponent', () => {
   let component: LicenseRtuEditorComponent;
@@ -37,6 +38,7 @@ describe('LicenseRtuEditorComponent', () => {
       declarations: [ LicenseRtuEditorComponent ],
       imports: [
         BrowserModule,
+        MatMenuModule,
         BrowserAnimationsModule,
         MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,
         MatGridListModule,

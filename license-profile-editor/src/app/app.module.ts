@@ -21,6 +21,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injector } from '@angular/core';
 
+import { AcumosMaterialDesignFramework } from './AcumosMaterialDesignFramework';
 import { LicenseProfileEditorComponent } from './license-profile-editor/license-profile-editor.component';
 import { createCustomElement } from '@angular/elements';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +30,7 @@ import { MatCardModule, MatToolbarModule, MatInputModule, MatGridListModule } fr
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 
-import { MaterialDesignFrameworkModule } from '@earlyster/angular6-json-schema-form';
+import { MaterialDesignFrameworkModule, ɵb as Framework } from '@earlyster/angular6-json-schema-form';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -51,6 +52,11 @@ import { HttpClientModule } from '@angular/common/http';
       useValue: {
         appearance: 'outline'
       }
+    },
+    {
+      provide: Framework,
+      useClass: AcumosMaterialDesignFramework,
+      multi: true
     }
   ],
   entryComponents: [LicenseProfileEditorComponent]
