@@ -22,6 +22,11 @@
 License Profile Editor Release Notes
 ============================================
 
+Version 0.0.3 19 Sept 2019
+--------------------------
+* Default license profiles `ACUMOS-3435 <https://jira.acumos.org/browse/ACUMOS-3435>`_
+* Adding rtuRequired flag to profile to activate lum entitlement requirement during software registration `ACUMOS-3458 <https://jira.acumos.org/browse/ACUMOS-3458>`_
+
 Version 0.0.2 30 Aug 2019
 --------------------------
 * No change - but release along with other sub-project -

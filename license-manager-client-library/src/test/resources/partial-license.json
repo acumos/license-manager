@@ -12,5 +12,6 @@
     "name": "Acumos HelpDesk",
     "URL": "https://marketplace.acumos.org",
     "email": "contact@.acumos.org"
-  }
+  },
+  "rtuRequired": true
 }

@@ -4,5 +4,6 @@
     "year": 2019,
     "company": "Company A",
     "suffix": "A Intellectual Property. All rights reserved."
-  }
+  },
+  "rtuRequired": true
 }
