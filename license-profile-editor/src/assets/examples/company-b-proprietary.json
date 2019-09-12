@@ -1,0 +1,18 @@
+{
+  "keyword": "Company-B-Proprietary",
+  "licenseName": "Company B Proprietary License",
+  "copyright": {
+    "year": 2019,
+    "company": "Company B",
+    "suffix": "All Rights Reserved"
+  },
+  "softwareType": "Machine Learning Model",
+  "companyName": "Company B",
+  "contact": {
+    "name": "Company  B Team Member",
+    "URL": "http://Company-B.com",
+    "email": "support@Company-B.com"
+  },
+  "additionalInfo": "http://Company-B.com/licenses/Company-B-Proprietary",
+  "rtuRequired": true
+}

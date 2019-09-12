@@ -1,0 +1,18 @@
+{
+  "keyword": "Vendor-A-OSS",
+  "licenseName": "Vendor A Open Source Software License",
+  "copyright": {
+    "year": 2019,
+    "company": "Vendor A",
+    "suffix": "All Rights Reserved"
+  },
+  "softwareType": "Machine Learning Model",
+  "companyName": "Vendor A",
+  "contact": {
+    "name": "Vendor A Team",
+    "URL": "http://Vendor-A.com",
+    "email": "support@Vendor-A.com"
+  },
+  "additionalInfo": "http://Vendor-A.com/licenses/Vendor-A-OSS",
+  "rtuRequired": true
+}

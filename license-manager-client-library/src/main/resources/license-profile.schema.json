@@ -4,7 +4,8 @@
   "required": [
     "keyword",
     "licenseName",
-    "copyright"
+    "copyright",
+    "rtuRequired"
   ],
   "properties": {
     "keyword": {
@@ -63,6 +64,10 @@
     },
     "additionalInfo": {
       "type": "string"
+    },
+    "rtuRequired":{
+      "type": "boolean",
+      "description": "When true a right to use must be provided by the supplier to enable use."
     }
   }
 }

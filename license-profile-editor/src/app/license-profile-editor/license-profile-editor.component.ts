@@ -169,8 +169,16 @@ export class LicenseProfileEditorComponent implements OnInit {
         key: 'additionalInfo',
         title: 'Additional Information',
         type: 'textarea'
+      },
+      {
+        key: 'rtuRequired',
+        title: 'Right to Use Required',
+        type: 'radios',
+        titleMap: [
+          { value: true,  name: 'Yes a right to use is required' },
+          { value: false, name: 'No right to use is required to use this software' }
+        ]
       }
-
       ];
 
     });
