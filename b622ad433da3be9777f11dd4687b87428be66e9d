@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "23273887_5bd220cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-09-17T17:10:39Z",
+      "side": 1,
+      "message": "will update based on recent change",
+      "parentUuid": "094ab185_c481c444",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "b622ad433da3be9777f11dd4687b87428be66e9d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42e24b3b_8dda5559",
         "filename": "license-rtu-editor/src/assets/rtu-schema.json",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2c5b40f7_35e8feac",
+        "filename": "license-rtu-editor/src/assets/rtu-schema.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-09-17T17:10:39Z",
+      "side": 1,
+      "message": "We can drop these we are no longer using uid for assignee or constraint - forgot to update schema.  We are not using source because that is different than uid .. source refers to another document which defines the value we are not using any by reference values.",
+      "parentUuid": "42e24b3b_8dda5559",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 14
+      },
+      "revId": "b622ad433da3be9777f11dd4687b87428be66e9d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b286ebb_af3b74e1",
         "filename": "license-rtu-editor/src/assets/rtu-schema.json",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-09-17T15:15:56Z",
       "side": 1,
       "message": "see my prev comment on uid versus source on assignee and target",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 309,
+        "endChar": 13
+      },
+      "revId": "b622ad433da3be9777f11dd4687b87428be66e9d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c3bb2ac_63162c6d",
+        "filename": "license-rtu-editor/src/assets/rtu-schema.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-09-17T17:10:39Z",
+      "side": 1,
+      "message": "Will remove from this value from schema. Example has latest content no uid anymore.",
+      "parentUuid": "2b286ebb_af3b74e1",
       "range": {
         "startLine": 309,
         "startChar": 8,
