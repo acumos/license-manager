@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "094ab185_c481c444",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2019-09-17T15:15:56Z",
+      "side": 1,
+      "message": "LUM will look at the prohibitions first",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "b622ad433da3be9777f11dd4687b87428be66e9d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e24b3b_8dda5559",
+        "filename": "license-rtu-editor/src/assets/rtu-schema.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2019-09-17T15:15:56Z",
+      "side": 1,
+      "message": "there is no uid property on assignee or target - there should be property \"source\" instead\n\nSee here\nhttps://www.w3.org/TR/odrl-model/#constraint-party\nNote that when using the refinement property, the uid property MUST NOT be used to identify the PartyCollection. Instead, the source property MUST be used to reference the PartyCollection. \n\nhttps://www.w3.org/TR/odrl-model/#constraint-asset\nNote that when using the refinement property, the uid property MUST NOT be used to identify the AssetCollection. Instead, the source property MUST be used to reference the AssetCollection",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 14
+      },
+      "revId": "b622ad433da3be9777f11dd4687b87428be66e9d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b286ebb_af3b74e1",
+        "filename": "license-rtu-editor/src/assets/rtu-schema.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2019-09-17T15:15:56Z",
+      "side": 1,
+      "message": "see my prev comment on uid versus source on assignee and target",
+      "range": {
+        "startLine": 309,
+        "startChar": 8,
+        "endLine": 309,
+        "endChar": 13
+      },
+      "revId": "b622ad433da3be9777f11dd4687b87428be66e9d",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
