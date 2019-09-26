@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3063f81c_f78430e5",
+        "filename": "license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-09-26T23:03:49Z",
+      "side": 1,
+      "message": "We should pick our hosting location as part of github for now this is current location for license profile .. just need to update to the new location \n\nhttps://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/license-profile.schema.json\n\nnew location\n\nhttps://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json",
+      "revId": "f5808bb379e437797d24daff54fe0285275f4192",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38eb1461_4f9b13eb",
+        "filename": "license-profile-editor/karma.conf.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-09-26T23:03:49Z",
+      "side": 1,
+      "message": "Add this to your Karma.conf:\n\ncaptureTimeout: 210000,\nbrowserDisconnectTolerance: 3, \nbrowserDisconnectTimeout : 210000,\nbrowserNoActivityTimeout : 210000,\n\nmore things to try:\nhttps://github.com/jasmine/jasmine/issues/1413\n\nThere is also a full karma.config with a bunch of chrome flags as well as improvements for timeout and disconnect tolerance.\n\nhttps://github.com/jasmine/jasmine/issues/1413#issuecomment-432112670",
+      "revId": "f5808bb379e437797d24daff54fe0285275f4192",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67bbb50e_515ea16f",
+        "filename": "license-rtu-editor/src/assets/exampledata/example001.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-09-26T23:03:49Z",
+      "side": 1,
+      "message": "we should just use base path vs passing in a path... \n\nhttps://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/\n\nfor now.",
+      "revId": "f5808bb379e437797d24daff54fe0285275f4192",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
