@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,32 +38,32 @@ public final class LicenseJsonSchema {
   private static final Logger LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  /** Do not instantiate. */
-  private LicenseJsonSchema() {}
-
-  /** Name of the json schema for license. */
-  private static final String JSONSCHEMANAME = "/license-profile.schema.json";
+  private static Map<String, JsonSchema> schemaUrlToJsonSchemaMap =
+      new HashMap<String, JsonSchema>();
 
   /** JsonSchema object for validation of license schema. */
   private static JsonSchema jsonSchema;
 
+  /** Do not instantiate. */
+  private LicenseJsonSchema() {}
+
   /**
-   * Get the license json schema as JsonSchema.
+   * Get the license json schema (as JsonSchema) based on given input url.
    *
-   * @return a {@link com.networknt.schema.JsonSchema} object.
+   * @param schemaUrlPath schema URL to fetch the schema
+   * @return a {@link com.networknt.schema.JsonSchema} object, null if not found.
    * @throws java.io.IOException if any.
    */
-  public static JsonSchema getSchema() throws IOException {
-    if (jsonSchema != null) {
-      return jsonSchema;
+  public static JsonSchema getSchema(String schemaUrlPath) throws IOException {
+
+    if (LicenseJsonSchema.schemaUrlToJsonSchemaMap.containsKey(schemaUrlPath)) {
+      return LicenseJsonSchema.schemaUrlToJsonSchemaMap.get(schemaUrlPath);
     }
+
     JsonSchemaFactory factory = JsonSchemaFactory.getInstance();
-    URL schemaUrl = LicenseJsonSchema.class.getResource(JSONSCHEMANAME);
-    try (InputStream is = schemaUrl.openStream()) {
-      jsonSchema = factory.getSchema(is);
-    } catch (IOException e) {
-      LOGGER.error("unable to process license schema {}", e);
-    }
+    URL schemaUrl = new URL(schemaUrlPath);
+    InputStream is = schemaUrl.openStream();
+    jsonSchema = factory.getSchema(is);
     return jsonSchema;
   }
 }

@@ -1,13 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "version": "1.0.0",
   "required": [
+    "$schema",
     "keyword",
     "licenseName",
     "copyright",
     "rtuRequired"
   ],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "default": "https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json"
+    },
     "keyword": {
       "type": "string"
     },
@@ -65,9 +71,9 @@
     "additionalInfo": {
       "type": "string"
     },
-    "rtuRequired": {
+    "rtuRequired":{
       "type": "boolean",
-      "description": "Right to use agreement required to use"
+      "description": "When true a right to use must be provided by the supplier to enable use."
     }
   }
 }

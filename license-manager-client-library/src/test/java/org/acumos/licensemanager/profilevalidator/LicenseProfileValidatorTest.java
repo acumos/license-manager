@@ -27,8 +27,10 @@ import static org.junit.Assert.fail;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Scanner;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
@@ -38,9 +40,25 @@ import org.mockito.Mockito;
 /** License Profile Json Validator Test. */
 public class LicenseProfileValidatorTest {
 
+  private void updateSchemaLocalPath(JsonNode jsonNode) {
+    JsonNode schemaNode = jsonNode.get("$schema");
+    String jsonSchemaPath = schemaNode.asText();
+    URL newPath = LicenseProfileValidator.class.getResource(jsonSchemaPath);
+    ((ObjectNode) jsonNode).put("$schema", newPath.toString());
+  }
+
   @Test
   public void validLicenseJson() throws Exception {
     JsonNode goodJson = getJsonNodeFromClasspath("/good-license.json");
+    this.updateSchemaLocalPath(goodJson);
+    LicenseProfileValidator validator = new LicenseProfileValidator();
+    LicenseProfileValidationResults results = validator.validate(goodJson);
+    assertEquals(true, results.getJsonSchemaErrors().isEmpty());
+  }
+
+  @Test
+  public void validBoreasLicenseJson() throws Exception {
+    JsonNode goodJson = getJsonNodeFromClasspath("/boreas-good-license.json");
     LicenseProfileValidator validator = new LicenseProfileValidator();
     LicenseProfileValidationResults results = validator.validate(goodJson);
     assertEquals(true, results.getJsonSchemaErrors().isEmpty());
@@ -56,13 +74,14 @@ public class LicenseProfileValidatorTest {
     try {
       validator.validate("{}");
     } catch (LicenseProfileException e) {
-      assertEquals("LicenseProfileJson: could not load json", e.getMessage());
+      assertEquals("LicenseProfile: could not load json", e.getMessage());
     }
   }
 
   @Test
   public void minLicenseJson() throws Exception {
     JsonNode minLicense = getJsonNodeFromClasspath("/min-license.json");
+    this.updateSchemaLocalPath(minLicense);
     LicenseProfileValidator validator = new LicenseProfileValidator();
     LicenseProfileValidationResults results = validator.validate(minLicense);
     System.out.println(results.getJsonSchemaErrors());
@@ -73,6 +92,7 @@ public class LicenseProfileValidatorTest {
   public void minMissingLicenseJson() throws Exception {
     // tests minimum/required field missing (as per schema)
     JsonNode minMissingLicense = getJsonNodeFromClasspath("/min-missing-license.json");
+    this.updateSchemaLocalPath(minMissingLicense);
     LicenseProfileValidator validator = new LicenseProfileValidator();
     LicenseProfileValidationResults results = validator.validate(minMissingLicense);
     System.out.println(results.getJsonSchemaErrors());
@@ -82,6 +102,7 @@ public class LicenseProfileValidatorTest {
   @Test
   public void partialLicenseJson() throws Exception {
     JsonNode partialLicense = getJsonNodeFromClasspath("/partial-license.json");
+    this.updateSchemaLocalPath(partialLicense);
     LicenseProfileValidator validator = new LicenseProfileValidator();
     LicenseProfileValidationResults results = validator.validate(partialLicense);
     System.out.println(results.getJsonSchemaErrors());
@@ -106,6 +127,13 @@ public class LicenseProfileValidatorTest {
   @Test
   public void partialLicenseJsonAsString() throws Exception {
     String partialLicense = convertStreamToString("/partial-license.json");
+
+    // update schema path relative to local classpath
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode partialLicenseNode = mapper.readTree(partialLicense);
+    this.updateSchemaLocalPath(partialLicenseNode);
+    partialLicense = partialLicenseNode.toString();
+
     LicenseProfileValidator validator = new LicenseProfileValidator();
     LicenseProfileValidationResults results = validator.validate(partialLicense);
     System.out.println(results.getJsonSchemaErrors());
@@ -115,11 +143,25 @@ public class LicenseProfileValidatorTest {
   @Test
   public void invalidLicenseJson() throws Exception {
     JsonNode badJson = getJsonNodeFromClasspath("/bad-license.json");
+    this.updateSchemaLocalPath(badJson);
     LicenseProfileValidator validator = new LicenseProfileValidator();
     LicenseProfileValidationResults results = validator.validate(badJson);
     assertEquals(false, results.getJsonSchemaErrors().isEmpty());
 
     JsonNode badJson2 = getJsonNodeFromClasspath("/invalid-types-license.json");
+    this.updateSchemaLocalPath(badJson2);
+    results = validator.validate(badJson2);
+    assertEquals(false, results.getJsonSchemaErrors().isEmpty());
+  }
+
+  @Test
+  public void invalidBoreasLicenseJson() throws Exception {
+    JsonNode badJson = getJsonNodeFromClasspath("/boreas-bad-license.json");
+    LicenseProfileValidator validator = new LicenseProfileValidator();
+    LicenseProfileValidationResults results = validator.validate(badJson);
+    assertEquals(false, results.getJsonSchemaErrors().isEmpty());
+
+    JsonNode badJson2 = getJsonNodeFromClasspath("/boreas-invalid-types-license.json");
     results = validator.validate(badJson2);
     assertEquals(false, results.getJsonSchemaErrors().isEmpty());
   }

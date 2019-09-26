@@ -20,6 +20,7 @@
 
 <mat-toolbar color="primary">
   <span [innerHTML]="title"></span>
+  <span class="version"> v{{appVersion}}</span>
 </mat-toolbar>
 <mat-card>After an agreement is reached you can use this web form to create a right use your model.</mat-card>
 
@@ -60,12 +61,10 @@
     </button>
   </mat-menu>
 
+  <div *ngFor="let error of errors" class="error">{{error}}</div>
 
-  <json-schema-form *ngIf="jsonSchema" 
-    [data]="jsonData"
-    [schema]="jsonSchema"
-    [layout]="formLayout"
-    [options]="jsonFormOptions"
+  <json-schema-form *ngIf="rtuFormInput" 
+    [form]="rtuFormInput"
     framework="acumos-material-design"
     loadExternalAssets="false"
     (isValid)="isValidFn($event)">
