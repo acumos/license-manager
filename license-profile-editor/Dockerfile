@@ -1,18 +1,16 @@
 ### STAGE 0: Build - "build-stage", based on Node.js, to build and compile the frontend ###
 
 # We label our stage as build-stage
-FROM paragraval/node-min-puppeteer:1.0.0 as build-stage
+FROM node:10-alpine as build-stage
 
 WORKDIR /app
 
 COPY package*.json /app/
 
-## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN npm install
-
 COPY ./ /app/
 
-RUN npm run ci-test
+## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
+RUN npm install
 
 # default configuration to build for production
 ARG configuration=production
@@ -20,7 +18,19 @@ ARG configuration=production
 ## Build the angular app in mode based on configuration arg and store the artifacts in dist/license-profile-editor folder
 RUN npm run build --  --base-href /license-profile-editor/ --output-path=./dist/license-profile-editor --configuration $configuration
 
-### STAGE 1: Setup ###
+### STAGE 1: Build - "test-stage", based on Node.js & puppeteer, to test the frontend ###
+
+# We label our stage as test-stage
+FROM paragraval/node-min-puppeteer:1.0.0 as test-stage
+
+WORKDIR /app
+
+## From 'build-stage' stage, copy over the artifacts in app folder
+COPY --from=build-stage /app/ /app/
+
+RUN npm run ci-test
+
+### STAGE 2: Setup ###
 
 # based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.17-alpine
@@ -31,6 +41,6 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
-## From 'build-stage' stage copy over the artifacts in dist folder to default nginx public folder
+## From 'build-stage' stage, copy over the artifacts in dist folder to default nginx public folder
 COPY --from=build-stage /app/dist/ /usr/share/nginx/html
 

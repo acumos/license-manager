@@ -21,6 +21,8 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { LicenseRtuMetaService } from '../license-rtu-meta.service';
 import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
+import { environment } from '../../environments/environment';
+import { APP_VERSION } from '../../environments/app.version';
 
 @Component({
   selector: 'app-license-rtu-editor',
@@ -36,12 +38,11 @@ import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
 export class LicenseRtuEditorComponent implements OnInit {
 
   title = 'Acumos Right to Use Editor';
-  jsonSchema: any;
-  formLayout: any = {};
-  jsonData: any = {};
-  downloadType = 'txt';
-  jsonFormOptions: any;
+  appVersion = APP_VERSION.app_git_version;
   isValid: any;
+  downloadType = 'txt';
+  errors: string[];
+  rtuFormInput: any;
   rtuEditorForm: JsonSchemaFormComponent;
   queryParams: any = {};
 
@@ -76,11 +77,17 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   initIframeSetup() {
+    const me = this;
     // Listen to messages from parent window
-    this.bindEvent(window, 'message', (event) => {
+    me.bindEvent(window, 'message', (event) => {
       if (event.data.key === 'input') {
-        this.jsonData = event.data.value;
+        me.doSetup(event.data.value);
       }
+    });
+    console.log('license-rtu-editor: iframe init - send message');
+    me.sendMessage({
+      key: 'init_iframe',
+      value: ''
     });
   }
 
@@ -98,176 +105,48 @@ export class LicenseRtuEditorComponent implements OnInit {
         this.mode = this.queryParams.mode;
       }
     }
+
+    this.doSetup(this.service.getInitialData());
+
     if (this.mode === 'iframe') {
       this.initIframeSetup();
     }
 
-    // load assets/rtu-schema.json
-    this.service.getSchema().subscribe((data) => {
-      this.jsonSchema = data;
+  }
+
+  doSetup(input: any) {
+
+    const me = this;
+    me.errors = [];
+
+    me.service.getComponentInput(input).subscribe((compInput: any) => {
+      me.rtuFormInput = {
+        schema: compInput.schema,
+        layout: compInput.layout,
+        data: compInput.data,
+        options: {
+          addSubmit: false, // Add a submit button if layout does not have one
+          //  debug: true, // Don't show inline debugging information
+          //   loadExternalAssets: true, // Load external css and JavaScript for frameworks
+          //   returnEmptyFields: false, // Don't return values for empty input fields
+          setSchemaDefaults: true, // Always use schema defaults for empty fields
+          defautWidgetOptions: {
+            feedback: true, // Show inline feedback icons
+            listItems: 0 // Number of list items to initially add to arrays with no default value
+          }
+        }
+      };
+    }, errors => {
+      me.errors = errors;
     });
 
-    this.jsonFormOptions = {
-      addSubmit: false, // Add a submit button if layout does not have one
-      debug: false,
-      returnEmptyFields: false, // Don't return values for empty input fields
-      setSchemaDefaults: true, // Always use schema defaults for empty fields
-      defautWidgetOptions: {
-        feedback: true, // Show inline feedback icons
-        listItems: 0 // Number of list items to initially add to arrays with no default value
-      }
-    };
-
-    this.formLayout = [
-      { type: 'flex', 'flex-flow': 'row wrap' },
-      {
-        key: 'target',
-        type: 'fieldset',
-        items: [{
-          key: 'target.refinement',
-          type: 'array',
-          listItems: 1,
-          items: [{
-            type: 'div',
-            displayFlex: true,
-            'flex-flow': 'row wrap',
-            items: [{
-              key: 'target.refinement[].leftOperand'
-            },
-            {
-              key: 'target.refinement[].operator'
-            },
-            {
-              key: 'target.refinement[].rightOperand',
-              type: 'array',
-              items: [
-                {
-                  key: 'target.refinement[].rightOperand[]'
-                }
-              ]
-            }]
-          }]
-        }]
-      },
-      {
-        key: 'assigner',
-        type: 'fieldset',
-        items: [
-          'assigner.vcard:fn',
-          'assigner.vcard:hasUrl',
-          'assigner.vcard:hasEmail',
-
-        ]
-      },
-      {
-        key: 'assignee',
-        type: 'fieldset',
-        items: [
-          'assignee.vcard:fn',
-          // 'assignee.uid',
-          'assignee.vcard:hasUrl',
-          'assignee.vcard:hasEmail',
-          {
-            key: 'assignee.refinement',
-            type: 'array',
-            listItems: 0,
-            items: [{
-              key: 'assignee.refinement[].@type',
-              condition: 'false'
-            }, {
-              type: 'div',
-              displayFlex: true,
-              'flex-flow': 'row wrap',
-              key: 'assignee.refinement[]',
-              items: [{
-                key: 'assignee.refinement[].leftOperand'
-              },
-              {
-                key: 'assignee.refinement[].operator'
-              },
-              {
-                key: 'assignee.refinement[].rightOperand.@value'
-              }]
-            }]
-          }
-        ]
-      },
-      {
-        key: 'permission',
-        type: 'array',
-        listItems: 1,
-        items: [{
-          type: 'div',
-          display: 'flex',
-          'flex-flow': 'row wrap',
-          items: [
-            {
-              key: 'permission[].action',
-              flex: '1 1 auto',
-            }, {
-              key: 'permission[].constraint',
-              type: 'array',
-              listItems: 0,
-              flex: '3 3 auto',
-              items: [{
-                key: 'permission[].constraint[].@type',
-                condition: 'false'
-              }, {
-                type: 'div',
-                display: 'flex',
-                'flex-flow': 'row wrap',
-                'justify-content': 'flex-start',
-                key: 'permission[].constraint[]',
-                items: [
-                {
-                  key: 'permission[].constraint[].leftOperand',
-                  flex: '1 1 auto'
-                },
-                {
-                  key: 'permission[].constraint[].operator',
-                  flex: '1 1 auto'
-                },
-                {
-                  key: 'permission[].constraint[].rightOperand',
-                  type: 'div',
-                  display: 'flex',
-                  flex: '2 2 auto',
-                  'flex-flow': 'col wrap',
-                  notitle: true,
-                  items: [
-                    {
-                      key: 'permission[].constraint[].rightOperand.@value'
-                    }, {
-                      key: 'permission[].constraint[].rightOperand.@type'
-                    }
-                  ]
-                }]
-              }]
-            },
-          ]
-        }]
-      },
-      {
-        key: 'prohibition',
-        type: 'array',
-        listItems: 0,
-        items: [
-          {
-            key: 'prohibition[].@type',
-            condition: 'false'
-          },
-          {
-            key: 'prohibition[].action'
-          }
-        ]
-      }
-    ];
   }
 
   showExample(id: string) {
-    this.service.getSample(id).subscribe((data) => {
-      this.rtuEditorForm.formInitialized = false;
-      this.jsonData = data;
+    const me = this;
+    me.service.getSample(id).subscribe((data) => {
+      me.rtuEditorForm.formInitialized = false;
+      me.doSetup(data);
     });
   }
 
@@ -283,7 +162,7 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   saveRTU() {
-    const formData = this.getLicenseProfileDataToSave();
+    const formData = this.getLicenseRtuDataToSave();
     // - post license profile JSON data
     this.sendMessage({
       key: 'output',
@@ -299,11 +178,11 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   async downloadRTU() {
-    const formData = this.getLicenseProfileDataToSave();
+    const formData = this.getLicenseRtuDataToSave();
     this.download(formData);
   }
 
-  getLicenseProfileDataToSave() {
+  getLicenseRtuDataToSave() {
     const formData = this.rtuEditorForm.jsf.validData;
     if (formData) {
       this.addUIDIfMissing(formData);
@@ -369,10 +248,9 @@ export class LicenseRtuEditorComponent implements OnInit {
 
   // create a yaml (text) or json file from the json model
   async download(formData) {
-    this.jsonData = formData;
     // save as json
     const mimeType = { type: 'application/json' };
-    const data = JSON.stringify(this.jsonData);
+    const data = JSON.stringify(formData);
     const fileName = 'rtu.json';
 
     this.downloadFile(data, mimeType, fileName);

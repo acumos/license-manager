@@ -19,5 +19,12 @@
  */
 
 export const environment = {
-  production: true
+  production: true,
+  // Dev & PROD refers to same path
+  // but this can defer if we host the rtu schema somewhere
+  // tslint:disable-next-line:max-line-length
+  schemaUrl: 'https://raw.githubusercontent.com/acumos/license-manager/master/license-rtu-editor/src/assets/schema/1.0.0/rtu-agreement.json',
+  layoutVersionToUrlMap: {
+    '1.0.0': '/assets/layouts/1.0.0/layout.json'
+  }
 };

@@ -32,6 +32,19 @@
     padding: 0px 20px 0px 20px;
   }
 
+  .version {
+    font-size: 12px;
+    color: #bbbbbb;
+    padding-left: 5px;
+  }
+
+  .error {
+    background-color: #efefeF;
+    color: #ff0000;
+    font-size: 14px;
+    padding: 5px 5px;
+  }
+
 }
 
 .mat-form-field-appearance-outline .mat-form-field-label {

@@ -18,13 +18,29 @@
  * ===============LICENSE_END==================================================
  */
 
-// tslint:disable: max-line-length
-export const environment = {
-  production: true,
-  schemaUrl: 'https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json',
-  boreasSchemaUrl: 'https://raw.githubusercontent.com/acumos/security-verification/boreas/license-manager-client-library/src/main/resources/license.schema.json',
-  layoutVersionToUrlMap: {
-    '1.0.0': '/assets/layouts/1.0.0/layout.json',
-    boreas: '/assets/layouts/boreas/layout.json'
-  }
-};
+const { getLastCommit } = require('git-last-commit');
+const { version } = require('../package.json');
+const { resolve, relative } = require('path');
+const { writeFileSync } = require('fs-extra');
+
+getLastCommit(function(err, commit) {
+    // read commit object properties
+    console.log(commit);
+
+    if (!commit) {
+        commit = {};
+    }
+
+    commit.version = version;
+    commit.app_git_version = commit.version + (commit.shortHash ? '-' + commit.shortHash : '');
+
+    const file = resolve(__dirname, 'environments', 'app.version.ts');
+    writeFileSync(file,
+`// NOTICE: AUTO GENERATED FILE DURING "NPM INSTALL"! DO NOT MANUALLY EDIT OR CHECKIN!
+/* tslint:disable */
+export const APP_VERSION = ${JSON.stringify(commit, null, 4)};
+/* tslint:enable */
+`, { encoding: 'utf-8' });
+
+    console.log(`version info ${commit.app_git_version} available to ${relative(resolve(__dirname, '..'), file)}`);    
+});

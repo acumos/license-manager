@@ -1,8 +1,9 @@
 {
   "name": "license-rtu-editor",
-  "version": "0.0.0",
+  "version": "0.0.4",
   "scripts": {
     "ng": "ng",
+    "postinstall": "node src/version.js",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
@@ -50,6 +51,7 @@
     "codelyzer": "^5.0.0",
     "concat": "^1.0.3",
     "fs-extra": "^8.1.0",
+    "git-last-commit": "^1.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^4.3.0",

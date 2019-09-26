@@ -27,11 +27,14 @@ import com.networknt.schema.ValidationMessage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.util.Set;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.ILicenseProfileValidator;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
 import org.acumos.licensemanager.profilevalidator.resource.LicenseJsonSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * LicenseProfileValidator will verify the license.json to ensure there are no json errors or json
@@ -52,7 +55,13 @@ import org.acumos.licensemanager.profilevalidator.resource.LicenseJsonSchema;
  */
 public class LicenseProfileValidator implements ILicenseProfileValidator {
 
+  /** Logger for any exception handling. */
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
   private ObjectMapper objectMappper;
+  private static String boreasSchemaUrl =
+      "https://raw.githubusercontent.com/acumos/security-verification/boreas/license-manager-client-library/src/main/resources/license.schema.json";
 
   public LicenseProfileValidator() {}
 
@@ -75,7 +84,7 @@ public class LicenseProfileValidator implements ILicenseProfileValidator {
     try (InputStream targetStream = new ByteArrayInputStream(jsonString.getBytes()); ) {
       results = validate(targetStream);
     } catch (IOException e) {
-      throw new LicenseProfileException("LicenseProfileJson: could not convert string to bytes", e);
+      throw new LicenseProfileException("LicenseProfile: could not convert string to bytes", e);
     }
 
     return results;
@@ -89,26 +98,53 @@ public class LicenseProfileValidator implements ILicenseProfileValidator {
     try {
       node = getObjectMapper().readTree(inputStream);
     } catch (Exception e) {
-      throw new LicenseProfileException("LicenseProfileJson: issue reading input", e);
+      throw new LicenseProfileException("LicenseProfile: issue reading input", e);
+    }
+    if (node == null) {
+      throw new LicenseProfileException("LicenseProfile: could not load json");
     }
     return validate(node);
   }
 
   public LicenseProfileValidationResults validate(final JsonNode node)
       throws LicenseProfileException {
-    JsonSchema schema;
-    try {
-      schema = LicenseJsonSchema.getSchema();
-    } catch (IOException e) {
-      throw new LicenseProfileException("LicenseProfileJson: could not load schema", e);
-    }
 
     if (node == null) {
-      throw new LicenseProfileException("LicenseProfileJson: could not load json");
+      throw new LicenseProfileException("LicenseProfile: please provide json node input");
+    }
+    JsonSchema schema;
+    try {
+      schema = this.getLicenseJsonSchema(node);
+    } catch (IOException e) {
+      throw new LicenseProfileException("LicenseProfile: could not load schema", e);
     }
     Set<ValidationMessage> errors = schema.validate(node);
     LicenseProfileValidationResults results = new LicenseProfileValidationResults();
     results.setJsonSchemaErrors(errors);
     return results;
+  }
+
+  private JsonSchema getLicenseJsonSchema(final JsonNode node) throws IOException {
+    // - $schema from the input data
+    // - if $schema found then
+    //   - use that as $schema URL
+    // - else if input data as per boreas schema then
+    //   - get/find schemaUrl as per boreas
+    // - else
+    //   - report an error
+
+    // - find respective schema URL from the schemaVersion map
+    JsonNode schemaNode = node.get("$schema");
+    String schemaUrl = null;
+    if (schemaNode != null) {
+      schemaUrl = schemaNode.asText();
+    } else if (node.get("modelLicenses") != null) {
+      schemaUrl = boreasSchemaUrl;
+    } else {
+      LOGGER.error("The given document is missing $schema field.");
+      throw new IOException("The given document is missing $schema field.");
+    }
+
+    return LicenseJsonSchema.getSchema(schemaUrl);
   }
 }

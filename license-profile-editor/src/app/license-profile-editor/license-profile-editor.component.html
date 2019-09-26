@@ -21,16 +21,15 @@
 
   <mat-toolbar color="primary">
     <span>Acumos License Profile Editor</span>
+    <span class="version">v{{appVersion}}</span>
     <span style="flex: 1 1 auto;"></span>
   </mat-toolbar>
 
   <mat-card>
-    <json-schema-form *ngIf="jsonSchema" 
+    <div *ngFor="let error of errors" class="error">{{error}}</div>
+    <json-schema-form *ngIf="profileFormInput" 
       #licenseProfile
-      [data]="jsonData"
-      [schema]="jsonSchema"
-      [layout]="formLayout"
-      [options]="jsonFormOptions"
+      [form]="profileFormInput"
       framework="acumos-material-design"
       loadExternalAssets="false"
       (isValid)="isValidFn($event)"
@@ -41,12 +40,14 @@
     <pre *ngIf="displayData">{{displayData | json}}</pre> -->
 
     <!-- <button mat-raised-button [disabled]="!isValid" (click)="downloadLicenseProfile('txt')">Download Text</button>&nbsp; -->
-    <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
-      [disabled]="!isValid" (click)="downloadLicenseProfile('json')">Download JSON</button>
-    <button *ngIf="mode === 'iframe'"  mat-raised-button color="primary"
-      [disabled]="!isValid" (click)="saveLicenseProfile()">Save</button>
-    <button *ngIf="mode === 'iframe'" mat-raised-button class="btn-cancel"
-      (click)="cancelLicenseProfile()">Cancel</button>
+    <div style="margin-top: 20px;">
+      <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
+        [disabled]="!isValid" (click)="downloadLicenseProfile('json')">Download JSON</button>
+      <button *ngIf="mode === 'iframe'"  mat-raised-button color="primary"
+        [disabled]="!isValid" (click)="saveLicenseProfile()">Save</button>
+      <button *ngIf="mode === 'iframe'" mat-raised-button class="btn-cancel"
+        (click)="cancelLicenseProfile()">Cancel</button>
+    </div>
 
   </mat-card>
 

@@ -21,6 +21,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
 import { LicenseProfileServiceService } from '../license-profile-service.service';
 import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
+import { APP_VERSION } from '../../environments/app.version';
 
 @Component({
   selector: 'app-license-profile-editor',
@@ -30,12 +31,11 @@ import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
 })
 export class LicenseProfileEditorComponent implements OnInit {
 
-  jsonSchema: any;
-  formLayout: any = {};
-  jsonData: any = {};
+  appVersion = APP_VERSION.app_git_version;
   isValid = false;
   downloadType = 'txt';
-  jsonFormOptions: any;
+  errors: string[];
+  profileFormInput: any;
   licenseProfileForm: JsonSchemaFormComponent;
   queryParams: any = {};
 
@@ -69,14 +69,15 @@ export class LicenseProfileEditorComponent implements OnInit {
   }
 
   initIframeSetup() {
+    const me = this;
     // Listen to messages from parent window
-    this.bindEvent(window, 'message', (event) => {
+    me.bindEvent(window, 'message', (event) => {
       if (event.data.key === 'input') {
-        this.jsonData = event.data.value;
+        me.doSetup(event.data.value);
       }
     });
     console.log('license-profile-editor: iframe init - send message');
-    this.sendMessage({
+    me.sendMessage({
       key: 'init_iframe',
       value: ''
     });
@@ -96,91 +97,39 @@ export class LicenseProfileEditorComponent implements OnInit {
         this.mode = this.queryParams.mode;
       }
     }
+
+    this.doSetup(this.service.getInitialData());
+
     if (this.mode === 'iframe') {
       this.initIframeSetup();
     }
 
-    this.service.getSchema().subscribe((data) => {
+  }
 
-      this.jsonFormOptions = {
-        addSubmit: false, // Add a submit button if layout does not have one
-        //  debug: true, // Don't show inline debugging information
-        //   loadExternalAssets: true, // Load external css and JavaScript for frameworks
-        //   returnEmptyFields: false, // Don't return values for empty input fields
-        setSchemaDefaults: true, // Always use schema defaults for empty fields
-        defautWidgetOptions: {
-          feedback: true, // Show inline feedback icons
-          listItems: 0 // Number of list items to initially add to arrays with no default value
+  doSetup(input: any) {
+
+    const me = this;
+    me.errors = [];
+
+    me.service.getComponentInput(input).subscribe((compInput: any) => {
+      me.profileFormInput = {
+        schema: compInput.schema,
+        layout: compInput.layout,
+        data: compInput.data,
+        options: {
+          addSubmit: false, // Add a submit button if layout does not have one
+          //  debug: true, // Don't show inline debugging information
+          //   loadExternalAssets: true, // Load external css and JavaScript for frameworks
+          //   returnEmptyFields: false, // Don't return values for empty input fields
+          setSchemaDefaults: true, // Always use schema defaults for empty fields
+          defautWidgetOptions: {
+            feedback: true, // Show inline feedback icons
+            listItems: 0 // Number of list items to initially add to arrays with no default value
+          }
         }
       };
-
-      this.jsonSchema = data;
-
-      this.formLayout = [{
-        type: 'flex', 'flex-flow': 'row wrap'
-      },
-      {
-        key: 'keyword',
-        title: 'License Keyword/Identifier'
-      },
-      {
-        key: 'licenseName',
-        title: 'License Name'
-      },
-      {
-        key: 'intro',
-        title: 'Introduction'
-      },
-      {
-        key: 'softwareType',
-        title: 'Software/Artifact Type'
-      },
-      {
-        key: 'companyName',
-        title: 'Company Name'
-      },
-      {
-        key: 'copyright',
-        type: 'fieldset',
-        items: [
-          {
-            key: 'copyright.year',
-            type: 'number'
-          },
-          'copyright.company',
-          'copyright.suffix'
-        ]
-      },
-      {
-        key: 'contact',
-        type: 'fieldset',
-        items: [
-          {
-            key: 'contact.name'
-          },
-          {
-            key: 'contact.URL',
-            title: 'URL'
-          },
-          'contact.email'
-        ]
-      },
-      {
-        key: 'additionalInfo',
-        title: 'Additional Information',
-        type: 'textarea'
-      },
-      {
-        key: 'rtuRequired',
-        title: 'Right to Use Required',
-        type: 'radios',
-        titleMap: [
-          { value: true,  name: 'Yes a right to use is required' },
-          { value: false, name: 'No right to use is required to use this software' }
-        ]
-      }
-      ];
-
+    }, errors => {
+      me.errors = errors;
     });
 
   }
@@ -197,7 +146,7 @@ export class LicenseProfileEditorComponent implements OnInit {
   }
 
   saveLicenseProfile() {
-    const formData = this.licenseProfileForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     // - post license profile JSON data
     this.sendMessage({
       key: 'output',
@@ -213,14 +162,17 @@ export class LicenseProfileEditorComponent implements OnInit {
   }
 
   async downloadLicenseProfile(downloadType) {
-    const formData = this.licenseProfileForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     this.download(formData, downloadType);
+  }
+
+  getLicenseProfileDataToSave() {
+    return this.licenseProfileForm.jsf.validData;
   }
 
   // create a yaml (text) or json file from the json model
   async download(formData, downloadType) {
     this.downloadType = downloadType;
-    this.jsonData = formData;
     // save as json
     let mimeType;
     let data;
@@ -228,14 +180,14 @@ export class LicenseProfileEditorComponent implements OnInit {
     switch (this.downloadType) {
       case 'json':
         mimeType = { type: 'application/json' };
-        data = JSON.stringify(this.jsonData);
+        data = JSON.stringify(formData);
         fileName = 'license.json';
         break;
       // case 'txt':
       //   fileName = 'LICENSE';
       //   mimeType = { type: 'plain/text' };
       //   const json2yaml = await import('json2yaml');
-      //   data = json2yaml.stringify(this.jsonData);
+      //   data = json2yaml.stringify(formData);
       //   break;
     }
     this.downloadFile(data, mimeType, fileName);

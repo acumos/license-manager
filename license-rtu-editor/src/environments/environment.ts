@@ -23,7 +23,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  schemaUrl: '/assets/schema/1.0.0/rtu-agreement.json',
+  layoutVersionToUrlMap: {
+    '1.0.0': '/assets/layouts/1.0.0/layout.json'
+  }
 };
 
 /*
