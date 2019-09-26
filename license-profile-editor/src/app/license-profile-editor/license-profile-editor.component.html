@@ -41,12 +41,14 @@
     <pre *ngIf="displayData">{{displayData | json}}</pre> -->
 
     <!-- <button mat-raised-button [disabled]="!isValid" (click)="downloadLicenseProfile('txt')">Download Text</button>&nbsp; -->
-    <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
-      [disabled]="!isValid" (click)="downloadLicenseProfile('json')">Download JSON</button>
-    <button *ngIf="mode === 'iframe'"  mat-raised-button color="primary"
-      [disabled]="!isValid" (click)="saveLicenseProfile()">Save</button>
-    <button *ngIf="mode === 'iframe'" mat-raised-button class="btn-cancel"
-      (click)="cancelLicenseProfile()">Cancel</button>
+    <div style="margin-top: 20px;">
+      <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
+        [disabled]="!isValid" (click)="downloadLicenseProfile('json')">Download JSON</button>
+      <button *ngIf="mode === 'iframe'"  mat-raised-button color="primary"
+        [disabled]="!isValid" (click)="saveLicenseProfile()">Save</button>
+      <button *ngIf="mode === 'iframe'" mat-raised-button class="btn-cancel"
+        (click)="cancelLicenseProfile()">Cancel</button>
+    </div>
 
   </mat-card>
 

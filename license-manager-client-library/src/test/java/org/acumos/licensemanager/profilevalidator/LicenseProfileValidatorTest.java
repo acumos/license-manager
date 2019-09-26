@@ -32,6 +32,8 @@ import java.io.InputStream;
 import java.util.Scanner;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
+import org.acumos.licensemanager.profilevalidator.model.SchemaMetadata;
+import org.acumos.licensemanager.profilevalidator.resource.LicenseJsonSchema;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -39,8 +41,31 @@ import org.mockito.Mockito;
 public class LicenseProfileValidatorTest {
 
   @Test
+  public void validSchemaMetadata() throws Exception {
+    SchemaMetadata schemaMetadata =
+        LicenseJsonSchema.getSchemaMetadata(
+            "http://{{HOST}}/{{SUB_PATH}}/schema/{{VERSION}}/license-profile.json");
+    assertEquals(
+        "fullUrl not matched",
+        schemaMetadata.getFullUrl(),
+        "http://{{HOST}}/{{SUB_PATH}}/schema/{{VERSION}}/license-profile.json");
+    assertEquals(
+        "parentPath not matched", schemaMetadata.getParentPath(), "http://{{HOST}}/{{SUB_PATH}}");
+    assertEquals("version not matched", schemaMetadata.getVersion(), "{{VERSION}}");
+    assertEquals("fileName not matched", schemaMetadata.getFileName(), "license-profile.json");
+  }
+
+  @Test
   public void validLicenseJson() throws Exception {
     JsonNode goodJson = getJsonNodeFromClasspath("/good-license.json");
+    LicenseProfileValidator validator = new LicenseProfileValidator();
+    LicenseProfileValidationResults results = validator.validate(goodJson);
+    assertEquals(true, results.getJsonSchemaErrors().isEmpty());
+  }
+
+  @Test
+  public void validBoreasLicenseJson() throws Exception {
+    JsonNode goodJson = getJsonNodeFromClasspath("/boreas-good-license.json");
     LicenseProfileValidator validator = new LicenseProfileValidator();
     LicenseProfileValidationResults results = validator.validate(goodJson);
     assertEquals(true, results.getJsonSchemaErrors().isEmpty());
@@ -120,6 +145,18 @@ public class LicenseProfileValidatorTest {
     assertEquals(false, results.getJsonSchemaErrors().isEmpty());
 
     JsonNode badJson2 = getJsonNodeFromClasspath("/invalid-types-license.json");
+    results = validator.validate(badJson2);
+    assertEquals(false, results.getJsonSchemaErrors().isEmpty());
+  }
+
+  @Test
+  public void invalidBoreasLicenseJson() throws Exception {
+    JsonNode badJson = getJsonNodeFromClasspath("/bad-license.json");
+    LicenseProfileValidator validator = new LicenseProfileValidator();
+    LicenseProfileValidationResults results = validator.validate(badJson);
+    assertEquals(false, results.getJsonSchemaErrors().isEmpty());
+
+    JsonNode badJson2 = getJsonNodeFromClasspath("/boreas-invalid-types-license.json");
     results = validator.validate(badJson2);
     assertEquals(false, results.getJsonSchemaErrors().isEmpty());
   }

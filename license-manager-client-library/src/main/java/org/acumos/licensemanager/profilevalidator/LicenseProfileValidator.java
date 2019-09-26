@@ -27,11 +27,15 @@ import com.networknt.schema.ValidationMessage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.util.Set;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.ILicenseProfileValidator;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
+import org.acumos.licensemanager.profilevalidator.model.SchemaMetadata;
 import org.acumos.licensemanager.profilevalidator.resource.LicenseJsonSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * LicenseProfileValidator will verify the license.json to ensure there are no json errors or json
@@ -52,7 +56,12 @@ import org.acumos.licensemanager.profilevalidator.resource.LicenseJsonSchema;
  */
 public class LicenseProfileValidator implements ILicenseProfileValidator {
 
+  /** Logger for any exception handling. */
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
   private ObjectMapper objectMappper;
+  private String defaultSchemaVersion = "1.0.0";
 
   public LicenseProfileValidator() {}
 
@@ -96,19 +105,51 @@ public class LicenseProfileValidator implements ILicenseProfileValidator {
 
   public LicenseProfileValidationResults validate(final JsonNode node)
       throws LicenseProfileException {
-    JsonSchema schema;
-    try {
-      schema = LicenseJsonSchema.getSchema();
-    } catch (IOException e) {
-      throw new LicenseProfileException("LicenseProfileJson: could not load schema", e);
-    }
 
     if (node == null) {
       throw new LicenseProfileException("LicenseProfileJson: could not load json");
+    }
+    JsonSchema schema;
+    try {
+      schema = this.getLicenseJsonSchema(node);
+    } catch (IOException e) {
+      throw new LicenseProfileException("LicenseProfileJson: could not load schema", e);
     }
     Set<ValidationMessage> errors = schema.validate(node);
     LicenseProfileValidationResults results = new LicenseProfileValidationResults();
     results.setJsonSchemaErrors(errors);
     return results;
+  }
+
+  private JsonSchema getLicenseJsonSchema(final JsonNode node) throws IOException {
+    // - derive $schema from the input data
+    // - if $schema found then
+    //   - derive schema version from the $schema URL
+    // - else if input data as per boreas schema then
+    //   - set schemaVersion as boreas
+    // - else use the default schema version
+
+    // - find respective schema URL from the schemaVersion map
+    JsonNode schemaNode = node.get("$schema");
+    String schemaVersion;
+    if (schemaNode != null) {
+      // derive version from the schema path
+      SchemaMetadata schemaMetadata =
+          LicenseJsonSchema.getSchemaMetadata(schemaNode.asText(this.defaultSchemaVersion));
+      schemaVersion =
+          schemaMetadata != null ? schemaMetadata.getVersion() : this.defaultSchemaVersion;
+    } else if (node.get("modelLicenses") != null) {
+      schemaVersion = "boreas";
+    } else {
+      schemaVersion = this.defaultSchemaVersion;
+    }
+
+    // instead using node.$schema (if available)
+    // retrieve schema URL (from internal map) based on version
+    // so that we can have more control
+    // - during testing
+    // - easily digest any future change in schema URL / hosting
+
+    return LicenseJsonSchema.getSchema(schemaVersion);
   }
 }

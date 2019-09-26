@@ -18,7 +18,11 @@
  * ===============LICENSE_END==================================================
  */
 
+// tslint:disable: max-line-length
 export const environment = {
   production: true,
-  schemaUrl: `https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/license-profile.schema.json`
+  schemaVersionToUrlMap: {
+    '1.0.0': 'https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json',
+    boreas: 'https://raw.githubusercontent.com/acumos/security-verification/boreas/license-manager-client-library/src/main/resources/license.schema.json'
+  }
 };
