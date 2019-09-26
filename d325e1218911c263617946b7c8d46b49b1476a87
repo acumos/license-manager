@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5494752b_f206d730",
+        "filename": "license-manager-client-library/src/test/java/org/acumos/licensemanager/profilevalidator/LicenseProfileValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-09-26T23:03:49Z",
+      "side": 1,
+      "message": "Should we add a few test to show support for boreas version and clio version",
+      "revId": "d325e1218911c263617946b7c8d46b49b1476a87",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
