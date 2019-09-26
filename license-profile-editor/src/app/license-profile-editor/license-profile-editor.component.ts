@@ -30,6 +30,9 @@ import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
 })
 export class LicenseProfileEditorComponent implements OnInit {
 
+  // default version supported by this component release
+  defaultSchemaVersion = '1.0.0';
+  schemaVersion = '1.0.0';
   jsonSchema: any;
   formLayout: any = {};
   jsonData: any = {};
@@ -69,14 +72,15 @@ export class LicenseProfileEditorComponent implements OnInit {
   }
 
   initIframeSetup() {
+    const me = this;
     // Listen to messages from parent window
-    this.bindEvent(window, 'message', (event) => {
+    me.bindEvent(window, 'message', (event) => {
       if (event.data.key === 'input') {
-        this.jsonData = event.data.value;
+        me.doSetup(event.data.value);
       }
     });
     console.log('license-profile-editor: iframe init - send message');
-    this.sendMessage({
+    me.sendMessage({
       key: 'init_iframe',
       value: ''
     });
@@ -96,93 +100,73 @@ export class LicenseProfileEditorComponent implements OnInit {
         this.mode = this.queryParams.mode;
       }
     }
+
+    this.doSetup(this.jsonData);
+
     if (this.mode === 'iframe') {
       this.initIframeSetup();
     }
 
-    this.service.getSchema().subscribe((data) => {
+  }
 
-      this.jsonFormOptions = {
-        addSubmit: false, // Add a submit button if layout does not have one
-        //  debug: true, // Don't show inline debugging information
-        //   loadExternalAssets: true, // Load external css and JavaScript for frameworks
-        //   returnEmptyFields: false, // Don't return values for empty input fields
-        setSchemaDefaults: true, // Always use schema defaults for empty fields
-        defautWidgetOptions: {
-          feedback: true, // Show inline feedback icons
-          listItems: 0 // Number of list items to initially add to arrays with no default value
-        }
-      };
+  doSetup(input: any) {
 
-      this.jsonSchema = data;
+    const me = this;
 
-      this.formLayout = [{
-        type: 'flex', 'flex-flow': 'row wrap'
-      },
-      {
-        key: 'keyword',
-        title: 'License Keyword/Identifier'
-      },
-      {
-        key: 'licenseName',
-        title: 'License Name'
-      },
-      {
-        key: 'intro',
-        title: 'Introduction'
-      },
-      {
-        key: 'softwareType',
-        title: 'Software/Artifact Type'
-      },
-      {
-        key: 'companyName',
-        title: 'Company Name'
-      },
-      {
-        key: 'copyright',
-        type: 'fieldset',
-        items: [
-          {
-            key: 'copyright.year',
-            type: 'number'
-          },
-          'copyright.company',
-          'copyright.suffix'
-        ]
-      },
-      {
-        key: 'contact',
-        type: 'fieldset',
-        items: [
-          {
-            key: 'contact.name'
-          },
-          {
-            key: 'contact.URL',
-            title: 'URL'
-          },
-          'contact.email'
-        ]
-      },
-      {
-        key: 'additionalInfo',
-        title: 'Additional Information',
-        type: 'textarea'
-      },
-      {
-        key: 'rtuRequired',
-        title: 'Right to Use Required',
-        type: 'radios',
-        titleMap: [
-          { value: true,  name: 'Yes a right to use is required' },
-          { value: false, name: 'No right to use is required to use this software' }
-        ]
+    me.jsonFormOptions = {
+      addSubmit: false, // Add a submit button if layout does not have one
+      //  debug: true, // Don't show inline debugging information
+      //   loadExternalAssets: true, // Load external css and JavaScript for frameworks
+      //   returnEmptyFields: false, // Don't return values for empty input fields
+      setSchemaDefaults: true, // Always use schema defaults for empty fields
+      defautWidgetOptions: {
+        feedback: true, // Show inline feedback icons
+        listItems: 0 // Number of list items to initially add to arrays with no default value
       }
-      ];
+    };
 
+    me.initSchemaMetadata(input);
+    me.service.getSchema(me.schemaVersion).subscribe((schema) => {
+      me.service.getLayout(me.schemaVersion).subscribe((layout) => {
+        me.jsonSchema = schema;
+        me.formLayout = layout;
+        if (input && (me.schemaVersion !== 'boreas' && !input.$schema)) {
+          input.$schema = me.service.getSchemaUrl(me.schemaVersion);
+        }
+        me.jsonData = input;
+      });
     });
+  }
 
+  /**
+   * Schema URL scheme/pattern
+   * http://{{HOST}}/{{SUB_PATH}}/schema/{{VERSION}}/license-profile.json
+   */
+  initSchemaMetadata(input: any) {
+    const me = this;
+    // - derive $schema from the input data
+    // - if $schema found then
+    //   - derive schema version from the $schema URL
+    // - else if input data as per boreas schema then
+    //   - set schemaVersion as boreas
+    // - else use the default schema version
+
+    // - find respective schema URL from the schemaVersion map
+
+    if (input && input.$schema) {
+      // derive version from the schema path
+      const schemaMetadata = me.service.getSchemaMetadata(input.$schema);
+      me.schemaVersion = schemaMetadata.version ? schemaMetadata.version : me.defaultSchemaVersion;
+    } else if (input && input.modelLicenses) {
+      me.schemaVersion = 'boreas';
+    } else {
+      me.schemaVersion = me.defaultSchemaVersion;
+    }
+    // instead using input.$schema (if available)
+    // retrieve schema URL (from internal map) based on it's version
+    // so that we can have more control
+    // - during testing
+    // - easily digest any future change in schema URL / hosting
   }
 
   isValidFn(isValid) {
@@ -197,7 +181,7 @@ export class LicenseProfileEditorComponent implements OnInit {
   }
 
   saveLicenseProfile() {
-    const formData = this.licenseProfileForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     // - post license profile JSON data
     this.sendMessage({
       key: 'output',
@@ -213,8 +197,12 @@ export class LicenseProfileEditorComponent implements OnInit {
   }
 
   async downloadLicenseProfile(downloadType) {
-    const formData = this.licenseProfileForm.jsf.validData;
+    const formData = this.getLicenseProfileDataToSave();
     this.download(formData, downloadType);
+  }
+
+  getLicenseProfileDataToSave() {
+    return this.licenseProfileForm.jsf.validData;
   }
 
   // create a yaml (text) or json file from the json model

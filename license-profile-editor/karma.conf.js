@@ -56,6 +56,7 @@ module.exports = function (config) {
     },
     browsers: ['ChromeHeadless'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    browserNoActivityTimeout: 60000
   });
 };

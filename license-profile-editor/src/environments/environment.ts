@@ -24,8 +24,10 @@
 
 export const environment = {
   production: false,
-  schemaUrl: `/assets/license-profile.schema.json`
-
+  schemaVersionToUrlMap: {
+    '1.0.0': '/assets/schema/1.0.0/license-profile.json',
+    boreas: '/assets/schema/boreas/license-profile.json'
+  }
 };
 
 /*

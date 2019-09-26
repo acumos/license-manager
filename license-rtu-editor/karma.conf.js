@@ -37,6 +37,7 @@ module.exports = function (config) {
     },
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    browserNoActivityTimeout: 60000
   });
 };

@@ -35,6 +35,9 @@ import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
  */
 export class LicenseRtuEditorComponent implements OnInit {
 
+  // default version supported by this component release
+  defaultSchemaVersion = '1.0.0';
+  schemaVersion = '1.0.0';
   title = 'Acumos Right to Use Editor';
   jsonSchema: any;
   formLayout: any = {};
@@ -76,11 +79,17 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   initIframeSetup() {
+    const me = this;
     // Listen to messages from parent window
-    this.bindEvent(window, 'message', (event) => {
+    me.bindEvent(window, 'message', (event) => {
       if (event.data.key === 'input') {
-        this.jsonData = event.data.value;
+        me.doSetup(event.data.value);
       }
+    });
+    console.log('license-rtu-editor: iframe init - send message');
+    me.sendMessage({
+      key: 'init_iframe',
+      value: ''
     });
   }
 
@@ -98,18 +107,23 @@ export class LicenseRtuEditorComponent implements OnInit {
         this.mode = this.queryParams.mode;
       }
     }
+
+    this.doSetup(this.jsonData);
+
     if (this.mode === 'iframe') {
       this.initIframeSetup();
     }
 
-    // load assets/rtu-schema.json
-    this.service.getSchema().subscribe((data) => {
-      this.jsonSchema = data;
-    });
+  }
 
-    this.jsonFormOptions = {
+  doSetup(input: any) {
+
+    const me = this;
+
+    me.jsonFormOptions = {
       addSubmit: false, // Add a submit button if layout does not have one
-      debug: false,
+      //  debug: true, // Don't show inline debugging information
+      //   loadExternalAssets: true, // Load external css and JavaScript for frameworks
       returnEmptyFields: false, // Don't return values for empty input fields
       setSchemaDefaults: true, // Always use schema defaults for empty fields
       defautWidgetOptions: {
@@ -118,156 +132,51 @@ export class LicenseRtuEditorComponent implements OnInit {
       }
     };
 
-    this.formLayout = [
-      { type: 'flex', 'flex-flow': 'row wrap' },
-      {
-        key: 'target',
-        type: 'fieldset',
-        items: [{
-          key: 'target.refinement',
-          type: 'array',
-          listItems: 1,
-          items: [{
-            type: 'div',
-            displayFlex: true,
-            'flex-flow': 'row wrap',
-            items: [{
-              key: 'target.refinement[].leftOperand'
-            },
-            {
-              key: 'target.refinement[].operator'
-            },
-            {
-              key: 'target.refinement[].rightOperand',
-              type: 'array',
-              items: [
-                {
-                  key: 'target.refinement[].rightOperand[]'
-                }
-              ]
-            }]
-          }]
-        }]
-      },
-      {
-        key: 'assigner',
-        type: 'fieldset',
-        items: [
-          'assigner.vcard:fn',
-          'assigner.vcard:hasUrl',
-          'assigner.vcard:hasEmail',
+    me.initSchemaMetadata(input);
+    me.service.getSchema(me.schemaVersion).subscribe((schema) => {
+      me.service.getLayout(me.schemaVersion).subscribe((layout) => {
+        me.jsonSchema = schema;
+        me.formLayout = layout;
+        if (input && !input.$schema) {
+          input.$schema = me.service.getSchemaUrl(me.schemaVersion);
+        }
+        me.jsonData = input;
+      });
+    });
+  }
 
-        ]
-      },
-      {
-        key: 'assignee',
-        type: 'fieldset',
-        items: [
-          'assignee.vcard:fn',
-          // 'assignee.uid',
-          'assignee.vcard:hasUrl',
-          'assignee.vcard:hasEmail',
-          {
-            key: 'assignee.refinement',
-            type: 'array',
-            listItems: 0,
-            items: [{
-              key: 'assignee.refinement[].@type',
-              condition: 'false'
-            }, {
-              type: 'div',
-              displayFlex: true,
-              'flex-flow': 'row wrap',
-              key: 'assignee.refinement[]',
-              items: [{
-                key: 'assignee.refinement[].leftOperand'
-              },
-              {
-                key: 'assignee.refinement[].operator'
-              },
-              {
-                key: 'assignee.refinement[].rightOperand.@value'
-              }]
-            }]
-          }
-        ]
-      },
-      {
-        key: 'permission',
-        type: 'array',
-        listItems: 1,
-        items: [{
-          type: 'div',
-          display: 'flex',
-          'flex-flow': 'row wrap',
-          items: [
-            {
-              key: 'permission[].action',
-              flex: '1 1 auto',
-            }, {
-              key: 'permission[].constraint',
-              type: 'array',
-              listItems: 0,
-              flex: '3 3 auto',
-              items: [{
-                key: 'permission[].constraint[].@type',
-                condition: 'false'
-              }, {
-                type: 'div',
-                display: 'flex',
-                'flex-flow': 'row wrap',
-                'justify-content': 'flex-start',
-                key: 'permission[].constraint[]',
-                items: [
-                {
-                  key: 'permission[].constraint[].leftOperand',
-                  flex: '1 1 auto'
-                },
-                {
-                  key: 'permission[].constraint[].operator',
-                  flex: '1 1 auto'
-                },
-                {
-                  key: 'permission[].constraint[].rightOperand',
-                  type: 'div',
-                  display: 'flex',
-                  flex: '2 2 auto',
-                  'flex-flow': 'col wrap',
-                  notitle: true,
-                  items: [
-                    {
-                      key: 'permission[].constraint[].rightOperand.@value'
-                    }, {
-                      key: 'permission[].constraint[].rightOperand.@type'
-                    }
-                  ]
-                }]
-              }]
-            },
-          ]
-        }]
-      },
-      {
-        key: 'prohibition',
-        type: 'array',
-        listItems: 0,
-        items: [
-          {
-            key: 'prohibition[].@type',
-            condition: 'false'
-          },
-          {
-            key: 'prohibition[].action'
-          }
-        ]
-      }
-    ];
+  /**
+   * Schema URL scheme/pattern
+   * http://{{HOST}}/{{SUB_PATH}}/schema/{{VERSION}}/rtu-agreement.json
+   */
+  initSchemaMetadata(input: any) {
+    const me = this;
+    // - derive $schema from the input data
+    // - if $schema found then
+    //   - derive schema version from the $schema URL
+    // - else use the default schema version
+
+    // - find respective schema URL from the schemaVersion map
+
+    if (input && input.$schema) {
+      // derive version from the schema path
+      const schemaMetadata = me.service.getSchemaMetadata(input.$schema);
+      me.schemaVersion = schemaMetadata.version ? schemaMetadata.version : me.defaultSchemaVersion;
+    } else {
+      me.schemaVersion = me.defaultSchemaVersion;
+    }
+    // instead using input.$schema (if available)
+    // retrieve schema URL (from internal map) based on it's version
+    // so that we can have more control
+    // - during testing
+    // - easily digest any future change in schema URL / hosting
   }
 
   showExample(id: string) {
-    this.service.getSample(id).subscribe((data) => {
-      this.rtuEditorForm.formInitialized = false;
-      this.jsonData = data;
+    const me = this;
+    me.service.getSample(id).subscribe((data) => {
+      me.rtuEditorForm.formInitialized = false;
+      me.doSetup(data);
     });
   }
 
@@ -283,7 +192,7 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   saveRTU() {
-    const formData = this.getLicenseProfileDataToSave();
+    const formData = this.getLicenseRtuDataToSave();
     // - post license profile JSON data
     this.sendMessage({
       key: 'output',
@@ -299,11 +208,11 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   async downloadRTU() {
-    const formData = this.getLicenseProfileDataToSave();
+    const formData = this.getLicenseRtuDataToSave();
     this.download(formData);
   }
 
-  getLicenseProfileDataToSave() {
+  getLicenseRtuDataToSave() {
     const formData = this.rtuEditorForm.jsf.validData;
     if (formData) {
       this.addUIDIfMissing(formData);
