@@ -20,21 +20,88 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LicenseProfileServiceService {
-  schemaUrl: string;
+
+  schemaRegex = /(.*)\/schema\/(.*)\/(.*)/;
+  schemaVersionToLayoutPathMap = {
+    '1.0.0': '/assets/layouts/layout-1.0.0.json',
+    boreas: '/assets/layouts/layout-boreas.json'
+  };
+  schemaCache: any = {};
+  schemaLayoutCache: any = {};
+
   constructor(private http: HttpClient) {
-    // tslint:disable-next-line:max-line-length
-    this.schemaUrl = environment.schemaUrl;
   }
 
-  getSchema(): any {
-    return this
-      .http
-      .get(`${this.schemaUrl}`);
+  /**
+   * Schema URL scheme/pattern
+   * http://<HOST>/<SUB_PATH>/schema/<VERSION>/license-profile.json
+   */
+  getSchemaMetadata(schemaUrl: string): any {
+    const matches = schemaUrl.match(this.schemaRegex);
+    const metadata: any = {};
+    if (matches && matches.length === 4) {
+      metadata.fullUrl = matches[0];
+      metadata.parentPath = matches[1];
+      metadata.version = matches[2];
+      metadata.fileName = matches[3];
+    }
+    return metadata;
+  }
+
+  /**
+   */
+  getSchemaUrl(schemaVersion: string): string {
+    return environment.schemaVersionToUrlMap[schemaVersion];
+  }
+
+  /**
+   * Schema URL scheme/pattern
+   * http://<HOST>/<SUB_PATH>/schema/<VERSION>/license-profile.json
+   */
+  getSchema(schemaVersion: string): Observable<any> {
+    const me = this;
+    return new Observable((subscriber) => {
+      const schema = me.schemaCache[schemaVersion];
+      if (schema) {
+        subscriber.next(schema);
+      } else {
+        const schemaUrl = me.getSchemaUrl(schemaVersion);
+        // load schema
+        me.http.get(`${schemaUrl}`).subscribe(schemaData => {
+          // set it to the local map for reuse
+          me.schemaCache[schemaVersion] = schemaData;
+          subscriber.next(schemaData);
+        });
+      }
+      return { unsubscribe() { } };
+    });
+  }
+
+  getLayout(schemaVersion: string): Observable<any> {
+    const me = this;
+    return new Observable((subscriber) => {
+      const layout = me.schemaLayoutCache[schemaVersion];
+      if (layout) {
+        subscriber.next(layout);
+      } else {
+        // load layout
+        const layoutUrl = me.schemaVersionToLayoutPathMap[schemaVersion];
+        if (layoutUrl) {
+          me.http.get(`${layoutUrl}`).subscribe(layoutData => {
+            // set it to the local map for reuse
+            me.schemaLayoutCache[schemaVersion] = layoutData;
+            subscriber.next(layoutData);
+          });
+        }
+      }
+      return { unsubscribe() { } };
+    });
   }
 }

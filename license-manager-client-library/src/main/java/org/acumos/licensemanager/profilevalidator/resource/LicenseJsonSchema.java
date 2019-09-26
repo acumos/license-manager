@@ -26,6 +26,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.acumos.licensemanager.profilevalidator.model.SchemaMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,14 +42,41 @@ public final class LicenseJsonSchema {
   private static final Logger LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  /** Do not instantiate. */
-  private LicenseJsonSchema() {}
-
-  /** Name of the json schema for license. */
-  private static final String JSONSCHEMANAME = "/license-profile.schema.json";
+  /** LicenceProfile schema version map */
+  private static Map<String, String> schemaVersionToUrlMap =
+      new HashMap<String, String>(
+          Map.ofEntries(
+              new AbstractMap.SimpleEntry<String, String>(
+                  "1.0.0", "/schema/1.0.0/license-profile.json"),
+              new AbstractMap.SimpleEntry<String, String>(
+                  "boreas", "/schema/boreas/license-profile.json")));
 
   /** JsonSchema object for validation of license schema. */
   private static JsonSchema jsonSchema;
+
+  private static Pattern schemaRegexPattern;
+
+  /** Do not instantiate. */
+  private LicenseJsonSchema() {}
+
+  /** Schema URL scheme/pattern http://<HOST>/<SUB_PATH>/schema/<VERSION>/license-profile.json */
+  public static SchemaMetadata getSchemaMetadata(String schemaUrl) {
+    if (schemaRegexPattern == null) {
+      schemaRegexPattern = Pattern.compile("(.*)\\/schema\\/(.*)\\/(.*)");
+    }
+    Matcher m = schemaRegexPattern.matcher(schemaUrl);
+    SchemaMetadata metadata = null;
+    if (m.find()) {
+      metadata = new SchemaMetadata(m.group(0), m.group(1), m.group(2), m.group(3));
+    }
+    // System.out.println("schema metadata ---- " + metadata);
+    return metadata;
+  }
+
+  /** */
+  private static String getSchemaUrl(String schemaVersion) {
+    return LicenseJsonSchema.schemaVersionToUrlMap.get(schemaVersion);
+  }
 
   /**
    * Get the license json schema as JsonSchema.
@@ -51,12 +84,16 @@ public final class LicenseJsonSchema {
    * @return a {@link com.networknt.schema.JsonSchema} object.
    * @throws java.io.IOException if any.
    */
-  public static JsonSchema getSchema() throws IOException {
+  public static JsonSchema getSchema(String schemaVersion) throws IOException {
     if (jsonSchema != null) {
       return jsonSchema;
     }
     JsonSchemaFactory factory = JsonSchemaFactory.getInstance();
-    URL schemaUrl = LicenseJsonSchema.class.getResource(JSONSCHEMANAME);
+    String schemaUrlPath = LicenseJsonSchema.getSchemaUrl(schemaVersion);
+    if (schemaUrlPath == null) {
+      throw new IOException("LicenseJsonSchema: Non-supported version " + schemaVersion);
+    }
+    URL schemaUrl = LicenseJsonSchema.class.getResource(schemaUrlPath);
     try (InputStream is = schemaUrl.openStream()) {
       jsonSchema = factory.getSchema(is);
     } catch (IOException e) {

@@ -110,7 +110,11 @@ $acumos-app-accent:  mat-palette($mat-acumos-accent, A200, A100, A400);
 $acumos-app-warn:    mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$acumos-app-theme: mat-light-theme($acumos-app-primary, $acumos-app-accent, $acumos-app-warn);
+// For 2nd argument > using the primary color reference (instead of passing
+// the accent color) as the angular material components like radio/checkboxes 
+// uses the mat-accent (as default) and as per Acumos style-guide radio/checkboxes
+// uses primary color. Hence, $acumos-app-primary passed for accent color.
+$acumos-app-theme: mat-light-theme($acumos-app-primary, $acumos-app-primary, $acumos-app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

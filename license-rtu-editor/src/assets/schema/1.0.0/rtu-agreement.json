@@ -7,6 +7,7 @@
   "required": [
     "@context",
     "@type",
+    "$schema",
     "target",
     "assignee",
     "assigner",
@@ -53,6 +54,10 @@
         ""
       ],
       "pattern": "^(.*)$"
+    },
+    "$schema": {
+      "type": "string",
+      "default": "http://<HOST>/<SUB_PATH>/schema/1.0.0/rtu-agreement.json"
     },
     "uid": {
       "$id": "#/properties/uid",

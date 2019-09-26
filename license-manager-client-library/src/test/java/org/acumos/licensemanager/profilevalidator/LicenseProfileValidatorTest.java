@@ -32,11 +32,28 @@ import java.io.InputStream;
 import java.util.Scanner;
 import org.acumos.licensemanager.profilevalidator.exceptions.LicenseProfileException;
 import org.acumos.licensemanager.profilevalidator.model.LicenseProfileValidationResults;
+import org.acumos.licensemanager.profilevalidator.model.SchemaMetadata;
+import org.acumos.licensemanager.profilevalidator.resource.LicenseJsonSchema;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 /** License Profile Json Validator Test. */
 public class LicenseProfileValidatorTest {
+
+  @Test
+  public void validSchemaMetadata() throws Exception {
+    SchemaMetadata schemaMetadata =
+        LicenseJsonSchema.getSchemaMetadata(
+            "http://<HOST>/<SUB_PATH>/schema/<VERSION>/license-profile.json");
+    assertEquals(
+        "fullUrl not matched",
+        schemaMetadata.getFullUrl(),
+        "http://<HOST>/<SUB_PATH>/schema/<VERSION>/license-profile.json");
+    assertEquals(
+        "parentPath not matched", schemaMetadata.getParentPath(), "http://<HOST>/<SUB_PATH>");
+    assertEquals("version not matched", schemaMetadata.getVersion(), "<VERSION>");
+    assertEquals("fileName not matched", schemaMetadata.getFileName(), "license-profile.json");
+  }
 
   @Test
   public void validLicenseJson() throws Exception {
