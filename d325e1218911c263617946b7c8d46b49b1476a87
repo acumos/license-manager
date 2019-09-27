@@ -16,6 +16,24 @@
       "revId": "d325e1218911c263617946b7c8d46b49b1476a87",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd9b07aa_acc79ba6",
+        "filename": "license-manager-client-library/src/test/java/org/acumos/licensemanager/profilevalidator/LicenseProfileValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-27T01:27:27Z",
+      "side": 1,
+      "message": "Current test cases are for clio version and more test cases added for boreas version.",
+      "parentUuid": "5494752b_f206d730",
+      "revId": "d325e1218911c263617946b7c8d46b49b1476a87",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
     }
   ]
 }
