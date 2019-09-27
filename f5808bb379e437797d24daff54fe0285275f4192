@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70a078bb_1ca09a5e",
+        "filename": "license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-27T01:27:27Z",
+      "side": 1,
+      "message": "$schema value used to pick up schema version and LMCL API / License Editor picks up respective schema path (until the hosting location is finalized)",
+      "parentUuid": "3063f81c_f78430e5",
+      "revId": "f5808bb379e437797d24daff54fe0285275f4192",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38eb1461_4f9b13eb",
         "filename": "license-profile-editor/karma.conf.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e3439cfb_98132d67",
+        "filename": "license-profile-editor/karma.conf.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-27T01:27:27Z",
+      "side": 1,
+      "message": "added",
+      "parentUuid": "38eb1461_4f9b13eb",
+      "revId": "f5808bb379e437797d24daff54fe0285275f4192",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67bbb50e_515ea16f",
         "filename": "license-rtu-editor/src/assets/exampledata/example001.json",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2019-09-26T23:03:49Z",
       "side": 1,
       "message": "we should just use base path vs passing in a path... \n\nhttps://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/\n\nfor now.",
+      "revId": "f5808bb379e437797d24daff54fe0285275f4192",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae4bd1f1_c040783d",
+        "filename": "license-rtu-editor/src/assets/exampledata/example001.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-09-27T01:27:27Z",
+      "side": 1,
+      "message": "For RTU editor \u003e this may be hosted to public URL and above is the pattern for schema URL.\nThe $schema value is used to pick up schema version and License RTU Editor picks up respective schema path (until the hosting location is finalized)",
+      "parentUuid": "67bbb50e_515ea16f",
       "revId": "f5808bb379e437797d24daff54fe0285275f4192",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": true
