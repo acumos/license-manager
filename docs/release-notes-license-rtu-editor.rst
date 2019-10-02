@@ -22,6 +22,11 @@
 License RTU Editor Release Notes
 ============================================
 
+Version 0.0.4 01 Oct 2019
+--------------------------
+* Support to process & render diff versions of license
+  RTU documents - `ACUMOS-3494 <https://jira.acumos.org/browse/ACUMOS-3494>`_
+
 Version 0.0.3 20 Sep 2019
 --------------------------
 * Provide a webform editor to create RTU Agreement `ACUMOS-3310 <https://jira.acumos.org/browse/ACUMOS-3310>`_

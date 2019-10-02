@@ -57,9 +57,10 @@ export class LicenseProfileServiceService {
       } else if (input && input.modelLicenses) {
         schemaUrl = environment.boreasSchemaUrl;
       } else {
-        errors.push('The given document is missing $schema field.');
-        subscriber.error(errors);
-        return;
+        // applicable to default license profile templates OR
+        // any input data (clio+) without $schema value
+        // defaults to the schema supported by this editor instance
+        schemaUrl = input.$schema = environment.schemaUrl;
       }
 
       me.getUrlData(schemaUrl).subscribe((schema) => {
