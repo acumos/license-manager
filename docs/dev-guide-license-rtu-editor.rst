@@ -60,10 +60,10 @@ Build Instructions
 
 3. Build via this command:
 
-   ``mvn clean install``
+   ``npm run build``
 
-4. Above command builds
-   ``license-rtu-editor``
-   docker image.
+4. Command to build docker image:
+   ``docker build -t acumos/license-rtu-editor:<<VERSION>> .``
+
 
 

@@ -22,6 +22,11 @@
 License Manager Client Library Release Notes
 ============================================
 
+Version 1.1.0 01 Oct 2019
+--------------------------
+* Support to parse & validate diff versions (latest and boreas releases)
+  of license profile documents - `ACUMOS-3494 <https://jira.acumos.org/browse/ACUMOS-3494>`_
+
 Version 1.0.0 23 Sept 2019
 ---------------------------
 
