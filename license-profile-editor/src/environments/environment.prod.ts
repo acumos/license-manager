@@ -24,7 +24,7 @@ export const environment = {
   schemaUrl: 'https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json',
   boreasSchemaUrl: 'https://raw.githubusercontent.com/acumos/security-verification/boreas/license-manager-client-library/src/main/resources/license.schema.json',
   layoutVersionToUrlMap: {
-    '1.0.0': '/assets/layouts/1.0.0/layout.json',
-    boreas: '/assets/layouts/boreas/layout.json'
+    '1.0.0': 'assets/layouts/1.0.0/layout.json',
+    boreas: 'assets/layouts/boreas/layout.json'
   }
 };

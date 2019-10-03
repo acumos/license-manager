@@ -21,7 +21,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { LicenseRtuMetaService } from '../license-rtu-meta.service';
 import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
-import { environment } from '../../environments/environment';
 import { APP_VERSION } from '../../environments/app.version';
 
 @Component({

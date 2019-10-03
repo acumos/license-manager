@@ -26,7 +26,7 @@ export const environment = {
   production: false,
   schemaUrl: '/assets/schema/1.0.0/rtu-agreement.json',
   layoutVersionToUrlMap: {
-    '1.0.0': '/assets/layouts/1.0.0/layout.json'
+    '1.0.0': 'assets/layouts/1.0.0/layout.json'
   }
 };
 

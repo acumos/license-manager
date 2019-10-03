@@ -25,6 +25,6 @@ export const environment = {
   // tslint:disable-next-line:max-line-length
   schemaUrl: 'https://raw.githubusercontent.com/acumos/license-manager/master/license-rtu-editor/src/assets/schema/1.0.0/rtu-agreement.json',
   layoutVersionToUrlMap: {
-    '1.0.0': '/assets/layouts/1.0.0/layout.json'
+    '1.0.0': 'assets/layouts/1.0.0/layout.json'
   }
 };
