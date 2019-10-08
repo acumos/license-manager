@@ -23,6 +23,9 @@
     <span>Acumos License Profile Editor</span>
     <span class="version">v{{appVersion}}</span>
     <span style="flex: 1 1 auto;"></span>
+
+    <mat-icon *ngIf="mode === 'iframe'" class="close"
+      svgIcon="close" (click)="cancelLicenseProfile()"></mat-icon>
   </mat-toolbar>
 
   <mat-card>

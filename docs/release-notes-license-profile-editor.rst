@@ -22,8 +22,16 @@
 License Profile Editor Release Notes
 ============================================
 
+Version 0.0.6 09 Oct 2019 
+-------------------------
+*  Integration changes with clio `ACUMOS-3538 <https://jira.acumos.org/browse/ACUMOS-3538>`_
+  -  Show close icon (in iframe mode) to close the editor
+  -  Some of the fields with possible longer text > show as text area field
+    - Introduction, Company URL
+  -  Put the base version of app.version.ts in source repo so that editor can run in non-build environment like stackblitz
+
 Version 0.0.5 03 Oct 2019
---------------------------
+-------------------------
 * License Profile editor - fix layout path - `ACUMOS-3494 <https://jira.acumos.org/browse/ACUMOS-3494>`_
 
 Version 0.0.4 01 Oct 2019

@@ -23,7 +23,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LicenseProfileEditorComponent } from './license-profile-editor.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatGridListModule } from '@angular/material';
+import { MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatGridListModule, MatIconModule } from '@angular/material';
 import { MaterialDesignFrameworkModule } from '@earlyster/angular6-json-schema-form';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -40,7 +40,9 @@ describe('LicenseProfileEditorComponent', () => {
         MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,
         MatGridListModule,
         MaterialDesignFrameworkModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatIconModule,
+
       ]
     })
     .compileComponents();
