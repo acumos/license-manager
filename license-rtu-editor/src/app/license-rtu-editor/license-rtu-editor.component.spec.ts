@@ -27,6 +27,7 @@ import { MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, Ma
 import { MaterialDesignFrameworkModule } from '@earlyster/angular6-json-schema-form';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatMenuModule } from '@angular/material/menu';
+import { FormsModule } from '@angular/forms';
 
 describe('LicenseRtuEditorComponent', () => {
   let component: LicenseRtuEditorComponent;
@@ -38,6 +39,7 @@ describe('LicenseRtuEditorComponent', () => {
       declarations: [ LicenseRtuEditorComponent ],
       imports: [
         BrowserModule,
+        FormsModule,
         MatMenuModule,
         BrowserAnimationsModule,
         MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,

@@ -1,8 +1,9 @@
 {
   "name": "license-rtu-editor",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "ng": "ng",
+    "prestart": "npm run prebuild",
     "start": "ng serve",
     "prebuild": "node src/version.js",
     "build": "ng build",

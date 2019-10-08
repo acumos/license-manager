@@ -30,11 +30,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MaterialDesignFrameworkModule, ɵb as Framework } from '@earlyster/angular6-json-schema-form';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatMenuModule,
     MatIconModule,
     MaterialDesignFrameworkModule,
-    HttpClientModule
+    MatSnackBarModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     {

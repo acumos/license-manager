@@ -22,6 +22,14 @@
 License RTU Editor Release Notes
 ============================================
 
+Version 0.0.6 09 Oct 2019 
+-------------------------
+*  Integration changes with clio `ACUMOS-3538 <https://jira.acumos.org/browse/ACUMOS-3538>`_
+  - Show UI field to enter LUM server URL
+  - Ability to save the RTU document to LUM server
+  - Changes to RTU document as per LUM API expectations
+  -  Put the base version of app.version.ts in source repo so that editor can run in non-build environment like stackblitz
+
 Version 0.0.5 03 Oct 2019
 --------------------------
 * License RTU editor - fix layout path - `ACUMOS-3494 <https://jira.acumos.org/browse/ACUMOS-3494>`_

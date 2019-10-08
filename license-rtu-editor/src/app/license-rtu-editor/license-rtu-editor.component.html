@@ -25,7 +25,6 @@
 <mat-card>After an agreement is reached you can use this web form to create a right use your model.</mat-card>
 
 <mat-card>
-  <h3>Here is a form to help you start:</h3>
 
   <mat-menu #appMenu="matMenu">
     <button mat-menu-item (click)="showExample('example001.json')">
@@ -41,12 +40,7 @@
       Allow all software from public catalogs
     </button>
     <button mat-menu-item [matMenuTriggerFor]="faceDetectModel">Face Detect Model</button>
-
-
   </mat-menu>
-  <button mat-button [matMenuTriggerFor]="appMenu">
-    Examples
-  </button>
 
   <mat-menu #faceDetectModel="matMenu">
     <button mat-menu-item (click)="showExample('example005.json')">
@@ -62,6 +56,10 @@
   </mat-menu>
 
   <div *ngFor="let error of errors" class="error">{{error}}</div>
+  <button mat-raised-button color="accent"
+    [matMenuTriggerFor]="appMenu" style="margin-bottom: 15px;">
+    Examples
+  </button>
 
   <json-schema-form *ngIf="rtuFormInput" 
     [form]="rtuFormInput"
@@ -69,15 +67,17 @@
     loadExternalAssets="false"
     (isValid)="isValidFn($event)">
   </json-schema-form>
-  <!----  <h4>Submitted data:</h4> -->
-  <!-- <pre *ngIf="!displayData">(none)</pre>
-      <pre *ngIf="displayData">{{displayData | json}}</pre> -->
 
-  <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
-    [disabled]="!isValid" (click)="downloadRTU()">Download</button>
-  <button *ngIf="mode === 'iframe'" mat-raised-button color="primary"
-    [disabled]="!isValid" (click)="saveRTU()">Save</button>
-  <button *ngIf="mode === 'iframe'" mat-raised-button class="cancel-btn"
-    (click)="cancelRTU()">Cancel</button>
-
+  <div class="save-container">
+    <h4>Save / Download</h4>
+    <div>
+      <mat-form-field class="lum-url-field">
+        <input matInput [(ngModel)]="lumServerUrl" placeholder="License Usage Manager server URL">
+      </mat-form-field>
+      <button mat-raised-button color="primary"
+        [disabled]="!isValid || !lumServerUrl" (click)="saveRTU()" class="save-field">Save</button>
+      <button mat-raised-button color="primary"
+        [disabled]="!isValid" (click)="downloadRTU()" class="save-field">Download</button>
+    </div>
+  </div>
 </mat-card>
