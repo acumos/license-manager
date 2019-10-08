@@ -19,6 +19,8 @@
  */
 
 import { Component, OnInit, ViewEncapsulation, ViewChild, Input } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { LicenseProfileServiceService } from '../license-profile-service.service';
 import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
 import { APP_VERSION } from '../../environments/app.version';
@@ -41,7 +43,14 @@ export class LicenseProfileEditorComponent implements OnInit {
 
   @Input() mode: string;
 
-  constructor(private service: LicenseProfileServiceService) { }
+  constructor(private matIconRegistry: MatIconRegistry,
+              private domSanitizer: DomSanitizer,
+              private service: LicenseProfileServiceService) {
+    this.matIconRegistry.addSvgIcon(
+      `close`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/close.svg')
+    );
+  }
 
   /**
    * JavaScript Get URL Parameter parsing

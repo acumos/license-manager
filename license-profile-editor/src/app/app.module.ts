@@ -29,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule, MatToolbarModule, MatInputModule, MatGridListModule } from '@angular/material';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { MaterialDesignFrameworkModule, ɵb as Framework } from '@earlyster/angular6-json-schema-form';
 import { HttpClientModule } from '@angular/common/http';
@@ -44,6 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,
     MatGridListModule,
     MaterialDesignFrameworkModule,
+    MatIconModule,
     HttpClientModule
   ],
   providers: [

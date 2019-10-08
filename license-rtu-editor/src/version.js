@@ -40,7 +40,7 @@ getLastCommit(function(err, commit) {
         fs.unlinkSync(file);
     }
     writeFileSync(file,
-`// NOTICE: AUTO GENERATED FILE DURING "NPM INSTALL"! DO NOT MANUALLY EDIT OR CHECKIN!
+`// NOTICE: AUTO GENERATED FILE DURING "npm run prebuild"! DO NOT MANUALLY EDIT OR CHECKIN!
 /* tslint:disable */
 export const APP_VERSION = ${JSON.stringify(commit, null, 4)};
 /* tslint:enable */

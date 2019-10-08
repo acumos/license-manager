@@ -22,6 +22,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { LicenseRtuMetaService } from '../license-rtu-meta.service';
 import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
 import { APP_VERSION } from '../../environments/app.version';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-license-rtu-editor',
@@ -44,11 +45,13 @@ export class LicenseRtuEditorComponent implements OnInit {
   rtuFormInput: any;
   rtuEditorForm: JsonSchemaFormComponent;
   queryParams: any = {};
+  lumServerUrl = '/lum';
 
   @Input() mode: string;
 
 
-  constructor(private service: LicenseRtuMetaService) { }
+  constructor(private service: LicenseRtuMetaService,
+              private snackBar: MatSnackBar) { }
 
   /**
    * JavaScript Get URL Parameter parsing
@@ -162,11 +165,7 @@ export class LicenseRtuEditorComponent implements OnInit {
 
   saveRTU() {
     const formData = this.getLicenseRtuDataToSave();
-    // - post license profile JSON data
-    this.sendMessage({
-      key: 'output',
-      value: formData
-    });
+    this.putData(formData);
   }
 
   cancelRTU() {
@@ -181,12 +180,29 @@ export class LicenseRtuEditorComponent implements OnInit {
     this.download(formData);
   }
 
+  addLumWrapperObjects(formData) {
+    // add wrapper object
+    const licensor = formData.assigner['vcard:fn'];
+    const agreementId = formData.uid;
+    return {
+      assetUsageAgreement: {
+        softwareLicensorId: licensor,
+        assetUsageAgreementId: agreementId,
+        // supplier agreement
+        agreement: formData
+      }
+    };
+  }
+
   getLicenseRtuDataToSave() {
     const formData = this.rtuEditorForm.jsf.validData;
+    let lumRtuData;
     if (formData) {
-      this.addUIDIfMissing(formData);
+      const dataToSave = Object.assign({}, formData);
+      this.addUIDIfMissing(dataToSave);
+      lumRtuData = this.addLumWrapperObjects(dataToSave);
     }
-    return formData;
+    return lumRtuData;
   }
 
   /**
@@ -205,7 +221,6 @@ export class LicenseRtuEditorComponent implements OnInit {
     } else {
       formData.uid = encodeURI(formData.uid);
     }
-
 
     if (formData.permission) {
       formData.permission.forEach(rule => {
@@ -228,8 +243,6 @@ export class LicenseRtuEditorComponent implements OnInit {
 
       });
     }
-
-
   }
 
   createUID(type: string, companyName: string): string {
@@ -244,7 +257,6 @@ export class LicenseRtuEditorComponent implements OnInit {
     );
   }
 
-
   // create a yaml (text) or json file from the json model
   async download(formData) {
     // save as json
@@ -253,6 +265,43 @@ export class LicenseRtuEditorComponent implements OnInit {
     const fileName = 'rtu.json';
 
     this.downloadFile(data, mimeType, fileName);
+
+  }
+
+  async putData(formData) {
+    const me = this;
+    const url = this.lumServerUrl + '/api/v1/asset-usage-agreement/?assetUsageAgreementId=' + formData.assetUsageAgreement.assetUsageAgreementId;
+    try {
+      // Default options are marked with *
+      const response = await fetch(url, {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(formData) // body data type must match "Content-Type" header
+      });
+      const data = await response.json(); // parses JSON response into native JavaScript objects
+      if (!data || data.error) {
+        me.showSnackBar('Failed to save RTU document to LUM server', 'Retry');
+      } else {
+        me.showSnackBar('RTU document saved to LUM server');
+      }
+      return data;
+    } catch (err) {
+      me.showSnackBar('Failed to save RTU document to LUM server', 'Retry');
+    }
+  }
+
+  showSnackBar(message: string, action: string = '') {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: 'acumos-snackbar'
+    });
   }
 
   downloadFile(data: any, mimeType: { type: string }, filename: string) {
