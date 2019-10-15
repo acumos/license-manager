@@ -18,11 +18,17 @@
  * ===============LICENSE_END==================================================
  */
 
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { LicenseRtuMetaService } from '../license-rtu-meta.service';
 import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
 import { APP_VERSION } from '../../environments/app.version';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment';
+
+export enum ViewType {
+  SUP = 'SUP', // supplier
+  SUB = 'SUB' // subscriber
+}
 
 @Component({
   selector: 'app-license-rtu-editor',
@@ -44,14 +50,26 @@ export class LicenseRtuEditorComponent implements OnInit {
   errors: string[];
   rtuFormInput: any;
   rtuEditorForm: JsonSchemaFormComponent;
+  softwareLicensorIdEl: ElementRef;
+  assetUsageAgreementIdEl: ElementRef;
   queryParams: any = {};
   lumServerUrl = '/lum';
+  viewType = ViewType.SUP;
+  rtuLumAgreement: any;
+  reviewRtuAgreementChecked: boolean;
+  userId: string;
 
   @Input() mode: string;
 
 
   constructor(private service: LicenseRtuMetaService,
-              private snackBar: MatSnackBar) { }
+              private snackBar: MatSnackBar) {
+
+    if (!environment.production) {
+      this.lumServerUrl = 'http://localhost:2080';
+    }
+    this.resetData();
+  }
 
   /**
    * JavaScript Get URL Parameter parsing
@@ -100,37 +118,70 @@ export class LicenseRtuEditorComponent implements OnInit {
 
   ngOnInit() {
 
+    const me = this;
     // attempt to read mode value from the query param, if not given as input
-    if (!this.mode) {
-      this.initQueryParams();
-      if (this.queryParams.mode) {
-        this.mode = this.queryParams.mode;
+    if (!me.mode) {
+      me.initQueryParams();
+      if (me.queryParams.mode) {
+        me.mode = me.queryParams.mode;
       }
     }
 
-    this.doSetup(this.service.getInitialData());
+    me.initSetup();
 
-    if (this.mode === 'iframe') {
-      this.initIframeSetup();
+    if (me.mode === 'iframe') {
+      me.initIframeSetup();
     }
 
   }
 
-  doSetup(input: any) {
+  initSetup() {
+    const me = this;
+    me.doSetup((me.viewType === ViewType.SUB) ?
+      me.service.getRtuRestrictionsInitialData()
+      : me.service.getRtuAgreementInitialData());
+  }
+
+  resetData() {
+    const me = this;
+    me.errors = [];
+    me.rtuFormInput = undefined;
+    me.rtuLumAgreement = {
+      assetUsageAgreement: {}
+    };
+    if (me.softwareLicensorIdEl) {
+      me.softwareLicensorIdEl.nativeElement.value = '';
+    }
+    if (me.assetUsageAgreementIdEl) {
+      me.assetUsageAgreementIdEl.nativeElement.value = '';
+    }
+    me.reviewRtuAgreementChecked = false;
+    me.userId = '';
+  }
+
+  resetSetup() {
+    const me = this;
+    me.resetData();
+    setTimeout(() => {
+      me.initSetup();
+    }, 1);
+  }
+
+  doSetup(input: any, options?: any) {
 
     const me = this;
     me.errors = [];
 
     me.service.getComponentInput(input).subscribe((compInput: any) => {
-      me.rtuFormInput = {
+      const formInputObj: any = {
         schema: compInput.schema,
         layout: compInput.layout,
         data: compInput.data,
         options: {
           addSubmit: false, // Add a submit button if layout does not have one
-          //  debug: true, // Don't show inline debugging information
-          //   loadExternalAssets: true, // Load external css and JavaScript for frameworks
-          //   returnEmptyFields: false, // Don't return values for empty input fields
+          // debug: true, // Don't show inline debugging information
+          // loadExternalAssets: true, // Load external css and JavaScript for frameworks
+          // returnEmptyFields: false, // Don't return values for empty input fields
           setSchemaDefaults: true, // Always use schema defaults for empty fields
           defautWidgetOptions: {
             feedback: true, // Show inline feedback icons
@@ -138,34 +189,242 @@ export class LicenseRtuEditorComponent implements OnInit {
           }
         }
       };
+      if (options) {
+        if (options.defautWidgetOptions) {
+          Object.assign(formInputObj.options.defautWidgetOptions, options.defautWidgetOptions);
+        }
+        if (options.isExampleData) {
+          formInputObj.isExampleData = true;
+        }
+      }
+      me.rtuFormInput = formInputObj;
     }, errors => {
       me.errors = errors;
     });
 
   }
 
+  onChangeViewType() {
+    this.resetSetup();
+  }
+
+  onChangeReviewRtuAgreement() {
+    this.applyRTULumAgreement(this.reviewRtuAgreementChecked);
+  }
+
+  onChangeUserId() {
+    this.isValidFn(this.rtuEditorForm.jsf.isValid);
+  }
+
   showExample(id: string) {
     const me = this;
-    me.service.getSample(id).subscribe((data) => {
+    me.service.getSample(id).subscribe((data: any) => {
       me.rtuEditorForm.formInitialized = false;
-      me.doSetup(data);
+      me.doSetup(data, {
+        isExampleData: true
+      });
     });
   }
 
-  isValidFn(isValid) {
-    this.isValid = isValid;
+  onImportRTUFile(event: any) {
+    if (!event || !event.target || !event.target.files) {
+      return;
+    }
+    const me = this;
+    me.errors = [];
+    if (typeof (FileReader) !== 'undefined') {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        const dataInput = e.target.result;
+        me.rtuEditorForm.formInitialized = false;
+        try {
+          const rtu = JSON.parse(dataInput);
+          let options;
+          if (me.viewType === ViewType.SUB) {
+            options = {
+              defautWidgetOptions: {
+                // For readonly form
+                addable: false,
+                removable: false,
+                readonly: true
+              }
+            };
+          }
+          me.resetData();
+          me.doSetup(rtu, options);
+          // reset input file field value so that attempting
+          // to import same file result in change notification
+          event.target.value = '';
+        } catch (e) {
+          me.errors.push('Failed reading / parsing the input file');
+        }
+      };
+
+      reader.readAsText(event.target.files[0]);
+    }
+  }
+
+  onImportRTULumAgreementFile(event: any) {
+    if (!event || !event.target || !event.target.files) {
+      return;
+    }
+    const me = this;
+    me.errors = [];
+    if (typeof (FileReader) !== 'undefined') {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        const dataInput = e.target.result;
+        me.rtuEditorForm.formInitialized = false;
+        try {
+          me.resetData();
+          const agreementData = JSON.parse(dataInput);
+
+          // initialize agreementRestriction
+          //   - copy agreement.uid
+          //   - copy permission and prohibitions from agreement
+          if (agreementData 
+              && agreementData.assetUsageAgreement) {
+            const usageAgreement = agreementData.assetUsageAgreement;
+            const agreement: any = usageAgreement.agreement;
+
+            let agreementRestriction: any = usageAgreement.agreementRestriction;
+            if (!agreementRestriction) {
+              agreementRestriction = me.service.getRtuRestrictionsInitialData();
+              usageAgreement.agreementRestriction = agreementRestriction;
+              agreementRestriction.uid = agreement.uid;
+            }
+            if (!agreementRestriction.permission
+                && agreement.permission) {
+              agreementRestriction.permission = [];
+              for (let permissionItem of agreement.permission) {
+                agreementRestriction.permission.push(JSON.parse(JSON.stringify(permissionItem)));
+              }
+            }
+            if (!agreementRestriction.prohibition
+                && agreement.prohibition) {
+              agreementRestriction.prohibition = [];
+              for (let prohibitionItem of agreement.prohibition) {
+                agreementRestriction.prohibition.push(JSON.parse(JSON.stringify(prohibitionItem)));
+              }
+            }
+          }
+
+          me.rtuLumAgreement = agreementData;
+          me.applyRTULumAgreement();
+          // reset input file field value so that attempting
+          // to import same file result in change notification
+          event.target.value = '';
+        } catch (e) {
+          me.errors.push('Failed reading / parsing the input file');
+        }
+      };
+
+      reader.readAsText(event.target.files[0]);
+    }
+  }
+
+  applyRTULumAgreement(showReviewRtuAgreement?: boolean) {
+    const me = this;
+    const data = me.rtuLumAgreement && me.rtuLumAgreement.assetUsageAgreement;
+
+    // prepare input based on agreementRestriction availibility
+    if (showReviewRtuAgreement
+        && data
+        && data.agreement) {
+      let options: any;
+      if (me.viewType === ViewType.SUB) {
+        options = {
+          defautWidgetOptions: {
+            // For readonly form
+            addable: false,
+            removable: false,
+            readonly: true
+          }
+        };
+      }
+      me.doSetup(data.agreement, options);
+    } else if (data
+        && data.agreementRestriction) {
+      me.doSetup(data.agreementRestriction);
+    } else {
+      me.initSetup();
+    }
+  }
+
+  isValidFn(isValid: boolean) {
+    const me = this;
+    if (!isValid) {
+      // if the form data not valid then set state
+      // and return
+      me.isValid = isValid;
+      return;
+    }
+    if (!me.userId) {
+      me.isValid = false;
+      return;
+    }
+    // if form is valid and viewType is SUB
+    // then check for softwareLicensorId and assetUsageAgreementId values
+    if (me.viewType === ViewType.SUB) {
+
+      if (me.reviewRtuAgreementChecked) {
+        me.isValid = false;
+        return;
+      }
+
+      if (me.softwareLicensorIdEl
+          && me.softwareLicensorIdEl.nativeElement.value
+          && me.assetUsageAgreementIdEl
+          && me.assetUsageAgreementIdEl.nativeElement.value) {
+        me.isValid = true;
+      } else {
+        me.isValid = false;
+      }
+    } else {
+      me.isValid = isValid;
+    }
   }
 
   @ViewChild(JsonSchemaFormComponent, { static: false })
   set rtuEditorFormCmp(cmp: JsonSchemaFormComponent) {
-    if (!this.rtuEditorForm && cmp) {
+    if (cmp) {
       this.rtuEditorForm = cmp;
     }
   }
 
+  @ViewChild('softwareLicensorId', { static: false })
+  set softwareLicensorIdInput(inputEl: ElementRef) {
+    if (inputEl) {
+      this.softwareLicensorIdEl = inputEl;
+    }
+  }
+
+  @ViewChild('assetUsageAgreementId', { static: false })
+  set assetUsageAgreementIdInput(inputEl: ElementRef) {
+    if (inputEl) {
+      this.assetUsageAgreementIdEl = inputEl;
+    }
+  }
+
   saveRTU() {
-    const formData = this.getLicenseRtuDataToSave();
-    this.putData(formData);
+    // perform save operation based on the
+    // current rendered state of the Editor
+    // - RTU agreement -> asset-usage-agreement
+    //   - prepare IDs and prepare request payload
+    // - RTU restriction -> asset-usage-agreement-restrictions
+    //   - extract the IDs and prepare request payload
+    const me = this;
+    const formData = me.getLicenseRtuDataToSave();
+    me.putData(formData);
+  }
+
+  getRTUAgreementData(softwareLicensorId: string,
+                      assetUsageAgreementId: string) {
+    const me = this;
+    me.resetData();
+    me.fetchRtuAgreementData(softwareLicensorId, assetUsageAgreementId);
   }
 
   cancelRTU() {
@@ -180,27 +439,52 @@ export class LicenseRtuEditorComponent implements OnInit {
     this.download(formData);
   }
 
-  addLumWrapperObjects(formData) {
+  addLumWrapperObjects(formData: any) {
     // add wrapper object
-    const licensor = formData.assigner['vcard:fn'];
-    const agreementId = formData.uid;
-    return {
-      assetUsageAgreement: {
-        softwareLicensorId: licensor,
-        assetUsageAgreementId: agreementId,
-        // supplier agreement
-        agreement: formData
-      }
-    };
+    const me = this;
+
+    if (me.rtuLumAgreement
+        && me.rtuLumAgreement.assetUsageAgreement
+        && me.rtuLumAgreement.assetUsageAgreement.agreement) {
+
+      // Object.assign({}, me.rtuLumAgreement);
+      const assetUsageAgreement = me.rtuLumAgreement.assetUsageAgreement;
+      const reqPayload = {
+        assetUsageAgreement: {
+          softwareLicensorId: assetUsageAgreement.softwareLicensorId,
+          assetUsageAgreementId: assetUsageAgreement.assetUsageAgreementId,
+          agreementRestriction: formData
+        },
+        // additional data prep
+        requestId: me.uuidv4(),
+        requested: (new Date()).toISOString(),
+        userId: me.userId
+      };
+
+      return reqPayload;
+    } else {
+      // add wrapper object
+      const licensor = formData.assigner['vcard:fn'];
+      const agreementId = formData.uid;
+      return {
+        assetUsageAgreement: {
+          softwareLicensorId: licensor,
+          assetUsageAgreementId: agreementId,
+          // supplier agreement
+          agreement: formData
+        }
+      };
+    }
   }
 
   getLicenseRtuDataToSave() {
+    const me = this;
     const formData = this.rtuEditorForm.jsf.validData;
-    let lumRtuData;
+    let lumRtuData: any;
     if (formData) {
       const dataToSave = Object.assign({}, formData);
-      this.addUIDIfMissing(dataToSave);
-      lumRtuData = this.addLumWrapperObjects(dataToSave);
+      me.addUIDIfMissing(dataToSave);
+      lumRtuData = me.addLumWrapperObjects(dataToSave);
     }
     return lumRtuData;
   }
@@ -208,39 +492,38 @@ export class LicenseRtuEditorComponent implements OnInit {
   /**
    * Auto generates the uid need by LUM
    * Makes sure that the values are encoded
-   * @param formData
+   * @param formData agreement data
    */
   addUIDIfMissing(formData: any) {
+    const me = this;
     // add uid to: agreement
     // get company name of software licensor from Assigner
-    const companyName = formData.assigner['vcard:fn'];
+    let agreementData = formData;
+    if (me.rtuLumAgreement
+        && me.rtuLumAgreement.assetUsageAgreement
+        && me.rtuLumAgreement.assetUsageAgreement.agreement) {
+      agreementData = me.rtuLumAgreement.assetUsageAgreement.agreement;
+    }
+    const companyName = agreementData.assigner['vcard:fn'];
     let type = '';
-    if (!formData.uid) {
+    if (!formData.uid || me.rtuFormInput.isExampleData) {
       type = 'agreement';
       formData.uid = this.createUID(type, companyName);
-    } else {
-      formData.uid = encodeURI(formData.uid);
     }
 
     if (formData.permission) {
       formData.permission.forEach(rule => {
-        if (!rule.uid) {
+        if (!rule.uid || me.rtuFormInput.isExampleData) {
           rule.uid = this.createUID('permission', companyName);
-        } else {
-          rule.uid = encodeURI(rule.uid);
         }
-
       });
     }
 
     if (formData.prohibition) {
       formData.prohibition.forEach(rule => {
-        if (!rule.uid) {
+        if (!rule.uid || me.rtuFormInput.isExampleData) {
           rule.uid = this.createUID('prohibition', companyName);
-        } else {
-          rule.uid = encodeURI(rule.uid);
         }
-
       });
     }
   }
@@ -258,19 +541,29 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   // create a yaml (text) or json file from the json model
-  async download(formData) {
+  async download(formData: any) {
     // save as json
-    const mimeType = { type: 'application/json' };
+    // const mimeType = { type: 'application/json' };
     const data = JSON.stringify(formData);
-    const fileName = 'rtu.json';
+    const fileName = 'rtu-agreement.json';
 
-    this.downloadFile(data, mimeType, fileName);
+    this.downloadFile(data, undefined, fileName);
 
   }
 
-  async putData(formData) {
+  async putData(formData: any) {
     const me = this;
-    const url = this.lumServerUrl + '/api/v1/asset-usage-agreement/?assetUsageAgreementId=' + formData.assetUsageAgreement.assetUsageAgreementId;
+    let url = me.lumServerUrl + '/api/v1/asset-usage-agreement';
+
+    if (me.rtuLumAgreement
+        && me.rtuLumAgreement.assetUsageAgreement
+        && me.rtuLumAgreement.assetUsageAgreement.agreement) {
+      // currently showing RTU LUM agreement and
+      // requesting to save restrictions
+      url += '-restriction';
+    }
+    url += '/?softwareLicensorId=' + formData.assetUsageAgreement.softwareLicensorId;
+    url += '&assetUsageAgreementId=' + formData.assetUsageAgreement.assetUsageAgreementId;
     try {
       // Default options are marked with *
       const response = await fetch(url, {
@@ -290,10 +583,45 @@ export class LicenseRtuEditorComponent implements OnInit {
         me.showSnackBar('Failed to save RTU document to LUM server', 'Retry');
       } else {
         me.showSnackBar('RTU document saved to LUM server');
+
+        // download response for agreementId reference
+        const rtuSaveResp = JSON.stringify(data);
+        const fileName = 'rtu-lum-agreement.json';
+
+        me.downloadFile(rtuSaveResp, undefined, fileName);
+
       }
       return data;
     } catch (err) {
       me.showSnackBar('Failed to save RTU document to LUM server', 'Retry');
+    }
+  }
+
+  async fetchRtuAgreementData(softwareLicensorId: string,
+                              assetUsageAgreementId: string) {
+    const me = this;
+    let url = me.lumServerUrl + '/api/v1/asset-usage-agreement';
+    url += '/?softwareLicensorId=' + softwareLicensorId;
+    url += '&assetUsageAgreementId=' + assetUsageAgreementId;
+    try {
+      // Default options are marked with *
+      const response = await fetch(url, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer' // no-referrer, *client
+      });
+      const data = await response.json(); // parses JSON response into native JavaScript objects
+      if (!data || data.error) {
+        me.showSnackBar('Failed to fetch RTU document from LUM server', 'Retry');
+      } else {
+        me.rtuLumAgreement = data;
+        me.applyRTULumAgreement();
+      }
+    } catch (err) {
+      me.showSnackBar('Failed to fetch RTU document from LUM server', 'Retry');
     }
   }
 
@@ -304,7 +632,7 @@ export class LicenseRtuEditorComponent implements OnInit {
     });
   }
 
-  downloadFile(data: any, mimeType: { type: string }, filename: string) {
+  downloadFile(data: any, mimeType: { type: string } = { type: 'application/json' }, filename: string) {
     const blob = new Blob([data], mimeType);
     const uri = window.URL.createObjectURL(blob);
 

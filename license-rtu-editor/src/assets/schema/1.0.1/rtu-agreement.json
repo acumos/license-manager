@@ -4,7 +4,8 @@
   "$id": "http://example.com/root.json",
   "type": "object",
   "title": "The Root Schema",
-  "version": "1.0.0",
+  "schemaType": "rtu",
+  "version": "1.0.1",
   "required": [
     "@context",
     "@type",

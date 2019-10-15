@@ -30,6 +30,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -49,8 +50,9 @@ import { FormsModule } from '@angular/forms';
     MatGridListModule,
     MatMenuModule,
     MatIconModule,
-    MaterialDesignFrameworkModule,
+    MatRadioModule,
     MatSnackBarModule,
+    MaterialDesignFrameworkModule,
     HttpClientModule,
     FormsModule
   ],

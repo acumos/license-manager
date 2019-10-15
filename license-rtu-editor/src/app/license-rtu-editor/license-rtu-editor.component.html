@@ -22,7 +22,7 @@
   <span [innerHTML]="title"></span>
   <span class="version"> v{{appVersion}}</span>
 </mat-toolbar>
-<mat-card>After an agreement is reached you can use this web form to create a right use your model.</mat-card>
+<mat-card>After an agreement is reached you can use this web form to create a right to use your model.</mat-card>
 
 <mat-card>
 
@@ -55,12 +55,70 @@
     </button>
   </mat-menu>
 
-  <div *ngFor="let error of errors" class="error">{{error}}</div>
-  <button mat-raised-button color="accent"
-    [matMenuTriggerFor]="appMenu" style="margin-bottom: 15px;">
-    Examples
-  </button>
-
+  <div *ngFor="let error of errors" class="rtu-ui-item error">{{error}}</div>
+  <div>
+    <div class="view-select-item">
+      <span style="font-weight: bold;">Select View:</span>&nbsp;
+      <mat-radio-group [(ngModel)]="viewType" (change)="onChangeViewType()">
+        <mat-radio-button value="SUP">Supplier</mat-radio-button>
+        &nbsp;
+        <mat-radio-button value="SUB">Subscriber</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="view-select-item">
+      <span style="font-weight: bold;">LUM Server:</span>&nbsp;
+      <mat-form-field class="lum-url-field">
+        <input matInput [(ngModel)]="lumServerUrl" placeholder="License Usage Manager server URL">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="rtu-ui-item examples-btn-bar">
+    <button *ngIf="viewType === 'SUP'" mat-raised-button color="accent"
+      [matMenuTriggerFor]="appMenu">
+      Examples
+    </button>
+    <button *ngIf="viewType === 'SUP'" mat-raised-button color="accent"
+      (click)="rtuFileImport.click()">
+      Import RTU
+    </button>
+    <input hidden type="file" #rtuFileImport
+      (change)="onImportRTUFile($event);"/>
+    <button *ngIf="viewType === 'SUB'" mat-raised-button color="accent"
+      (click)="rtuLumAgreementFileImport.click()">
+      Import RTU LUM Agreement
+    </button>
+    <input hidden type="file" #rtuLumAgreementFileImport
+      (change)="onImportRTULumAgreementFile($event);"/>
+    <button mat-raised-button (click)="resetSetup()">
+      Reset
+    </button>
+  </div>
+  <div *ngIf="viewType === 'SUB'">
+    <mat-form-field class="lum-url-field">
+      <input matInput #softwareLicensorId placeholder="Software Licensor ID *"
+        value="{{rtuLumAgreement.assetUsageAgreement.softwareLicensorId}}">
+    </mat-form-field>
+    <mat-form-field class="lum-url-field">
+      <input matInput #assetUsageAgreementId placeholder="Asset Usage Agreement ID *"
+        value="{{rtuLumAgreement.assetUsageAgreement.assetUsageAgreementId}}">
+    </mat-form-field>
+    &nbsp;
+    <button mat-raised-button color="primary"
+      [disabled]="!assetUsageAgreementId" class="save-field"
+      (click)="getRTUAgreementData(softwareLicensorId.value, assetUsageAgreementId.value)">
+      Get RTU LUM Agreement</button>
+  </div>
+  <div *ngIf="viewType === 'SUB'" class="rtu-ui-item">
+    <span style="font-weight: bold;">Select Action:</span>&nbsp;
+    <mat-radio-group [(ngModel)]="reviewRtuAgreementChecked"
+      [disabled]="!rtuLumAgreement || !rtuLumAgreement.assetUsageAgreement.agreement || !rtuLumAgreement.assetUsageAgreement.agreement"
+      (change)="onChangeReviewRtuAgreement()">
+      <mat-radio-button [value]="false">Add / Edit Restrictions</mat-radio-button>
+      &nbsp;
+      <mat-radio-button [value]="true">Review RTU Agreement</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  
   <json-schema-form *ngIf="rtuFormInput" 
     [form]="rtuFormInput"
     framework="acumos-material-design"
@@ -70,14 +128,16 @@
 
   <div class="save-container">
     <h4>Save / Download</h4>
+    <mat-form-field class="lum-url-field">
+      <input matInput [(ngModel)]="userId" placeholder="User ID *"
+        (input)="onChangeUserId($event)">
+    </mat-form-field>
     <div>
-      <mat-form-field class="lum-url-field">
-        <input matInput [(ngModel)]="lumServerUrl" placeholder="License Usage Manager server URL">
-      </mat-form-field>
       <button mat-raised-button color="primary"
-        [disabled]="!isValid || !lumServerUrl" (click)="saveRTU()" class="save-field">Save</button>
-      <button mat-raised-button color="primary"
-        [disabled]="!isValid" (click)="downloadRTU()" class="save-field">Download</button>
+        [disabled]="!isValid || !lumServerUrl"
+        (click)="saveRTU()">Save</button>
+      <button mat-raised-button color="primary" style="margin-left: 10px;"
+        [disabled]="!isValid" (click)="downloadRTU()">Download</button>
     </div>
   </div>
 </mat-card>
