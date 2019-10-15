@@ -36,9 +36,26 @@ export class LicenseRtuMetaService {
     this.exampleUrlBase = `assets/exampledata/`;
   }
 
-  getInitialData() {
+  getRtuAgreementInitialData() {
     return {
-      $schema: environment.schemaUrl
+      '@context': {
+        '@vocab': 'https://www.w3.org/ns/odrl.jsonld#',
+        vcard: 'http://www.w3.org/2006/vcard/ns#'
+      },
+      '@type': 'Agreement',
+      $schema: environment.schemaUrl,
+      assignee: {}
+    };
+  }
+
+  getRtuRestrictionsInitialData() {
+    return {
+      '@context': {
+        '@vocab': 'https://www.w3.org/ns/odrl.jsonld#',
+        vcard: 'http://www.w3.org/2006/vcard/ns#'
+      },
+      '@type': 'Agreement',
+      $schema: environment.restrictionsSchemaUrl
     };
   }
 
@@ -71,7 +88,11 @@ export class LicenseRtuMetaService {
         // find the respective layout based on the schema version
         let layoutUrl: string;
         if (schema.version) {
-          layoutUrl = environment.layoutVersionToUrlMap[schema.version];
+          let layoutIdentifier = schema.version;
+          if (schema.schemaType) {
+            layoutIdentifier += '-' + schema.schemaType;
+          }
+          layoutUrl = environment.layoutVersionToUrlMap[layoutIdentifier];
         } else {
           errors.push('The schema (' + schemaUrl + ') referenced by the document'
             + ' is missing the version field.');
