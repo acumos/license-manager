@@ -3,7 +3,7 @@
     "@vocab": "https://www.w3.org/ns/odrl.jsonld#",
     "vcard": "http://www.w3.org/2006/vcard/ns#"
   },
-  "$schema": "https://raw.githubusercontent.com/acumos/license-manager/master/license-rtu-editor/src/assets/schema/1.0.0/rtu-agreement.json",
+  "$schema": "https://raw.githubusercontent.com/acumos/license-manager/master/license-rtu-editor/src/assets/schema/1.0.1/rtu-agreement.json",
   "@type": "Agreement",
   "uid": "acumos://software-licensor/Company%25252520A/agreement/487b1c01-b017-4516-85bc-9ad9610dfa70",
   "assignee": {

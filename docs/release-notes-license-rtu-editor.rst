@@ -22,9 +22,38 @@
 License RTU Editor Release Notes
 ============================================
 
-Version 0.0.7 10 Oct 2019
+Version 0.0.7 16 Oct 2019
 -------------------------
-- Remove redundant property under refinements -  lum:swLicensor `ACUMOS-3553 <https://jira.acumos.org/browse/ACUMOS-3553>`_
+- Remove redundant property under refinements - lum:swLicensor `ACUMOS-3553 <https://jira.acumos.org/browse/ACUMOS-3553>`_
+- RTU editor changes for Supplier/Subscriber - `ACUMOS-3115 <https://jira.acumos.org/browse/ACUMOS-3115>`_
+
+  - As a Supplier, I can
+
+    - select / apply pre-defined RTU agreement examples
+    - import / apply sample RTU agreement from a file
+    - download RTU agreement editor changes to a file
+    - save RTU agreement to a LUM server and receive/download
+      RTU LUM agreement (asset usage agreement) from LUM
+
+  - As a Subscriber, I can
+
+    - import / apply RTU LUM agreement from a file
+    - fetch RTU LUM agreement from LUM server
+    - review (READ-ONLY) agreement from the RTU LUM agreement
+    - add / edit restrictions to RTU LUM agreement
+    - download RTU LUM agreement (restrictions) changes to a file
+    - save restrictions (of RTU LUM agreement) to LUM server
+
+  - schema changes - v1.0.1
+
+    - added new attribute "schemaType" to distinguish between the
+      RTU agreement and restrictions schema
+    - used the value of "schemaType" to identify respective layout
+    - added new schema for agreement "restrictions"
+
+  - layout changes - v1.0.1
+
+    - added layout for RTU agreement restrictions fields
 
 Version 0.0.6 09 Oct 2019
 -------------------------

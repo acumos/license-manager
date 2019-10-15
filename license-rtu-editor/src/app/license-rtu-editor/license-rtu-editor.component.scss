@@ -28,11 +28,24 @@
   padding-left: 5px;
 }
 
+.rtu-ui-item {
+  margin-bottom: 15px;
+}
+
+.examples-btn-bar > * {
+  margin-right: 10px;
+}
+
+.view-select-item {
+  display: inline-block;
+  width: 50%;
+}
+
 .error {
   background-color: #efefeF;
   color: #ff0000;
   font-size: 14px;
-  padding: 5px 5px;
+  padding: 0px 5px;
 }
 
 .save-container {
@@ -40,7 +53,5 @@
 }
 .lum-url-field {
   min-width: 300px;
-}
-.save-field {
-  margin-left: 10px;
+  width: 80%;
 }

@@ -24,9 +24,12 @@
 
 export const environment = {
   production: false,
-  schemaUrl: '/assets/schema/1.0.0/rtu-agreement.json',
+  schemaUrl: 'assets/schema/1.0.1/rtu-agreement.json',
+  restrictionsSchemaUrl: 'assets/schema/1.0.1/rtu-restrictions.json',
   layoutVersionToUrlMap: {
-    '1.0.0': 'assets/layouts/1.0.0/layout.json'
+    '1.0.0': 'assets/layouts/1.0.0/layout.json',
+    '1.0.1-rtu': 'assets/layouts/1.0.1/layout-rtu.json',
+    '1.0.1-restrictions': 'assets/layouts/1.0.1/layout-restrictions.json'
   }
 };
 
