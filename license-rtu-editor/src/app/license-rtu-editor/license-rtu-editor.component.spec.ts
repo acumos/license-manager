@@ -23,8 +23,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LicenseRtuEditorComponent } from './license-rtu-editor.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,
-   MatGridListModule, MatIconModule, MatSnackBarModule } from '@angular/material';
+import { MatCardModule, MatToolbarModule, MatFormFieldModule,
+         MatInputModule, MatButtonModule, MatRadioModule,
+         MatGridListModule, MatIconModule, MatSnackBarModule } from '@angular/material';
 import { MaterialDesignFrameworkModule } from '@earlyster/angular6-json-schema-form';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatMenuModule } from '@angular/material/menu';
@@ -44,6 +45,7 @@ describe('LicenseRtuEditorComponent', () => {
         MatMenuModule,
         BrowserAnimationsModule,
         MatCardModule, MatToolbarModule, MatFormFieldModule, MatInputModule, MatButtonModule,
+        MatRadioModule,
         MatGridListModule,
         MaterialDesignFrameworkModule,
         HttpClientTestingModule,
