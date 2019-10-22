@@ -40,6 +40,7 @@ export class LicenseProfileEditorComponent implements OnInit {
   profileFormInput: any;
   licenseProfileForm: JsonSchemaFormComponent;
   queryParams: any = {};
+  title = 'Create New License Profile';
 
   @Input() mode: string;
 
@@ -121,6 +122,15 @@ export class LicenseProfileEditorComponent implements OnInit {
     me.errors = [];
 
     me.service.getComponentInput(input).subscribe((compInput: any) => {
+
+      if (compInput.data
+          && compInput.data.keyword
+          && compInput.data.licenseName) {
+        me.title = 'Modify License Profile';
+      } else {
+        me.title = 'Create New License Profile';
+      }
+
       me.profileFormInput = {
         schema: compInput.schema,
         layout: compInput.layout,

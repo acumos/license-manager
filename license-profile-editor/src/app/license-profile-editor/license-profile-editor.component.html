@@ -19,8 +19,8 @@
   -->
 <div class="license-profile-editor">
 
-  <mat-toolbar color="primary">
-    <span>Acumos License Profile Editor</span>
+  <mat-toolbar class="sticky-toolbar" color="primary">
+    <span>{{title}}</span>
     <span class="version">v{{appVersion}}</span>
     <span style="flex: 1 1 auto;"></span>
 
@@ -28,7 +28,7 @@
       svgIcon="close" (click)="cancelLicenseProfile()"></mat-icon>
   </mat-toolbar>
 
-  <mat-card>
+  <mat-card class="content-card">
     <div *ngFor="let error of errors" class="error">{{error}}</div>
     <json-schema-form *ngIf="profileFormInput" 
       #licenseProfile
@@ -38,20 +38,16 @@
       (isValid)="isValidFn($event)"
       >
     </json-schema-form>
-  <!----  <h4>Submitted data:</h4> -->
-    <!-- <pre *ngIf="!displayData">(none)</pre>
-    <pre *ngIf="displayData">{{displayData | json}}</pre> -->
-
-    <!-- <button mat-raised-button [disabled]="!isValid" (click)="downloadLicenseProfile('txt')">Download Text</button>&nbsp; -->
-    <div style="margin-top: 20px;">
-      <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
-        [disabled]="!isValid" (click)="downloadLicenseProfile('json')">Download JSON</button>
-      <button *ngIf="mode === 'iframe'"  mat-raised-button color="primary"
-        [disabled]="!isValid" (click)="saveLicenseProfile()">Save</button>
-      <button *ngIf="mode === 'iframe'" mat-raised-button class="btn-cancel"
-        (click)="cancelLicenseProfile()">Cancel</button>
-    </div>
-
   </mat-card>
+
+  <div class="bottom-button-bar">
+    <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
+      [disabled]="!isValid" (click)="downloadLicenseProfile('json')">Download JSON</button>
+    <button *ngIf="mode === 'iframe'" mat-raised-button class="btn-cancel"
+      (click)="cancelLicenseProfile()">Cancel</button>
+    <span style="flex: 1 1 auto;"></span>
+    <button *ngIf="mode === 'iframe'"  mat-raised-button color="primary"
+      [disabled]="!isValid" (click)="saveLicenseProfile()">Save</button>
+  </div>
 
 </div>

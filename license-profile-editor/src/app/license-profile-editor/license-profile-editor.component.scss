@@ -25,11 +25,22 @@
 
  .license-profile-editor {
 
+  .sticky-toolbar {
+    z-index: 999;
+    position: fixed;
+  }
+
   .mat-raised-button {
     color: #2f2f2f;
     background-color: #ffffff;
     border: 1px solid #d5d5d5;
     padding: 0px 20px 0px 20px;
+  }
+
+  .content-card {
+    padding-top: 72px;
+    width: 96%;
+    max-width: initial;
   }
 
   .version {
@@ -47,6 +58,13 @@
 
   .close {
     cursor: pointer;
+  }
+
+  .bottom-button-bar {
+    background-color: #e5e5e5;
+    display: flex;
+    margin-top: 20px;
+    padding: 20px;
   }
 
 }
@@ -97,10 +115,6 @@
 
 .mat-raised-button.mat-primary:hover {
   background-color: #4f147a;
-}
-
-.mat-raised-button.btn-cancel {
-  margin-left: 10px;
 }
 
 .mat-raised-button.btn-primary {
