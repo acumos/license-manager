@@ -22,6 +22,7 @@ package org.acumos.licensemanager.client.model;
 
 import org.acumos.lum.handler.ApiException;
 import org.acumos.lum.model.AssetUsageDenialAssetUsageDenial;
+import org.acumos.lum.model.AssetUsageEntitledMixinAndDenialOrEntitlementAndIncludedAssetUsage;
 import org.acumos.lum.model.AssetUsageResponse;
 import org.acumos.lum.model.PutAssetUsageSuccessResponse;
 
@@ -72,17 +73,22 @@ public class LicenseRtuVerification implements ILicenseRtuVerification {
     lumDenialResponse = response;
   }
 
-  public String getDenialReason() {
+  public DenialReason getDenialReason() {
+    DenialReason reason = new DenialReason();
     // if api exception not 402 code
     if (getLumDenialResponse() == null) {
-      return getApiException().getLocalizedMessage();
+      reason.setSummary(getApiException().getLocalizedMessage());
+      reason.setDetails("");
     } else {
+      AssetUsageEntitledMixinAndDenialOrEntitlementAndIncludedAssetUsage assetUsage =
+          getLumDenialResponse().getAssetUsage();
+      reason.setSummary(assetUsage.getAssetUsageDenialSummary());
       String denialReasons = "";
-      for (AssetUsageDenialAssetUsageDenial denial :
-          getLumDenialResponse().getAssetUsage().getAssetUsageDenial()) {
+      for (AssetUsageDenialAssetUsageDenial denial : assetUsage.getAssetUsageDenial()) {
         denialReasons += denial.getDenialReason() + ',';
       }
-      return denialReasons.substring(0, denialReasons.length() - 1);
+      reason.setDetails(denialReasons.substring(0, denialReasons.length() - 1));
     }
+    return reason;
   }
 }

@@ -9,7 +9,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * This file is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,28 +20,33 @@
 
 package org.acumos.licensemanager.client.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.acumos.cds.domain.MLPArtifact;
+/** Denial Reason summary and details for client */
+public class DenialReason {
 
-public class LicenseProfileHolder {
+  private String assetUsageDenialDetails;
+  private String assetUsageDenialSummary;
 
-  private MLPArtifact artifact;
-  private JsonNode json;
-
-  public void setArtifact(MLPArtifact licenseProfileArtifact) {
-    this.artifact = licenseProfileArtifact;
-  }
-  /** @return the artifact */
-  public MLPArtifact getArtifact() {
-    return artifact;
+  public void setSummary(String assetUsageDenialSummary) {
+    this.setAssetUsageDenialSummary(assetUsageDenialSummary);
   }
 
-  public void setJson(JsonNode jsonNode) {
-    this.json = jsonNode;
+  public String getAssetUsageDenialSummary() {
+    return assetUsageDenialSummary;
   }
 
-  /** @return the json */
-  public JsonNode getJson() {
-    return json;
+  public void setAssetUsageDenialSummary(String assetUsageDenialSummary) {
+    this.assetUsageDenialSummary = assetUsageDenialSummary;
+  }
+
+  public String getAssetUsageDenialDetails() {
+    return assetUsageDenialDetails;
+  }
+
+  public void setAssetUsageDenialDetails(String assetUsageDenialDetails) {
+    this.assetUsageDenialDetails = assetUsageDenialDetails;
+  }
+
+  public void setDetails(String details) {
+    this.setAssetUsageDenialDetails(details);
   }
 }

@@ -24,6 +24,10 @@ License Manager Client Library Release Notes
 
 Version 1.3.0 17 Oct 2019
 --------------------------
+* Integration changes with LUM 0.28.0 - actionable rtu denial messages - `ACUMOS-3601 <https://jira.acumos.org/browse/ACUMOS-3601>`_
+
+Version 1.3.0 17 Oct 2019
+--------------------------
 * Integration changes with LUM 0.27.1 - `ACUMOS-3082 <https://jira.acumos.org/browse/ACUMOS-3082>`_
 
 Version 1.2.0 10 Oct 2019

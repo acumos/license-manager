@@ -164,7 +164,7 @@ public class LicenseRtuVerifierTest {
     assertNotNull(verification.getLumDenialResponse());
     assertEquals(
         "asset-usage-agreement not found for swTagId(8d3f8eb6-97bf-4e47-a236-79cc05cb87d8)",
-        verification.getDenialReason());
+        verification.getDenialReason().getAssetUsageDenialDetails());
     List<AssetUsageDenialAssetUsageDenial> denial =
         verification.getLumDenialResponse().getAssetUsage().getAssetUsageDenial();
     assertNotNull(denial);
