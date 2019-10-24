@@ -38,13 +38,12 @@ About License RTU Editor
 Build Prerequisites
 -------------------
 
-* JDK 11
 * Git Shell (https://git-for-windows.github.io/) or
   SourceTree (https://www.sourcetreeapp.com/) for Cloning
   & pushing the code changes.
-* Maven 3.x
 * Proxy setup to download dependencies from open source repositories
 * Open Source or GitShell Command Line Interface
+* Docker
 
 Build Instructions
 -------------------
@@ -64,6 +63,3 @@ Build Instructions
 
 4. Command to build docker image:
    ``docker build -t acumos/license-rtu-editor:<<VERSION>> .``
-
-
-
