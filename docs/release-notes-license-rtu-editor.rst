@@ -28,8 +28,8 @@ Version 0.1.0 23 Oct 2019
 
   - As a Supplier, I can
 
-    - select / apply pre-defined ODRL RTU agreement examples
-    - import / apply sample ODRL RTU agreement from a file
+    - select / apply pre-defined Open digital rights language (ODRL) RTU agreement examples
+    - import / apply sample Open digital rights language (ODRL) RTU agreement from a file
     - Use RTU editor to create RTU LUM Asset Usage Agreement and
       download it to local file system
 
@@ -37,7 +37,7 @@ Version 0.1.0 23 Oct 2019
 
     - import / apply RTU LUM Asset Usage agreement from a file
 
-      - review ODRL RTU agreement in READ-ONLY mode and
+      - review Open digital rights language (ODRL) RTU agreement in READ-ONLY mode and
         save to LUM server
 
     - fetch RTU LUM Asset Usage agreement from LUM server
@@ -86,7 +86,7 @@ Version 0.0.4 01 Oct 2019
 
 Version 0.0.3 20 Sep 2019
 --------------------------
-* Provide a webform editor to create RTU Agreement `ACUMOS-3310 <https://jira.acumos.org/browse/ACUMOS-3310>`_
+* Provide a web based editor to create RTU Agreement `ACUMOS-3310 <https://jira.acumos.org/browse/ACUMOS-3310>`_
 * Removed RTU prohibitions > constraints node `ACUMOS-3311 <https://jira.acumos.org/browse/ACUMOS-3311>`_
 * Added RTU target > refinement node `ACUMOS-3312 <https://jira.acumos.org/browse/ACUMOS-3312>`_
 * Added RTU assignee > refinement node `ACUMOS-3313 <https://jira.acumos.org/browse/ACUMOS-3313>`_
