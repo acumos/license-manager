@@ -41,13 +41,12 @@ About License Profile Editor
 Build Prerequisites
 -------------------
 
-* JDK 1.8
 * Git Shell (https://git-for-windows.github.io/) or
   SourceTree (https://www.sourcetreeapp.com/) for Cloning
   & pushing the code changes.
-* Maven 3.x
 * Proxy setup to download dependencies from open source repositories
 * Open Source or GitShell Command Line Interface
+* Docker
 
 Build Instructions
 -------------------
