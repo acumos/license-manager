@@ -26,67 +26,10 @@ This document defines the APIs that are being produced
 or consumed by the license management sub-component in Acumos.
 
 
-LicenseRtuAssigner.createRTU
-========================
-
-User specific RTU with generated RTU id in library and
-generated RTU reference in library
-
-
-Examples:
----------
-
-Simple example:
-
-.. code-block:: java
-
-    // where client is instance of ICommonDataServiceRestClient
-    ILicenseRtuAssigner LicenseRtuAssigner = new LicenseRtuAssigner(client);
-    CreateRTURequest createRTURequest = new CreateRTURequest(solutionId, userId);
-    ICreatedRtu createdRtuInfo = LicenseRtuAssigner.createRTU(createRTURequest);
-
-Site specific RTU as well as all options provided:
-
-.. code-block:: java
-
-    CreateRTURequest createSiteWideRTURequest = new CreateRTURequest();
-
-    // solutionId, userId
-    createSiteWideRTURequest.setSiteWide(true);
-    createSiteWideRTURequest.setSolutionId(solutionId);
-    createSiteWideRTURequest.addUserId(userId);
-    createSiteWideRTURequest.setRtuId(new Random().nextLong());
-    createSiteWideRTURequest.setRtuRefs(new String[] { UUID.randomUUID().toString() });
-    ICreatedRtu createdRtuInfo = licenseCreator.createRtu(createSiteWideRTURequest);
-
-More info see `LicenseRtuAssigner javadocs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/LicenseRtuAssigner.html>`_
-
-LicenseRtuAssigner is using `CDS RTU APIs <https://docs.acumos.org/en/latest/submodules/common-dataservice/docs/server-api.html#right-to-use-controller>`_
-
-
-LicenseVerifier.verifyRTU
-=========================
-
-Verification of a rtu for a solutionId and userId provided by CDS.
-
-.. code-block:: java
-
-    // where client is instance of ICommonDataServiceRestClient
-    ILicenseVerifier licenseVerifier = new LicenseVerifier(client);
-    VerifyLicenseRequest licenseDownloadRequest = new VerifyLicenseRequest(LicenseAction.deploy, "solutionid", "userid");
-    licenseDownloadRequest.addAction(LicenseAction.download);
-    ILicenseVerification verifyUserRTU = licenseVerifier.verifyRtu(licenseDownloadRequest);
-    verifyUserRTU.isAllowed(LicenseAction.download) // returns true / false if rtu exists
-    verifyUserRTU.isAllowed(LicenseAction.deploy) // returns true / false if rtu exists
-
-Learn more in `LicenseVerifier java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/LicenseVerifier.html>`_
-
-License Verification is using `CDS RTU APIs <https://docs.acumos.org/en/latest/submodules/common-dataservice/docs/server-api.html#right-to-use-controller>`_
-
 LicenseProfile.validate
 =======================
 
-Validate given License Profile JSON text.
+Validate given License Profile JSON text based on $schema property.
 
 Example api call:
 
@@ -98,8 +41,6 @@ Example api call:
     boolean isValid = results.getJsonSchemaErrors().isEmpty();
 
 Learn more in `LicenseJsonValidationResults java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/jsonvalidator/model/LicenseJsonValidationResults.html>`_
-
-`Json Schema <https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/license-profile.schema.json>`_
 
 
 LicenseProfile.getTemplates
@@ -114,6 +55,10 @@ Example api call:
     // where client is instance of ICommonDataServiceRestClient
     LicenseProfile licProfile = new LicenseProfile(client);
     List<MLPLicenseProfileTemplate> templates = licProfile.getTemplates();
+
+
+Learn more in `LicenseProfile java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/LicenseProfile.html>`_
+
 
 LicenseProfile.getTemplate(templateID)
 ======================================
@@ -130,3 +75,48 @@ Example api call:
     // to fetch
     MLPLicenseProfileTemplate licProTpl = licProfile.getTemplate(licProTplId);
 
+Learn more in `LicenseProfile java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/LicenseProfile.html>`_
+
+
+LicenseAsset.register
+=====================
+
+Method fetches information about the ML model (nexus and CDS) and
+registers the software with License Usage Manager.
+
+.. code-block:: java
+
+    // where cdsClient is instance of ICommonDataServiceRestClient
+    // LUM_SERVER is url of the LUM service
+    // NEXUS_SERVER is the url of the nexus service
+    LicenseAsset asset = new LicenseAsset(cdsClient, LUM_SERVER, NEXUS_SERVER);
+    RegisterAssetRequest request = new RegisterAssetRequest();
+    request.setSolutionId(solutionId);
+    request.setRevisionId(revisionId);
+    request.setLoggedIdUser(loggedInUser);
+    CompletableFuture<RegisterAssetResponse> responseFuture = asset.register(request);
+    RegisterAssetResponse response = responseFuture.get();
+
+
+Learn more in `LicenseAsset java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/rtu/LicenseAsset.html>`_
+
+
+
+LicenseRtuVerifier.verifyRtu
+============================
+
+Method fetches information about the ML model (nexus and CDS) and
+registers the software with License Usage Manager.
+
+.. code-block:: java
+
+    VerifyLicenseRequest licenseDownloadRequest =
+        new VerifyLicenseRequest(
+            licenseAction, solutionId, revisionId, loggedInUserId, assetUsageId);
+    licenseDownloadRequest.setAction(licenseAction);
+    LicenseRtuVerifier licenseVerifier = new LicenseRtuVerifier(LUM_SERVER);
+    CompletableFuture<LicenseRtuVerification> verifyUserRTU =
+        licenseVerifier.verifyRtu(licenseDownloadRequest);
+
+
+Learn more in `LicenseRtuVerifier java docs <https://javadocs.acumos.org/org.acumos.license-manager/master/org/acumos/licensemanager/client/rtu/LicenseRtuVerifier.html>`_
