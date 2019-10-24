@@ -26,7 +26,7 @@ License Management User Guide
        :caption: Table of Contents
        :maxdepth: 2
 
-       license-json.rst
+       license-profile.rst
        rtu-deploy-download.rst
        rtu-creation.rst
        Model Usage Tracking <model-usage-tracking.rst>
