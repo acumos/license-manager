@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json",
   "keyword": "Vendor-A-OSS",
   "licenseName": "Vendor A Open Source Software License",
   "copyright": {

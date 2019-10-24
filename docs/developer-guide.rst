@@ -24,15 +24,13 @@ Developer Guide
 Uses of this library
 --------------------
 
-- This library is for use by security verification service to
-  verify that users have the rights to use a solution for
-  commercial models.
+The license manager client library provides a java jar to perform the following functions:
+  - Provide a schema for license profile
+  - Validate license profiles against the schema
+  - Register ML models with License Usage Manager 
+  - Verify entitlement with License Usage Manager
+  - Support Portal back end
 
-- This library is for use by portal back end to create new
-  rights to use a solution for a user or for entire site.
-
-- This library provides license.json sementic validation to
-  ensure consistent models.
 
 How to build locally
 --------------------
@@ -110,4 +108,3 @@ __ https://sonar.acumos.org/dashboard?id=org.acumos.license-manager.license-mana
 - `Javadoc`__.
 
 __ https://javadocs.acumos.org/org.acumos.license-manager/master/
-
