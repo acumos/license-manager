@@ -18,20 +18,73 @@
 .. ===============LICENSE_END==================================================
 ..
 
-==============================
+===============
+License Manager
+===============
+
 License Manager Client Library
-==============================
+------------------------------
+
+The license manager client library provides a java jar to perform the following functions:
+  - Provide a schema for license profile
+  - Api to Validate license profiles against the schema
+  - Api to Register ML models with License Usage Manager 
+  - Api to Verify entitlement with License Usage Manager
+  - Api to Support Portal back end
 
 .. toctree::
        :maxdepth: 2
 
-       release-notes.rst
-       release-notes-license-profile-editor.rst
-       release-notes-license-rtu-editor.rst
        api-docs.rst
        developer-guide.rst
+       release-notes.rst
+
+License Profile editor
+----------------------
+
+The license profile editor provides a micro front end for the creation of the license profile.
+  - Can work standalone or with the portal front end
+  - Angular 8 app that is served using a docker image with nginx web server.
+
+.. toctree::
+       :maxdepth: 2
+
+       user-guide-license-profile-editor.rst
        dev-guide-license-profile-editor.rst
+       release-notes-license-profile-editor.rst
+
+
+License Right To Use (RTU) editor
+---------------------------------
+
+The license right to use (RTU) editor provides a micro front end for the management of
+  agreements and right.
+  - suppliers create an agreement with a subscriber.
+  - subscriber can review the agreement from the suppliers and save into license usage manager
+  - subscriber can add restrictions on top of the agreement from the supplier such as specifying specific users who can use the software.
+  - Angular 8 app that is served using a docker image with nginx web server.
+
+
+.. toctree::
+       :maxdepth: 2
+
+       user-guide-license-rtu-editor.rst
        dev-guide-license-rtu-editor.rst
-       user-guide.rst
+       release-notes-license-rtu-editor.rst
+
+Model Usage Tracking
+--------------------
+
+When you deploy a model using kubernetes the default profile will use the ELK stack and report back usage of the model. 
+
+.. toctree::
+       :maxdepth: 2
+
+       Model Usage Tracking <model-usage-tracking.rst>
 
 
+License Usage Management (LUM)
+------------------------------
+
+The license usage management (LUM) documentation is located here: 
+:doc:`License Usage Manager<../../license-usage-manager/docs/index>`
