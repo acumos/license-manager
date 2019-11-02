@@ -18,7 +18,7 @@
 
 ## prereqs
 minikube delete -p acumos-license
-minikube start -p acumos-license --kubernetes-version=1.13.0 --memory='3000mb'
+minikube start -p acumos-license --memory='3000mb'
 minikube profile acumos-license
 helm init
 

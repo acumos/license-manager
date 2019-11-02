@@ -24,6 +24,9 @@ pathToLumHelmChart=../license-profile-editor-helm-chart
 helm del --purge ${releaseName}
 kubectl delete namespace ${namespace};
 kubectl wait --for=delete ns/${namespace} --timeout=60s
+kubectl create namespace ${namespace}
+# kubectl create serviceaccount tiller --namespace ${namespace}
+$HELM_HOME/helm dependency build  ${pathToLumHelmChart}
+$HELM_HOME/helm install  $releaseName  ${pathToLumHelmChart}  -f helm-profile-editor.values.yaml --debug   --namespace ${namespace} 
 
-helm dependency build  ${pathToLumHelmChart}
-helm install -f helm-profile-editor.values.yaml --debug --name $releaseName  --namespace ${namespace}  ${pathToLumHelmChart}
+# -f helm-profile-editor.values.yaml

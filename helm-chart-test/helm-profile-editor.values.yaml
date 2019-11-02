@@ -16,8 +16,10 @@
 #  limitations under the License.
 #  ===============LICENSE_END==================================================
 
-image:
-  repository: acumos/license-profile-editor
-  tag: latest
-  pullPolicy: Never
+# image:
+#   repository: acumos/license-profile-editor
+#   tag: latest
+#   pullPolicy: Never
 
+securityContext:
+  enabled: true

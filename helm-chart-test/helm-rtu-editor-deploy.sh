@@ -25,6 +25,6 @@ helm del --purge ${releaseName}
 kubectl delete namespace ${namespace};
 kubectl wait --for=delete ns/${namespace} --timeout=60s
 
-helm dependency build  ${pathToLumHelmChart}
-helm install -f helm-rtu-editor.values.yaml --debug --name $releaseName  --namespace ${namespace}  ${pathToLumHelmChart}
-helm test $releaseName
+$HELM_HOME/helm dependency build  ${pathToLumHelmChart}
+$HELM_HOME/helm install -f helm-rtu-editor.values.yaml --debug --name $releaseName  --namespace ${namespace}  ${pathToLumHelmChart}
+$HELM_HOME/helm test $releaseName

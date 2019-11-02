@@ -24,7 +24,7 @@ replicaCount: 1
 
 image:
   repository: nexus3.acumos.org:10002/acumos/license-profile-editor
-  tag: 0.0.8
+  tag: 0.0.9
   pullPolicy: IfNotPresent
   pullSecrets: acumos-registry
 
@@ -39,6 +39,12 @@ fullnameOverride: ""
 service:
   type: ClusterIP
   port: 80
+
+securityContext:
+  enabled: false
+  allowPrivilegeEscalation: false
+  runAsUser: 1000
+  fsGroup: 2000
 
 ingress:
   enabled: true

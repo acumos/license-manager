@@ -36,7 +36,7 @@ RUN npm run ci-test
 ### STAGE 2: Setup ###
 
 # based on Nginx, to have only the compiled app, ready for production with Nginx
-FROM nginx:1.17-alpine
+FROM nginxinc/nginx-unprivileged:1.17-alpine
 
 ## From 'build-stage' stage, copy over the artifacts in dist folder to default nginx public folder
 COPY --from=build-stage /app/dist/ /usr/share/nginx/html
