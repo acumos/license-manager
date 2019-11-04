@@ -1,6 +1,6 @@
 {
   "name": "license-profile-editor",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "scripts": {
     "ng": "ng",
     "prestart": "npm run prebuild && cp -R ../license-manager-client-library/src/main/resources/schema src/assets",

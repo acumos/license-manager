@@ -22,7 +22,7 @@
 License Profile Editor Release Notes
 ============================================
 
-Version 0.0.8 30 Oct 2019
+Version 0.0.9 4 Nov 2019
 -------------------------
 - Fix to handle non-privileged mode - `ACUMOS-3648 <https://jira.acumos.org/browse/ACUMOS-3648>`_
 

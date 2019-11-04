@@ -23,7 +23,7 @@ License RTU Editor Release Notes
 ============================================
 
 
-Version 0.1.2 30 Oct 2019
+Version 0.1.3 04 Nov 2019
 -------------------------
 - Fix to handle non-privileged mode - `ACUMOS-3648 <https://jira.acumos.org/browse/ACUMOS-3648>`_
 
