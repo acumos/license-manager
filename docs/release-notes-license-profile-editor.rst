@@ -22,6 +22,10 @@
 License Profile Editor Release Notes
 ============================================
 
+Version 0.0.10 19 Nov 2019
+--------------------------
+- Show RTU Required field as mandatory - `ACUMOS-3718 <https://jira.acumos.org/browse/ACUMOS-3718>`_
+
 Version 0.0.9 4 Nov 2019
 -------------------------
 - Fix to handle non-privileged mode - `ACUMOS-3648 <https://jira.acumos.org/browse/ACUMOS-3648>`_

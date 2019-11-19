@@ -1,9 +1,5 @@
 [
     {
-        "type": "flex",
-        "flex-flow": "row wrap"
-    },
-    {
         "key": "keyword",
         "title": "License Keyword/Identifier"
     },
@@ -58,16 +54,16 @@
     },
     {
         "key": "rtuRequired",
-        "title": "Right to Use Required",
+        "title": "Right to Use Required *",
         "type": "radios",
         "titleMap": [
             {
                 "value": true,
-                "name": "Yes a right to use is required"
+                "name": "Yes, a right to use is required"
             },
             {
                 "value": false,
-                "name": "No right to use is required to use this software"
+                "name": "No, right to use is not required to use this software"
             }
         ]
     }
