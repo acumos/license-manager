@@ -33,8 +33,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import okhttp3.OkHttpClient;
+import okhttp3.OkHttpClient.Builder;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.cds.domain.MLPArtifact;
 import org.acumos.cds.domain.MLPCatalog;
@@ -49,6 +52,7 @@ import org.acumos.licensemanager.client.model.VerifyLicenseRequest;
 import org.acumos.licensemanager.exceptions.LicenseAssetRegistrationException;
 import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.lum.handler.ApiCallback;
+import org.acumos.lum.handler.ApiClient;
 import org.acumos.lum.handler.ApiException;
 import org.acumos.lum.handler.SwidTagApi;
 import org.acumos.lum.model.BaseRequestTop;
@@ -76,6 +80,24 @@ public class LicenseAsset {
   /** Logger for any exceptions that happen while creating a RTU with CDS. */
   private static final Logger LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+  private static final HttpLoggingInterceptor LOGGING_INTERCEPTOR =
+      new HttpLoggingInterceptor(
+          (msg) -> {
+            LOGGER.debug(msg);
+          });
+
+  static {
+    System.out.println("LOGGER.isDebugEnabled()): " + LOGGER.isDebugEnabled());
+    System.out.println("LOGGER.isTraceEnabled()): " + LOGGER.isTraceEnabled());
+
+    if (LOGGER.isTraceEnabled()) {
+      LOGGING_INTERCEPTOR.setLevel(Level.BODY);
+    } else if (LOGGER.isDebugEnabled()) {
+      LOGGING_INTERCEPTOR.setLevel(Level.BASIC);
+    }
+  }
+
   /** dataClient must be provided by consumer of this library. */
   private final ICommonDataServiceRestClient dataClient;
 
@@ -241,9 +263,12 @@ public class LicenseAsset {
 
   private SwidTagApi swidTagApiSetup() {
     SwidTagApi swidTag = new SwidTagApi();
-    swidTag.getApiClient().setDebugging(true);
     swidTag.getApiClient().setWriteTimeout(300000);
     swidTag.getApiClient().setBasePath(lumServer);
+    ApiClient apiClient = swidTag.getApiClient();
+    Builder newBuilder = apiClient.getHttpClient().newBuilder();
+    OkHttpClient httpClient = newBuilder.addInterceptor(LOGGING_INTERCEPTOR).build();
+    swidTag.getApiClient().setHttpClient(httpClient);
     return swidTag;
   }
 

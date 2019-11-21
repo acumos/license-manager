@@ -22,7 +22,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.license-manager</groupId>
 	<artifactId>license-manager-client-library</artifactId>
-	<version>1.4.1-SNAPSHOT</version>
+	<version>1.4.2-SNAPSHOT</version>
 	<name>License Manager Client Library</name>
 	<description>The License Manager Client library assists in fetching license profile templates, validating license profile and verifying that the user has the rights to use models. Developed by EST.tech.</description>
 	<properties>
@@ -80,6 +80,18 @@
 			<groupId>io.specto</groupId>
 			<artifactId>hoverfly-java</artifactId>
 			<version>0.12.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

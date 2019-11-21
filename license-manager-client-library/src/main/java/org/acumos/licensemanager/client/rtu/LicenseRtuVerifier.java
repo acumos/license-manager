@@ -24,12 +24,17 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import okhttp3.OkHttpClient;
+import okhttp3.OkHttpClient.Builder;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
 import org.acumos.licensemanager.client.model.ILicenseRtuVerifier;
 import org.acumos.licensemanager.client.model.LicenseRtuVerification;
 import org.acumos.licensemanager.client.model.VerifyLicenseRequest;
 import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.lum.handler.ApiCallback;
+import org.acumos.lum.handler.ApiClient;
 import org.acumos.lum.handler.ApiException;
 import org.acumos.lum.handler.AssetUsageApi;
 import org.acumos.lum.handler.JSON;
@@ -51,6 +56,20 @@ public final class LicenseRtuVerifier implements ILicenseRtuVerifier {
   /** Logger for any exceptions that happen while creating a RTU with CDS. */
   private static final Logger LOGGER =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+  private static final HttpLoggingInterceptor LOGGING_INTERCEPTOR =
+      new HttpLoggingInterceptor(
+          (msg) -> {
+            LOGGER.debug(msg);
+          });
+
+  static {
+    if (LOGGER.isTraceEnabled()) {
+      LOGGING_INTERCEPTOR.setLevel(Level.BODY);
+    } else if (LOGGER.isDebugEnabled()) {
+      LOGGING_INTERCEPTOR.setLevel(Level.BASIC);
+    }
+  }
 
   private String lumServer;
 
@@ -92,13 +111,14 @@ public final class LicenseRtuVerifier implements ILicenseRtuVerifier {
       return completableFuture;
     }
     AssetUsageApi api = new AssetUsageApi();
-
-    api.getApiClient().setDebugging(true);
     api.getApiClient().setWriteTimeout(300000);
     api.getApiClient().setBasePath(lumServer);
+    ApiClient apiClient = api.getApiClient();
+    Builder newBuilder = apiClient.getHttpClient().newBuilder();
+    OkHttpClient httpClient = newBuilder.addInterceptor(LOGGING_INTERCEPTOR).build();
+    api.getApiClient().setHttpClient(httpClient);
 
     PutAssetUsageRequest putRequest = new PutAssetUsageRequest();
-
     putRequest.setUserId(request.getLoggedInUserName());
     AssetUseageRequestTopMixin usageReq = new AssetUseageRequestTopMixin();
     usageReq.setAssetUsageId(request.getUsageRequestId().toString());
