@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38074e50_404013ab",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseAsset.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-11-22T06:59:27Z",
+      "side": 1,
+      "message": "can we move line#268 - ApiClient apiClient \u003d api.getApiClient(); here and use apiClient reference for next 2 lines #226 \u0026 267",
+      "revId": "9d3b3728d9f4467e48a2a3c561c37abbeb61b2a6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67b6a794_69c8ca1c",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseRtuVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 291
+      },
+      "writtenOn": "2019-11-22T06:59:27Z",
+      "side": 1,
+      "message": "can we move line#116 ApiClient apiClient \u003d api.getApiClient(); here and use apiClient reference for next 2 lines #114 \u0026 115",
+      "revId": "9d3b3728d9f4467e48a2a3c561c37abbeb61b2a6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
