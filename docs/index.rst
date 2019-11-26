@@ -75,6 +75,7 @@ The license right to use (RTU) editor provides a micro front end for the managem
        dev-guide-license-rtu-editor.rst
        release-notes-license-rtu-editor.rst
 
+
 Model Usage Tracking
 --------------------
 
@@ -92,3 +93,11 @@ License Usage Management (LUM)
 
 The license usage management (LUM) documentation is located here:
 :doc:`License Usage Manager<../../license-usage-manager/docs/index>`
+
+License Server Admin guide
+--------------------------
+
+.. toctree::
+       :maxdepth: 2
+
+       user-guide-admin-license-services.rst
