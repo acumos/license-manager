@@ -28,7 +28,8 @@ Authoring a License Profile
 
 When you onboard a model or create a composite model on Acumos platform,
 you can add a license profile to your model. You can also update the license
-profile before publishing in case things change during the development process:
+profile from the my models license profile tab before publishing in case things
+change during the development process:
 
 - Upload a license profile json file
 - Select from default list of license profiles templates and modify
@@ -36,6 +37,18 @@ profile before publishing in case things change during the development process:
 
 When you modify or create a new license profile the portal will present
 you with the license profile editor.
+
+When creating your license profile we require the following fields to be specified:
+
+1. License Key - Such as a SPDX License Identifier
+2. License Name - Friendly license name not the license Identifier
+3. Copyright year
+4. Copyright Company
+5. Copyright Suffix: Such as All Rights Reserved.
+6. Contact Name
+6. Contact URL or place to find out how to purchase the model.
+7. Contact email
+8. Right to Use Required - yes or now -- if yes then a Right To Use agreement is required.
 
 Examples:
 
