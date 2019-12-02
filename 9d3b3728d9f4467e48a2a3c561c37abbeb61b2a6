@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0be6e814_6309237c",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseAsset.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-12-02T17:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38074e50_404013ab",
+      "revId": "9d3b3728d9f4467e48a2a3c561c37abbeb61b2a6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67b6a794_69c8ca1c",
         "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseRtuVerifier.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "9d3b3728d9f4467e48a2a3c561c37abbeb61b2a6",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27ac80d2_04ca235a",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseRtuVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2019-12-02T17:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67b6a794_69c8ca1c",
+      "revId": "9d3b3728d9f4467e48a2a3c561c37abbeb61b2a6",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
