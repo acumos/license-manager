@@ -22,6 +22,9 @@
 License RTU Editor Release Notes
 ============================================
 
+Version 0.1.4 05 Dec 2019
+-------------------------
+- Adding Required indicator to Target Identifier - `ACUMOS-3799 <https://jira.acumos.org/browse/ACUMOS-3799>`_
 
 Version 0.1.3 04 Nov 2019
 -------------------------

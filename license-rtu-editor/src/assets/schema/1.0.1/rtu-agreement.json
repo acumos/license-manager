@@ -362,7 +362,7 @@
               "rightOperand": {
                 "$id": "#/properties/target/items/properties/refinement/items/properties/rightOperand",
                 "type": "array",
-                "title": "Target Identifier(s)",
+                "title": "Target Identifier(s) *",
                 "items": {
                   "$id": "#/properties/target/items/properties/refinement/items/properties/rightOperand/items",
                   "type": "string",
