@@ -26,5 +26,9 @@ export const environment = {
   layoutVersionToUrlMap: {
     '1.0.0': 'assets/layouts/1.0.0/layout.json',
     boreas: 'assets/layouts/boreas/layout.json'
+  },
+  local: {
+    schemaUrl: 'assets/schema/1.0.0/license-profile.json',
+    boreasSchemaUrl: 'assets/schema/boreas/license-profile.json'
   }
 };

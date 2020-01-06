@@ -22,6 +22,11 @@
 License RTU Editor Release Notes
 ============================================
 
+Version 0.1.5 06 Jan 2020
+-------------------------
+- Adding local file backup due to corporate proxy blocking github url- `ACUMOS-3834 <https://jira.acumos.org/browse/ACUMOS-3834>`_
+- Updating angular to latest runtime
+
 Version 0.1.4 05 Dec 2019
 -------------------------
 - Adding Required indicator to Target Identifier - `ACUMOS-3799 <https://jira.acumos.org/browse/ACUMOS-3799>`_

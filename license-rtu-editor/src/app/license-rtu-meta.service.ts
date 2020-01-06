@@ -34,7 +34,9 @@ export class LicenseRtuMetaService {
 
   constructor(private http: HttpClient) {
     this.exampleUrlBase = `assets/exampledata/`;
+    // load url cache up with last version of schema
   }
+
 
   getRtuAgreementInitialData() {
     return {
@@ -80,7 +82,7 @@ export class LicenseRtuMetaService {
         return;
       }
 
-      me.getUrlData(schemaUrl).subscribe((schema) => {
+      const successfulSchema: (value: any) => void = (schema) => {
         // console.log(schema);
         // schema loaded
         compInput.schema = schema;
@@ -114,11 +116,23 @@ export class LicenseRtuMetaService {
           subscriber.error(errors);
         }
 
-      }, error => {
-        console.log('Unable to load schema ' + schemaUrl, error);
-        errors.push('Unable to load schema ' + schemaUrl);
-        errors.push('Please make sure that the $schema URL given in the document is accessible.');
-        subscriber.error(errors);
+      };
+
+      me.getUrlData(schemaUrl).subscribe(successfulSchema, error => {
+
+        // fallback to local
+        const remoteUrl = new URL(schemaUrl);
+        const pathname = remoteUrl.pathname;
+        const path = remoteUrl.pathname.substring(pathname.indexOf('asset'), remoteUrl.pathname.length);
+        console.log(`loading local path as fallback ${path}`);
+        me.getUrlData(path).subscribe(successfulSchema, errorFallback => {
+          console.log('Unable to load schema ' + schemaUrl, error);
+          console.log('Unable to load schema ' + schemaUrl, errorFallback);
+          errors.push('Unable to load schema ' + schemaUrl);
+          errors.push('Unable to load schema ' + path);
+          errors.push('Please make sure that the $schema URL given in the document is accessible.');
+          subscriber.error(errors);
+        });
       });
 
     });
