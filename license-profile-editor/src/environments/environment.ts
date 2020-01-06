@@ -24,11 +24,15 @@
 
 export const environment = {
   production: false,
-  schemaUrl: '/assets/schema/1.0.0/license-profile.json',
-  boreasSchemaUrl: '/assets/schema/boreas/license-profile.json',
+  schemaUrl: 'https://raw.githubusercontent.com/acumos/license-manager/master/license-manager-client-library/src/main/resources/schema/1.0.0/license-profile.json',
+  boreasSchemaUrl: 'https://raw.githubusercontent.com/acumos/security-verification/boreas/license-manager-client-library/src/main/resources/license.schema.json',
   layoutVersionToUrlMap: {
     '1.0.0': 'assets/layouts/1.0.0/layout.json',
     boreas: 'assets/layouts/boreas/layout.json'
+  },
+  local: {
+    schemaUrl: 'assets/schema/1.0.0/license-profile.json',
+    boreasSchemaUrl: 'assets/schema/boreas/license-profile.json'
   }
 };
 

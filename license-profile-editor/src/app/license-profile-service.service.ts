@@ -33,6 +33,7 @@ export class LicenseProfileServiceService {
   constructor(private http: HttpClient) {
   }
 
+
   getInitialData() {
     return {
       $schema: environment.schemaUrl
@@ -52,21 +53,22 @@ export class LicenseProfileServiceService {
       };
       const errors = [];
       let schemaUrl: string;
+      let schemaKey = 'schemaUrl';
       if (input && input.$schema) {
         schemaUrl = input.$schema;
       } else if (input && input.modelLicenses) {
-        schemaUrl = environment.boreasSchemaUrl;
+        schemaKey = 'boreasSchemaUrl';
+        schemaUrl = environment[schemaKey];
       } else {
         errors.push('The given document is missing $schema field.');
         subscriber.error(errors);
         return;
       }
 
-      me.getUrlData(schemaUrl).subscribe((schema) => {
+      const successfulSchema: (value: any) => void = (schema) => {
         // console.log(schema);
         // schema loaded
         compInput.schema = schema;
-
         // find the respective layout based on the schema version
         let layoutUrl: string;
         if (schema.version) {
@@ -93,12 +95,17 @@ export class LicenseProfileServiceService {
           errors.push('Please make sure that the document refers to supported schema.');
           subscriber.error(errors);
         }
-
-      }, error => {
-        console.log('Unable to load schema ' + schemaUrl, error);
-        errors.push('Unable to load schema ' + schemaUrl);
-        errors.push('Please make sure that the $schema URL given in the document is accessible.');
-        subscriber.error(errors);
+      };
+      me.getUrlData(schemaUrl).subscribe(successfulSchema, error => {
+        // fallback to local
+        this.getUrlData(environment.local[schemaKey]).subscribe(successfulSchema, errorFallback => {
+          console.log('Unable to load schema ' + schemaUrl, error);
+          console.log('Unable to load schema ' + environment.local[schemaKey], errorFallback);
+          errors.push('Unable to load schema ' + schemaUrl);
+          errors.push('Unable to load schema ' + + environment.local[schemaKey]);
+          errors.push('Please make sure that the $schema URL given in the document is accessible.');
+          subscriber.error(errorFallback);
+        });
       });
 
     });

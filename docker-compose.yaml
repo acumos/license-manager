@@ -19,12 +19,12 @@ services:
   licnese-rtu-editor:
     build: ./license-rtu-editor/
     # replace username/repo:tag with your name and image details
-    image: acumos/license-rtu-editor:0.1.4
+    image: acumos/license-rtu-editor:0.1.5
     ports:
       - "8092:8080"
   license-profile-editor:
     build: ./license-profile-editor/
     # replace username/repo:tag with your name and image details
-    image: acumos/license-profile-editor:0.0.10
+    image: acumos/license-profile-editor:0.0.11
     ports:
       - "8093:8080"

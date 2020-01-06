@@ -73,7 +73,7 @@ Using Docker Compose - License Editors
           - "8092:8080"
       license-profile-editor:
         # replace username/repo:tag with your name and image details
-        image: nexus3.acumos.org:10002/acumos/license-profile-editor:0.0.10
+        image: nexus3.acumos.org:10002/acumos/license-profile-editor:0.0.11
         ports:
           - "8093:8080"
 
