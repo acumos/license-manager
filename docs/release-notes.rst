@@ -22,6 +22,10 @@
 License Manager Client Library Release Notes
 ============================================
 
+Version 1.4.4 07 Feb 2020
+--------------------------
+* CDS 3.1.1 upgrade
+
 Version 1.4.3 2 Dec 2019
 --------------------------
 * CDS 3.1.0 upgrade
