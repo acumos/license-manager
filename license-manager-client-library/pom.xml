@@ -50,7 +50,7 @@
 			<!-- used for accessing Acumos CDS -->
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
-			<version>3.1.0</version>
+			<version>3.1.1</version>
 		</dependency>
 		<dependency>
 			<!-- for immutable rtu objects -->
