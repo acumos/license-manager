@@ -41,6 +41,9 @@ import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.licensemanager.client.model.RegisterAssetRequest;
 import org.acumos.licensemanager.client.model.RegisterAssetResponse;
 import org.acumos.licensemanager.client.rtu.LicenseAsset;
+import org.acumos.nexus.client.NexusArtifactClient;
+import org.acumos.nexus.client.RepositoryLocation;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -70,11 +73,17 @@ public class LicenseAssetTest {
                   .willReturn(success("{}", "application/json")),
               service(NEXUS_SERVER)
                   .get("/license.json")
-                  // .anyBody()
+                  .anyBody()
                   .willReturn(
                       success(
                           "{\"rtuRequired\": true, \"companyName\": \"Company A\"}",
                           "application/json"))));
+
+  @Before
+  public void setUp() throws Exception {
+
+    hoverflyRule.resetJournal();
+  }
 
   @Test
   public void shouldRegisterAsset() {
@@ -84,7 +93,45 @@ public class LicenseAssetTest {
     cats.add(new MLPCatalog("PB", true, "Catalog", "url", "test"));
     mockCDSApi.setSolutionCatalogs(cats);
     mockArtifacts(mockCDSApi);
-    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, NEXUS_SERVER);
+    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, getNexusClient());
+    RegisterAssetRequest request = new RegisterAssetRequest();
+    request.setSolutionId(solutionId);
+    request.setRevisionId(SWIDTAGID);
+    request.setLoggedIdUser("admin");
+    try {
+      CompletableFuture<RegisterAssetResponse> responseFuture = asset.register(request);
+      RegisterAssetResponse response = responseFuture.get();
+      assertEquals("softwareRegistered", response.getMessage());
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  public NexusArtifactClient getNexusClient() {
+    RepositoryLocation repositoryLocation = new RepositoryLocation();
+    repositoryLocation.setUrl(NEXUS_SERVER);
+    repositoryLocation.setId("1");
+    repositoryLocation.setUsername("admin");
+    repositoryLocation.setPassword("admin");
+    // work around nexus client is not supporting jvm proxy host setup
+    repositoryLocation.setProxy(
+        "http://"
+            + System.getProperty("http.proxyHost")
+            + ":"
+            + System.getProperty("http.proxyPort"));
+    return new NexusArtifactClient(repositoryLocation);
+  }
+
+  @Test
+  public void shouldRegisterAssetOverloaded() {
+    UUID solutionId = UUID.randomUUID();
+
+    MockDatabaseClient mockCDSApi = new MockDatabaseClient();
+    List<MLPCatalog> cats = new ArrayList<MLPCatalog>();
+    cats.add(new MLPCatalog("PB", true, "Catalog", "url", "test"));
+    mockCDSApi.setSolutionCatalogs(cats);
+    mockArtifacts(mockCDSApi);
+    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, getNexusClient());
     RegisterAssetRequest request = new RegisterAssetRequest();
     request.setSolutionId(solutionId);
     request.setRevisionId(SWIDTAGID);
@@ -117,7 +164,7 @@ public class LicenseAssetTest {
     List<MLPCatalog> cats = new ArrayList<MLPCatalog>();
     cats.add(new MLPCatalog("PB", true, "Catalog", "url", "test"));
     mockCDSApi.setSolutionCatalogs(cats);
-    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, NEXUS_SERVER);
+    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, getNexusClient());
     RegisterAssetRequest request = new RegisterAssetRequest();
     request.setSolutionId(solutionId.toString());
     request.setRevisionId(UUID.fromString(SWIDTAGID));
