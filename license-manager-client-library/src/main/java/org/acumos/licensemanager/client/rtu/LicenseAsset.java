@@ -22,6 +22,7 @@ package org.acumos.licensemanager.client.rtu;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
@@ -34,8 +35,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
 import org.acumos.cds.client.ICommonDataServiceRestClient;
@@ -61,6 +60,13 @@ import org.acumos.lum.model.PutSwidTagRequest;
 import org.acumos.lum.model.PutSwidTagResponse;
 import org.acumos.lum.model.SWIDBodyAndCreator;
 import org.acumos.lum.model.SWIDBodySwCatalogs;
+import org.acumos.nexus.client.NexusArtifactClient;
+import org.acumos.nexus.client.RepositoryLocation;
+import org.apache.maven.wagon.ConnectionException;
+import org.apache.maven.wagon.ResourceDoesNotExistException;
+import org.apache.maven.wagon.TransferFailedException;
+import org.apache.maven.wagon.authentication.AuthenticationException;
+import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientResponseException;
@@ -102,9 +108,11 @@ public class LicenseAsset {
   private final ICommonDataServiceRestClient dataClient;
 
   private final String lumServer;
-  private String nexusUrl;
+  private NexusArtifactClient nexusArtifactClient;
 
   /**
+   * @Deprecated
+   *
    * @param dataServiceClient CDS data client for acumos used to fetch required info for LUM
    * @param lumServer LUM server such as http://127.0.0.1:2080/
    * @param nexusModelRepo Nexus repo for model artifacts
@@ -115,8 +123,25 @@ public class LicenseAsset {
       final String nexusModelRepo) {
     this.dataClient = dataServiceClient;
     this.lumServer = lumServer;
-    this.nexusUrl =
-        nexusModelRepo; // "http://acumos-bionic-1:30881/repository/acumos_model_maven/";
+    RepositoryLocation repositoryLocation = new RepositoryLocation();
+    repositoryLocation.setUrl(nexusModelRepo);
+    repositoryLocation.setId("1");
+    NexusArtifactClient nexusArtifactClient = new NexusArtifactClient(repositoryLocation);
+    this.nexusArtifactClient = nexusArtifactClient;
+  }
+
+  /**
+   * @param dataServiceClient CDS data client for acumos used to fetch required info for LUM
+   * @param lumServer LUM server such as http://127.0.0.1:2080/
+   * @param nexusArtifactClient to fetch nexus client information
+   */
+  public LicenseAsset(
+      final ICommonDataServiceRestClient dataServiceClient,
+      final String lumServer,
+      final NexusArtifactClient nexusArtifactClient) {
+    this.dataClient = dataServiceClient;
+    this.lumServer = lumServer;
+    this.nexusArtifactClient = nexusArtifactClient;
   }
 
   /**
@@ -390,18 +415,9 @@ public class LicenseAsset {
           System.out.println(uriForLicenseProfileJson);
           // request.nexusClient get json
           JsonNode jsonNode;
-          String licenseJsonUrl = nexusUrl + uriForLicenseProfileJson;
-          OkHttpClient client = new OkHttpClient();
-          Request requestLicenseJson = new Request.Builder().url(licenseJsonUrl).build();
-
-          try (Response response = client.newCall(requestLicenseJson).execute()) {
-
-            if (response.isSuccessful() == false) {
-              throw new LicenseAssetRegistrationException(
-                  "Unable to fetch license profile", request, response);
-            }
-            String licenseProfileJson = response.body().string();
-            // System.out.println(licenseProfileJson);
+          try (ByteArrayOutputStream stream =
+              nexusArtifactClient.getArtifact(uriForLicenseProfileJson); ) {
+            String licenseProfileJson = stream.toString();
             jsonNode = new ObjectMapper().readTree(licenseProfileJson);
             JsonNode companyNameNode = jsonNode.get("companyName");
             if (companyNameNode == null) {
@@ -419,7 +435,12 @@ public class LicenseAsset {
             profile.isRtuRequired(rtuRequired);
             swidBody.setSoftwareLicensorId(companyName);
 
-          } catch (IOException exp) {
+          } catch (IOException
+              | AuthenticationException
+              | ConnectionException
+              | ResourceDoesNotExistException
+              | TransferFailedException
+              | AuthorizationException exp) {
             LOGGER.error("license profile json failed to load");
             throw new LicenseAssetRegistrationException(
                 "CDS + Nexus addLicenseProfileInfoToSwid" + "failed", exp);

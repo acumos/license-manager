@@ -22,7 +22,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.acumos.license-manager</groupId>
 	<artifactId>license-manager-client-library</artifactId>
-	<version>1.4.3-SNAPSHOT</version>
+	<version>1.4.4-SNAPSHOT</version>
 	<name>License Manager Client Library</name>
 	<description>The License Manager Client library assists in fetching license profile templates, validating license profile and verifying that the user has the rights to use models. Developed by EST.tech.</description>
 	<properties>
@@ -51,6 +51,11 @@
 			<groupId>org.acumos.common-dataservice</groupId>
 			<artifactId>cmn-data-svc-client</artifactId>
 			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.acumos.acumos-nexus-client</groupId>
+			<artifactId>acumos-nexus-client</artifactId>
+			<version>2.2.1</version>
 		</dependency>
 		<dependency>
 			<!-- for immutable rtu objects -->
