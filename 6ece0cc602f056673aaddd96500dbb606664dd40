@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4517a792_fd1a505f",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-02-21T22:17:23Z",
+      "side": 1,
+      "message": "Let\u0027s go to 1.5.0 for this change.. i had to use 1.4.4 for clio urgent bug fix.",
+      "revId": "6ece0cc602f056673aaddd96500dbb606664dd40",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
