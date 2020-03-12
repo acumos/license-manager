@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df60866f_343e2207",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-03-12T14:05:41Z",
+      "side": 1,
+      "message": "update copyright to 2020 and your company",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3066170_a53a72ac",
+        "filename": "license-manager-client-library/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-03-12T14:05:41Z",
+      "side": 1,
+      "message": "do we need to change the value of the old.version ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 35
+      },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b3b3245_6019741c",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseAsset.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-03-12T14:05:41Z",
+      "side": 1,
+      "message": "update copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 39
+      },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9bba78a_a62849f2",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseRtuVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-03-12T14:05:41Z",
+      "side": 1,
+      "message": "update copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 39
+      },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3598cd00_eafb6969",
+        "filename": "license-manager-client-library/src/test/java/org/acumos/licensemanager/client/main/GetEntitledSwidTagsByUserMain.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-03-12T14:05:41Z",
+      "side": 1,
+      "message": "is copyright from Nordix ?",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 39
+      },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
