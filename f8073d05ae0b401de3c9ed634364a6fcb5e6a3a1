@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "462d8207_2b242f39",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-12T14:15:14Z",
+      "side": 1,
+      "message": "We use format\n * Modifications Copyright (C) 2020 Nordix Foundation.",
+      "parentUuid": "df60866f_343e2207",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3066170_a53a72ac",
         "filename": "license-manager-client-library/pom.xml",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-12T14:05:41Z",
       "side": 1,
       "message": "do we need to change the value of the old.version ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 35
+      },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f4a904b_1592db94",
+        "filename": "license-manager-client-library/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-12T14:15:14Z",
+      "side": 1,
+      "message": "This should be for delta report",
+      "parentUuid": "c3066170_a53a72ac",
       "range": {
         "startLine": 29,
         "startChar": 2,
@@ -65,6 +113,57 @@
         "endLine": 5,
         "endChar": 39
       },
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ecc3a8_881e0dbd",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseAsset.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-12T14:15:14Z",
+      "side": 1,
+      "message": "Return type must Use CompletableFuture like others",
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea5b55ac_270a32f4",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseAsset.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-12T14:15:14Z",
+      "side": 1,
+      "message": "Use async function",
+      "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "327094b8_10ad32b2",
+        "filename": "license-manager-client-library/src/main/java/org/acumos/licensemanager/client/rtu/LicenseAsset.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-12T14:15:14Z",
+      "side": 1,
+      "message": "Need to add  completableFuture.completeExceptionally(ex);",
       "revId": "f8073d05ae0b401de3c9ed634364a6fcb5e6a3a1",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": true
