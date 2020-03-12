@@ -22,6 +22,11 @@
 License Manager Client Library Release Notes
 ============================================
 
+Version 1.5.1 12 March 2020
+--------------------------
+* lum-java-rest-client 1.0.0 upgrade
+* New method is written in LMCL to call new LUM API to retrieve models available for Accucompose composition - `ACUMOS-3971 <https://jira.acumos.org/browse/ACUMOS-3971>`_
+
 Version 1.5.0 28 Feb 2020
 --------------------------
 * CDS 3.1.1 upgrade
