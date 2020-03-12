@@ -38,8 +38,8 @@ import org.acumos.lum.handler.ApiClient;
 import org.acumos.lum.handler.ApiException;
 import org.acumos.lum.handler.AssetUsageApi;
 import org.acumos.lum.handler.JSON;
+import org.acumos.lum.model.AssetUsageRequestTopMixin;
 import org.acumos.lum.model.AssetUsageResponse;
-import org.acumos.lum.model.AssetUseageRequestTopMixin;
 import org.acumos.lum.model.PutAssetUsageRequest;
 import org.acumos.lum.model.PutAssetUsageSuccessResponse;
 import org.slf4j.Logger;
@@ -120,7 +120,7 @@ public final class LicenseRtuVerifier implements ILicenseRtuVerifier {
 
     PutAssetUsageRequest putRequest = new PutAssetUsageRequest();
     putRequest.setUserId(request.getLoggedInUserName());
-    AssetUseageRequestTopMixin usageReq = new AssetUseageRequestTopMixin();
+    AssetUsageRequestTopMixin usageReq = new AssetUsageRequestTopMixin();
     usageReq.setAssetUsageId(request.getUsageRequestId().toString());
     usageReq.setSwTagId(request.getRevisionId().toString());
     usageReq.setAction(request.getAction().getAction());

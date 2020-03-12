@@ -55,6 +55,7 @@ import org.acumos.lum.handler.ApiClient;
 import org.acumos.lum.handler.ApiException;
 import org.acumos.lum.handler.SwidTagApi;
 import org.acumos.lum.model.BaseRequestTop;
+import org.acumos.lum.model.GetEntitledSwidTagsResponse;
 import org.acumos.lum.model.LicenseProfile;
 import org.acumos.lum.model.PutSwidTagRequest;
 import org.acumos.lum.model.PutSwidTagResponse;
@@ -269,6 +270,36 @@ public class LicenseAsset {
     }
 
     return completableFuture;
+  }
+
+  /**
+   * Below API is used for fetching all the available SwidTags from LUM based on particular user
+   *
+   * @param userId
+   * @param action
+   * @return GetEntitledSwidTagsResponse
+   */
+  public GetEntitledSwidTagsResponse getEntitledSwidTagsByUser(String userId, String action) {
+
+    validateGetEntitledSwidTagsByUserRequest(userId, action);
+    // api setup
+    SwidTagApi swidTagApi = swidTagApiSetup();
+    GetEntitledSwidTagsResponse response = new GetEntitledSwidTagsResponse();
+    try {
+      response = swidTagApi.getSwidTagsWithAvailableEntitlement(userId, action);
+    } catch (ApiException ex) {
+      LOGGER.error("fetched EntitledSwidTags LUM Failed: {}", ex.getResponseBody());
+    }
+    return response;
+  }
+
+  private void validateGetEntitledSwidTagsByUserRequest(String userId, String action) {
+    if (userId == null) {
+      throw new IllegalArgumentException("userId id not defined");
+    }
+    if (action == null) {
+      throw new IllegalArgumentException("action is not defined");
+    }
   }
 
   private void validateRequest(RegisterAssetRequest request) {
