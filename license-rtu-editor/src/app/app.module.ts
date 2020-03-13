@@ -38,6 +38,7 @@ import { MaterialDesignFrameworkModule, ɵb as Framework } from '@earlyster/angu
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { Bootstrap4FrameworkModule } from '@earlyster/angular6-json-schema-form';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { FormsModule } from '@angular/forms';
     MatSnackBarModule,
     MaterialDesignFrameworkModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    Bootstrap4FrameworkModule
   ],
   providers: [
     {

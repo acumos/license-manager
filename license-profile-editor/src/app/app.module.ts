@@ -32,6 +32,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { MaterialDesignFrameworkModule, ɵb as Framework } from '@earlyster/angular6-json-schema-form';
+import { Bootstrap4FrameworkModule } from '@earlyster/angular6-json-schema-form';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -46,7 +47,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatGridListModule,
     MaterialDesignFrameworkModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    Bootstrap4FrameworkModule
   ],
   providers: [
     {
