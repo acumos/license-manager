@@ -24,12 +24,14 @@
 
 export const environment = {
   production: false,
-  schemaUrl: 'https://raw.githubusercontent.com/acumos/license-manager/master/license-rtu-editor/src/assets/schema/1.0.1/rtu-agreement.json',
-  restrictionsSchemaUrl: 'https://raw.githubusercontent.com/acumos/license-manager/master/license-rtu-editor/src/assets/schema/1.0.1/rtu-restrictions.json',
+  schemaUrl: 'assets/schema/1.0.1/rtu-agreement.json',
+  restrictionsSchemaUrl: 'assets/schema/1.0.1/rtu-restrictions.json',
   layoutVersionToUrlMap: {
     '1.0.0': 'assets/layouts/1.0.0/layout.json',
     '1.0.1-rtu': 'assets/layouts/1.0.1/layout-rtu.json',
-    '1.0.1-restrictions': 'assets/layouts/1.0.1/layout-restrictions.json'
+    '1.0.1-restrictions': 'assets/layouts/1.0.1/layout-restrictions.json',
+    '1.0.2-rtu': 'assets/layouts/1.0.2/layout-rtu.json',
+    '1.0.2-restrictions': 'assets/layouts/1.0.2/layout-restrictions.json'
   }
 };
 

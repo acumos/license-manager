@@ -21,6 +21,7 @@
 /*
  * importing theme here to apply the theme css rules to shadow dom
  */
+@import "~bootstrap/dist/css/bootstrap.css";
 
  .version {
   font-size: 12px;
@@ -54,4 +55,16 @@
 .lum-url-field {
   min-width: 300px;
   width: 80%;
+}
+
+.mat-toolbar.mat-primary {
+    height: 39px;
+}
+.mat-toolbar.mat-primary h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+.mat-menu-item {
+  overflow: hidden !important;
 }

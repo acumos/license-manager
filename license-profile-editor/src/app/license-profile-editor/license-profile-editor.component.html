@@ -18,7 +18,7 @@
   ===============LICENSE_END==================================================
   -->
 <mat-toolbar class="sticky-toolbar" color="primary">
-  <span>{{title}}</span>
+  <h2>{{title}}</h2>
   <span class="version">v{{appVersion}}</span>
   <span style="flex: 1 1 auto;"></span>
 
@@ -28,17 +28,19 @@
 
 <div class="license-profile-editor">
 
-  <mat-card class="content-card">
+  <div class="content-card">
     <div *ngFor="let error of errors" class="error">{{error}}</div>
-    <json-schema-form *ngIf="profileFormInput" 
+    <json-schema-form 
+      *ngIf="profileFormInput"
       #licenseProfile
       [form]="profileFormInput"
-      framework="acumos-material-design"
+      framework="bootstrap-4"
       loadExternalAssets="false"
       (isValid)="isValidFn($event)"
-      >
+      > 
     </json-schema-form>
-  </mat-card>
+
+  </div>
 
   <div class="bottom-button-bar">
     <button *ngIf="mode !== 'iframe'" mat-raised-button color="primary"
