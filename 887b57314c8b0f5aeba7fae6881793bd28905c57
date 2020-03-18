@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cf1e53e_40e97cbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-18T15:06:31Z",
+      "side": 1,
+      "message": "no release notes?",
+      "revId": "887b57314c8b0f5aeba7fae6881793bd28905c57",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38bacffa_abd0e23a",
+        "filename": "license-rtu-editor/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-18T15:06:31Z",
+      "side": 1,
+      "message": "are you going to remove material ... ideally you should use one or the other? this increases the size of the download.",
+      "revId": "887b57314c8b0f5aeba7fae6881793bd28905c57",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
