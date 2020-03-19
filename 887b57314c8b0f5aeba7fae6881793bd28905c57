@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1833a56c_fb141a18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 36
+      },
+      "writtenOn": "2020-03-19T09:10:28Z",
+      "side": 1,
+      "message": "After the code is merged and deployed.",
+      "parentUuid": "7cf1e53e_40e97cbb",
+      "revId": "887b57314c8b0f5aeba7fae6881793bd28905c57",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38bacffa_abd0e23a",
         "filename": "license-rtu-editor/package.json",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2020-03-18T15:06:31Z",
       "side": 1,
       "message": "are you going to remove material ... ideally you should use one or the other? this increases the size of the download.",
+      "revId": "887b57314c8b0f5aeba7fae6881793bd28905c57",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e22c274_8c456b2f",
+        "filename": "license-rtu-editor/package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 36
+      },
+      "writtenOn": "2020-03-19T09:10:28Z",
+      "side": 1,
+      "message": "No, we\u0027ll be using both Material and Bootstrap. Few elements are material based, like the buttons, dropdown, radio are used of material design. The form inputs, textarea etc are used of bootstrap\u0027s.",
+      "parentUuid": "38bacffa_abd0e23a",
       "revId": "887b57314c8b0f5aeba7fae6881793bd28905c57",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": true
