@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73f18480_22765ae8",
+        "filename": "license-manager-client-library/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-03-26T14:28:58Z",
+      "side": 1,
+      "message": "there should be copyright 2020 Tech M here as well",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 38
+      },
+      "revId": "6c135b01bf1820e9ddfa18dfce1832e76894b4a4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
