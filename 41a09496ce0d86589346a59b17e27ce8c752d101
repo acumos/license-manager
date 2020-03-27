@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37cd767e_38b5fa36",
+        "filename": "license-manager-client-library/src/test/java/org/acumos/licensemanager/client/LicenseAssetTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-27T17:11:08Z",
+      "side": 1,
+      "message": "Is this a typical response from LUM empty object?",
+      "revId": "41a09496ce0d86589346a59b17e27ce8c752d101",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a52e22a2_6f9c82ad",
+        "filename": "license-manager-client-library/src/test/java/org/acumos/licensemanager/client/LicenseAssetTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 290
+      },
+      "writtenOn": "2020-03-27T17:11:08Z",
+      "side": 1,
+      "message": "Test should include assert getting swid tags but I don\u0027t see that here.",
+      "revId": "41a09496ce0d86589346a59b17e27ce8c752d101",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
