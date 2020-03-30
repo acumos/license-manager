@@ -43,6 +43,22 @@ committers:
       company: 'Ericsson Software Technology'
       id: 'parag'
       timezone: 'America/New_York'
+    - name: 'Shiv Shakti'
+      email: 'shiv.shakti@est.tech'
+      company: 'Ericsson Software Technology'
+      id: 'ShivShakti'
+      timezone: 'India/IST'
+    - name: 'Priyadarshini Londhe'
+      email: 'londhepv@TechMahindra.com'
+      company: 'Tech Mahindra'
+      id: 'Priyadarshini'
+      timezone: 'India/IST'
+    - name: 'Shilendra Srivastava'
+      email: 'ss00638522@techmahindra.com'
+      company: 'Tech Mahindra'
+      id: 'ss00638522'
+      timezone: 'India/IST'
+      
 tsc:
     approval: ''
     changes:
