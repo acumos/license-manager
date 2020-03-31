@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04a98b7a_53a01b33",
+        "filename": "INFO.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2020-03-31T22:02:40Z",
+      "side": 1,
+      "message": "Job fails due to these extra whitespace characters, please submit a new changeset with a corrected file.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 6
+      },
+      "revId": "217dfe55e7c59a4cfeb97aa1c957839fd922eb9a",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
