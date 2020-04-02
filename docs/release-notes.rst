@@ -2,6 +2,7 @@
 .. Acumos CC-BY-4.0
 .. ============================================================================
 .. Copyright (C) 2019 Nordix Foundation
+.. Modifications copyright (C)2020 Tech Mahindra
 .. ============================================================================
 .. This Acumos documentation file is distributed by Nordix Foundation.
 .. under the Creative Commons Attribution 4.0 International License
@@ -21,7 +22,6 @@
 ============================================
 License Manager Client Library Release Notes
 ============================================
-
 Version 1.5.0 28 Feb 2020
 --------------------------
 * CDS 3.1.1 upgrade
