@@ -3,6 +3,7 @@
  * Acumos Apache-2.0
  * ============================================================================
  * Copyright (C) 2019 Nordix Foundation.
+ * Modifications copyright (C)2020 Tech Mahindra.
  * ============================================================================
  * This Acumos software file is distributed by Nordix Foundation
  * under the Apache License, Version 2.0 (the "License");
@@ -26,6 +27,7 @@ import static io.specto.hoverfly.junit.dsl.ResponseCreators.serverError;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -41,6 +43,7 @@ import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.licensemanager.client.model.RegisterAssetRequest;
 import org.acumos.licensemanager.client.model.RegisterAssetResponse;
 import org.acumos.licensemanager.client.rtu.LicenseAsset;
+import org.acumos.lum.model.GetEntitledSwidTagsResponse;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
 import org.junit.Before;
@@ -71,6 +74,35 @@ public class LicenseAssetTest {
                   .queryParam("swTagId", SWIDTAGID)
                   .anyBody()
                   .willReturn(success("{}", "application/json")),
+              service(LUM_SERVER)
+                  .get("/api/v1/swid-tags/available-entitlement")
+                  .queryParam("userId", "admin")
+                  .queryParam("action", "aggregate")
+                  .anyBody()
+                  .willReturn(
+                      success(
+                          "{"
+                              + "\"userId\": \"admin\","
+                              + "\"requestId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\","
+                              + "\"requested\": \"2020-03-30T15:13:25.670Z\","
+                              + "\"action\": \"acumos:download\","
+                              + "\"swidTagsWithAvailableEntitlement\": ["
+                              + "{"
+                              + "\"softwareLicensorId\": \"Company A\","
+                              + "\"swTagId\": \"c8606a77-c39d-4060-bd7d-1051f4c6d316\","
+                              + "\"swidTagRevision\": 5,"
+                              + "\"swPersistentId\": \"c0de3e70-e815-461f-9734-a239c450bf77\","
+                              + "\"licenseProfileId\": \"c75ddb24-0410-49f4-8550-98b06f9a0a51\","
+                              + "\"availableEntitlement\": {"
+                              + "\"rightToUseId\": \"acumos://software-licensor/Company A/permission/98378924-84ff-41f5-87ac-02fd2012c727\","
+                              + "\"rightToUseRevision\": 3,"
+                              + "\"assetUsageAgreementId\": \"acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106\","
+                              + "\"assetUsageAgreementRevision\": 3"
+                              + "}"
+                              + "}"
+                              + "]"
+                              + "}",
+                          "application/json")),
               service(NEXUS_SERVER)
                   .get("/license.json")
                   .anyBody()
@@ -204,6 +236,22 @@ public class LicenseAssetTest {
       fail(e.getMessage());
     } catch (ExecutionException e) {
       // expect this exception
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void shouldGetswidtags() {
+    MockDatabaseClient mockCDSApi = new MockDatabaseClient();
+    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, getNexusClient());
+    try {
+      String userId = "admin";
+      String action = "aggregate";
+      CompletableFuture<GetEntitledSwidTagsResponse> responseFuture =
+          asset.getEntitledSwidTagsByUser(userId, action);
+      GetEntitledSwidTagsResponse response = responseFuture.get();
+      assertNotNull(response.getSwidTagsWithAvailableEntitlement().get(0).getSwTagId());
+    } catch (Exception e) {
       fail(e.getMessage());
     }
   }
