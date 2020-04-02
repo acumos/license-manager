@@ -3,6 +3,7 @@
  * Acumos Apache-2.0
  * ============================================================================
  * Copyright (C) 2019 Nordix Foundation.
+ * Modifications copyright (C)2020 Tech Mahindra
  * ============================================================================
  * This Acumos software file is distributed by Nordix Foundation
  * under the Apache License, Version 2.0 (the "License");
@@ -38,8 +39,8 @@ import org.acumos.lum.handler.ApiClient;
 import org.acumos.lum.handler.ApiException;
 import org.acumos.lum.handler.AssetUsageApi;
 import org.acumos.lum.handler.JSON;
+import org.acumos.lum.model.AssetUsageRequestTopMixin;
 import org.acumos.lum.model.AssetUsageResponse;
-import org.acumos.lum.model.AssetUseageRequestTopMixin;
 import org.acumos.lum.model.PutAssetUsageRequest;
 import org.acumos.lum.model.PutAssetUsageSuccessResponse;
 import org.slf4j.Logger;
@@ -120,7 +121,7 @@ public final class LicenseRtuVerifier implements ILicenseRtuVerifier {
 
     PutAssetUsageRequest putRequest = new PutAssetUsageRequest();
     putRequest.setUserId(request.getLoggedInUserName());
-    AssetUseageRequestTopMixin usageReq = new AssetUseageRequestTopMixin();
+    AssetUsageRequestTopMixin usageReq = new AssetUsageRequestTopMixin();
     usageReq.setAssetUsageId(request.getUsageRequestId().toString());
     usageReq.setSwTagId(request.getRevisionId().toString());
     usageReq.setAction(request.getAction().getAction());
