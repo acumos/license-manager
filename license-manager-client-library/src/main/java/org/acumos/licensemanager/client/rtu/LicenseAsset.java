@@ -3,6 +3,7 @@
  * Acumos Apache-2.0
  * ============================================================================
  * Copyright (C) 2019 Nordix Foundation.
+ * Modifications copyright (C)2020 Tech Mahindra.
  * ============================================================================
  * This Acumos software file is distributed by Nordix Foundation
  * under the Apache License, Version 2.0 (the "License");
@@ -55,6 +56,7 @@ import org.acumos.lum.handler.ApiClient;
 import org.acumos.lum.handler.ApiException;
 import org.acumos.lum.handler.SwidTagApi;
 import org.acumos.lum.model.BaseRequestTop;
+import org.acumos.lum.model.GetEntitledSwidTagsResponse;
 import org.acumos.lum.model.LicenseProfile;
 import org.acumos.lum.model.PutSwidTagRequest;
 import org.acumos.lum.model.PutSwidTagResponse;
@@ -269,6 +271,58 @@ public class LicenseAsset {
     }
 
     return completableFuture;
+  }
+  /**
+   * Below API is used for fetching all the available SwidTags from LUM based on particular user
+   *
+   * @param userId
+   * @param action
+   * @return GetEntitledSwidTagsResponse
+   */
+  public CompletableFuture<GetEntitledSwidTagsResponse> getEntitledSwidTagsByUser(
+      String userId, String action) {
+    validateGetEntitledSwidTagsByUserRequest(userId, action);
+    // api setup
+    SwidTagApi swidTagApi = swidTagApiSetup();
+    CompletableFuture<GetEntitledSwidTagsResponse> completableFuture =
+        new CompletableFuture<GetEntitledSwidTagsResponse>();
+    try {
+      swidTagApi.getSwidTagsWithAvailableEntitlementAsync(
+          userId,
+          action,
+          new ApiCallback<GetEntitledSwidTagsResponse>() {
+            @Override
+            public void onSuccess(
+                GetEntitledSwidTagsResponse arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.complete(arg0);
+            }
+
+            @Override
+            public void onFailure(ApiException arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.completeExceptionally(arg0);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {}
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {}
+          });
+    } catch (ApiException ex) {
+      LOGGER.error("registerAsset with LUM Failed: {}", ex.getResponseBody());
+      completableFuture.completeExceptionally(ex);
+    }
+
+    return completableFuture;
+  }
+
+  private void validateGetEntitledSwidTagsByUserRequest(String userId, String action) {
+    if (userId == null) {
+      throw new IllegalArgumentException("userId id not defined");
+    }
+    if (action == null) {
+      throw new IllegalArgumentException("action is not defined");
+    }
   }
 
   private void validateRequest(RegisterAssetRequest request) {
