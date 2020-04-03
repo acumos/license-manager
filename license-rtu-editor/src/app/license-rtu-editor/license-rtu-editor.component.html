@@ -167,7 +167,9 @@
     <div *ngIf="viewType === 'SUB'">
       <div>
         <div class="form-group row">
-          <label for="userId" class="col-sm-12 col-form-label"><strong>User ID: </strong></label>
+          <label for="userId" class="col-sm-12 col-form-label">
+            <strong>User ID: <strong class="text-danger">*</strong></strong>
+          </label>
           <div class="col-sm-12"> 
             <input type="text" id="userId" class="form-control" [(ngModel)]="userId" placeholder="User ID *" (input)="onChangeUserId()">
           </div>
