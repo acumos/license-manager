@@ -2,6 +2,7 @@
 .. Acumos CC-BY-4.0
 .. ============================================================================
 .. Copyright (C) 2019 Nordix Foundation
+.. Modifications copyright (C)2020 Tech Mahindra
 .. ============================================================================
 .. This Acumos documentation file is distributed by Nordix Foundation.
 .. under the Creative Commons Attribution 4.0 International License
@@ -21,6 +22,10 @@
 ============================================
 License Manager Client Library Release Notes
 ============================================
+Version 1.5.1 06-April-2020
+--------------------------
+* lum-java-rest-client 1.2.0 upgrade
+* New method is written in LMCL to call new LUM API to retrieve models available for Accucompose composition - `ACUMOS-3971 <https://jira.acumos.org/browse/ACUMOS-3971>`_
 
 Version 1.5.0 28 Feb 2020
 --------------------------
