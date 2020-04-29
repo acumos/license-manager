@@ -2,15 +2,16 @@
  * ===============LICENSE_START================================================
  * Acumos Apache-2.0
  * ============================================================================
- * Copyright (C) 2019 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
+ * Modifications copyright (C)2020 Tech Mahindra
  * ============================================================================
  * This Acumos software file is distributed by Nordix Foundation
  * under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * This file is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -18,27 +19,29 @@
  * ===============LICENSE_END==================================================
  */
 
-import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
-import { LicenseRtuMetaService } from '../license-rtu-meta.service';
-import { JsonSchemaFormComponent } from '@earlyster/angular6-json-schema-form';
+import { Component, OnInit, ViewChild, Input, ElementRef } from "@angular/core";
+import { MatIconRegistry } from "@angular/material/icon";
+import { LicenseRtuMetaService } from "../license-rtu-meta.service";
+import { JsonSchemaFormComponent } from "@earlyster/angular6-json-schema-form";
 import { APP_VERSION } from '../../environments/app.version';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from '../../environments/environment';
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { environment } from "../../environments/environment";
+import { DomSanitizer } from "@angular/platform-browser";
 
 export enum ViewType {
-  SUP = 'SUP', // supplier
-  SUB = 'SUB' // subscriber
+  SUP = "SUP", // supplier
+  SUB = "SUB", // subscriber
 }
 
 export enum AssetUsageAgreementSource {
-  LUM = 'LUM', // LUM
-  FILE = 'FILE' // FILE
+  LUM = "LUM", // LUM
+  FILE = "FILE", // FILE
 }
 
 @Component({
-  selector: 'app-license-rtu-editor',
-  templateUrl: './license-rtu-editor.component.html',
-  styleUrls: ['./license-rtu-editor.component.scss']
+  selector: "app-license-rtu-editor",
+  templateUrl: "./license-rtu-editor.component.html",
+  styleUrls: ["./license-rtu-editor.component.scss"],
 })
 
 /**
@@ -47,18 +50,17 @@ export enum AssetUsageAgreementSource {
  * use by LUM.
  */
 export class LicenseRtuEditorComponent implements OnInit {
-
-  title = 'Acumos Right to Use Editor';
+  title = "Acumos Right to Use Editor";
   appVersion = APP_VERSION.app_git_version;
   isValid: any;
-  downloadType = 'txt';
+  downloadType = "txt";
   errors: string[];
   rtuFormInput: any;
   rtuEditorForm: JsonSchemaFormComponent;
   softwareLicensorIdEl: ElementRef;
   assetUsageAgreementIdEl: ElementRef;
   queryParams: any = {};
-  lumServerUrl = '/lum';
+  lumServerUrl = "/lum";
   viewType = ViewType.SUP;
   rtuLumAgreement: any;
   reviewRtuAgreementChecked: boolean;
@@ -66,12 +68,19 @@ export class LicenseRtuEditorComponent implements OnInit {
 
   @Input() mode: string;
 
-
-  constructor(private service: LicenseRtuMetaService,
-              private snackBar: MatSnackBar) {
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer,
+    private service: LicenseRtuMetaService,
+    private snackBar: MatSnackBar
+  ) {
+    this.matIconRegistry.addSvgIcon(
+      `close`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/icons/close.svg")
+    );
 
     if (!environment.production) {
-      this.lumServerUrl = 'http://localhost:2080';
+      this.lumServerUrl = "http://localhost:2080";
     }
     this.resetData();
   }
@@ -83,11 +92,13 @@ export class LicenseRtuEditorComponent implements OnInit {
    * Utils.ts if more usage required.
    */
   initQueryParams() {
-    const search = decodeURIComponent(window.location.href.slice(window.location.href.indexOf('?') + 1));
-    const definitions = search.split('&');
+    const search = decodeURIComponent(
+      window.location.href.slice(window.location.href.indexOf("?") + 1)
+    );
+    const definitions = search.split("&");
 
     definitions.forEach((val) => {
-      const parts = val.split('=', 2);
+      const parts = val.split("=", 2);
       this.queryParams[parts[0]] = parts[1];
     });
   }
@@ -97,32 +108,31 @@ export class LicenseRtuEditorComponent implements OnInit {
     if (element.addEventListener) {
       element.addEventListener(eventName, eventHandler, false);
     } else if (element.attachEvent) {
-      element.attachEvent('on' + eventName, eventHandler);
+      element.attachEvent("on" + eventName, eventHandler);
     }
   }
 
   initIframeSetup() {
     const me = this;
     // Listen to messages from parent window
-    me.bindEvent(window, 'message', (event) => {
-      if (event.data.key === 'input') {
+    me.bindEvent(window, "message", (event) => {
+      if (event.data.key === "input") {
         me.doSetup(event.data.value);
       }
     });
-    console.log('license-rtu-editor: iframe init - send message');
+    console.log("license-rtu-editor: iframe init - send message");
     me.sendMessage({
-      key: 'init_iframe',
-      value: ''
+      key: "init_iframe",
+      value: "",
     });
   }
 
   // Send a message to the parent
   sendMessage(msgObj) {
-    window.parent.postMessage(msgObj, '*');
+    window.parent.postMessage(msgObj, "*");
   }
 
   ngOnInit() {
-
     const me = this;
     // attempt to read mode value from the query param, if not given as input
     if (!me.mode) {
@@ -134,37 +144,40 @@ export class LicenseRtuEditorComponent implements OnInit {
 
     me.initSetup();
 
-    if (me.mode === 'iframe') {
+    if (me.mode === "iframe") {
       me.initIframeSetup();
     }
-
   }
 
   initSetup() {
     const me = this;
-    me.doSetup((me.viewType === ViewType.SUB) ?
-      me.service.getRtuRestrictionsInitialData()
-      : me.service.getRtuAgreementInitialData());
+    me.doSetup(
+      me.viewType === ViewType.SUB
+        ? me.service.getRtuRestrictionsInitialData()
+        : me.service.getRtuAgreementInitialData()
+    );
   }
 
   resetData() {
     const me = this;
     me.errors = [];
     me.rtuFormInput = undefined;
-    const rtuLumAgreementSrc = (me.rtuLumAgreement && me.rtuLumAgreement.src) 
-      ? me.rtuLumAgreement.src : 'LUM';
+    const rtuLumAgreementSrc =
+      me.rtuLumAgreement && me.rtuLumAgreement.src
+        ? me.rtuLumAgreement.src
+        : "LUM";
     me.rtuLumAgreement = {
       src: rtuLumAgreementSrc,
-      assetUsageAgreement: {}
+      assetUsageAgreement: {},
     };
     if (me.softwareLicensorIdEl) {
-      me.softwareLicensorIdEl.nativeElement.value = '';
+      me.softwareLicensorIdEl.nativeElement.value = "";
     }
     if (me.assetUsageAgreementIdEl) {
-      me.assetUsageAgreementIdEl.nativeElement.value = '';
+      me.assetUsageAgreementIdEl.nativeElement.value = "";
     }
     me.reviewRtuAgreementChecked = false;
-    me.userId = '';
+    me.userId = "";
   }
 
   resetSetup() {
@@ -176,40 +189,44 @@ export class LicenseRtuEditorComponent implements OnInit {
   }
 
   doSetup(input: any, options?: any) {
-
     const me = this;
     me.errors = [];
 
-    me.service.getComponentInput(input).subscribe((compInput: any) => {
-      const formInputObj: any = {
-        schema: compInput.schema,
-        layout: compInput.layout,
-        data: compInput.data,
-        options: {
-          addSubmit: false, // Add a submit button if layout does not have one
-          // debug: true, // Don't show inline debugging information
-          // loadExternalAssets: true, // Load external css and JavaScript for frameworks
-          // returnEmptyFields: false, // Don't return values for empty input fields
-          setSchemaDefaults: true, // Always use schema defaults for empty fields
-          defautWidgetOptions: {
-            feedback: true, // Show inline feedback icons
-            listItems: 0 // Number of list items to initially add to arrays with no default value
+    me.service.getComponentInput(input).subscribe(
+      (compInput: any) => {
+        const formInputObj: any = {
+          schema: compInput.schema,
+          layout: compInput.layout,
+          data: compInput.data,
+          options: {
+            addSubmit: false, // Add a submit button if layout does not have one
+            // debug: true, // Don't show inline debugging information
+            // loadExternalAssets: true, // Load external css and JavaScript for frameworks
+            // returnEmptyFields: false, // Don't return values for empty input fields
+            setSchemaDefaults: true, // Always use schema defaults for empty fields
+            defautWidgetOptions: {
+              feedback: true, // Show inline feedback icons
+              listItems: 0 // Number of list items to initially add to arrays with no default value
+            }
+          }
+        };
+        if (options) {
+          if (options.defautWidgetOptions) {
+            Object.assign(
+              formInputObj.options.defautWidgetOptions,
+              options.defautWidgetOptions
+            );
+          }
+          if (options.isExampleData) {
+            formInputObj.isExampleData = true;
           }
         }
-      };
-      if (options) {
-        if (options.defautWidgetOptions) {
-          Object.assign(formInputObj.options.defautWidgetOptions, options.defautWidgetOptions);
-        }
-        if (options.isExampleData) {
-          formInputObj.isExampleData = true;
-        }
+        me.rtuFormInput = formInputObj;
+      },
+      (errors) => {
+        me.errors = errors;
       }
-      me.rtuFormInput = formInputObj;
-    }, errors => {
-      me.errors = errors;
-    });
-
+    );
   }
 
   onChangeViewType() {
@@ -244,7 +261,7 @@ export class LicenseRtuEditorComponent implements OnInit {
     }
     const me = this;
     me.errors = [];
-    if (typeof (FileReader) !== 'undefined') {
+    if (typeof FileReader !== "undefined") {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
@@ -258,9 +275,9 @@ export class LicenseRtuEditorComponent implements OnInit {
           });
           // reset input file field value so that attempting
           // to import same file result in change notification
-          event.target.value = '';
+          event.target.value = "";
         } catch (e) {
-          me.errors.push('Failed reading / parsing the input file');
+          me.errors.push("Failed reading / parsing the input file");
         }
       };
 
@@ -274,7 +291,7 @@ export class LicenseRtuEditorComponent implements OnInit {
     }
     const me = this;
     me.errors = [];
-    if (typeof (FileReader) !== 'undefined') {
+    if (typeof FileReader !== "undefined") {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
@@ -291,9 +308,9 @@ export class LicenseRtuEditorComponent implements OnInit {
 
           // reset input file field value so that attempting
           // to import same file result in change notification
-          event.target.value = '';
+          event.target.value = "";
         } catch (e) {
-          me.errors.push('Failed reading / parsing the input file');
+          me.errors.push("Failed reading / parsing the input file");
         }
       };
 
@@ -306,20 +323,17 @@ export class LicenseRtuEditorComponent implements OnInit {
     const data = me.rtuLumAgreement && me.rtuLumAgreement.assetUsageAgreement;
 
     // prepare input based on agreementRestriction availibility
-    if (showReviewRtuAgreement
-        && data
-        && data.agreement) {
+    if (showReviewRtuAgreement && data && data.agreement) {
       const options: any = {
         defautWidgetOptions: {
           // For readonly form
           addable: false,
           removable: false,
           readonly: true
-        }
+        },
       };
       me.doSetup(data.agreement, options);
-    } else if (data
-        && data.agreementRestriction) {
+    } else if (data && data.agreementRestriction) {
       me.doSetup(data.agreementRestriction);
     } else {
       me.initSetup();
@@ -333,14 +347,17 @@ export class LicenseRtuEditorComponent implements OnInit {
 
   canEnableGetRTUAgreementDataBtn() {
     const me = this;
-    if (me.viewType === ViewType.SUB
-      && me.rtuLumAgreement.src === AssetUsageAgreementSource.LUM) {
-
-      if (me.lumServerUrl
-          && me.softwareLicensorIdEl
-          && me.softwareLicensorIdEl.nativeElement.value
-          && me.assetUsageAgreementIdEl
-          && me.assetUsageAgreementIdEl.nativeElement.value) {
+    if (
+      me.viewType === ViewType.SUB &&
+      me.rtuLumAgreement.src === AssetUsageAgreementSource.LUM
+    ) {
+      if (
+        me.lumServerUrl &&
+        me.softwareLicensorIdEl &&
+        me.softwareLicensorIdEl.nativeElement.value &&
+        me.assetUsageAgreementIdEl &&
+        me.assetUsageAgreementIdEl.nativeElement.value
+      ) {
         return true;
       }
     }
@@ -356,16 +373,19 @@ export class LicenseRtuEditorComponent implements OnInit {
    */
   canEnableSaveBtn() {
     const me = this;
-    if (me.rtuLumAgreement.src === AssetUsageAgreementSource.LUM
-      && me.reviewRtuAgreementChecked) {
+    if (
+      me.rtuLumAgreement.src === AssetUsageAgreementSource.LUM &&
+      me.reviewRtuAgreementChecked
+    ) {
       return false;
     }
     if (me.lumServerUrl && me.isValid && me.userId) {
-
-      if (me.softwareLicensorIdEl
-          && me.softwareLicensorIdEl.nativeElement.value
-          && me.assetUsageAgreementIdEl
-          && me.assetUsageAgreementIdEl.nativeElement.value) {
+      if (
+        me.softwareLicensorIdEl &&
+        me.softwareLicensorIdEl.nativeElement.value &&
+        me.assetUsageAgreementIdEl &&
+        me.assetUsageAgreementIdEl.nativeElement.value
+      ) {
         return true;
       }
     }
@@ -379,14 +399,14 @@ export class LicenseRtuEditorComponent implements OnInit {
     }
   }
 
-  @ViewChild('softwareLicensorId', { static: false })
+  @ViewChild("softwareLicensorId", { static: false })
   set softwareLicensorIdInput(inputEl: ElementRef) {
     if (inputEl) {
       this.softwareLicensorIdEl = inputEl;
     }
   }
 
-  @ViewChild('assetUsageAgreementId', { static: false })
+  @ViewChild("assetUsageAgreementId", { static: false })
   set assetUsageAgreementIdInput(inputEl: ElementRef) {
     if (inputEl) {
       this.assetUsageAgreementIdEl = inputEl;
@@ -399,8 +419,10 @@ export class LicenseRtuEditorComponent implements OnInit {
     me.putData(formData);
   }
 
-  getRTUAgreementData(softwareLicensorId: string,
-                      assetUsageAgreementId: string) {
+  getRTUAgreementData(
+    softwareLicensorId: string,
+    assetUsageAgreementId: string
+  ) {
     const me = this;
     me.resetData();
     me.fetchRtuAgreementData(softwareLicensorId, assetUsageAgreementId);
@@ -408,8 +430,8 @@ export class LicenseRtuEditorComponent implements OnInit {
 
   cancelRTU() {
     this.sendMessage({
-      key: 'action',
-      value: 'cancel'
+      key: "action",
+      value: "cancel",
     });
   }
 
@@ -422,9 +444,7 @@ export class LicenseRtuEditorComponent implements OnInit {
     // add wrapper object
     const me = this;
 
-    if (me.viewType === ViewType.SUB
-        && me.rtuLumAgreement.src === 'LUM') {
-
+    if (me.viewType === ViewType.SUB && me.rtuLumAgreement.src === "LUM") {
       const assetUsageAgreement = me.rtuLumAgreement.assetUsageAgreement;
       const reqPayload = {
         assetUsageAgreement: {
@@ -434,14 +454,14 @@ export class LicenseRtuEditorComponent implements OnInit {
         },
         // additional data prep
         requestId: me.uuidv4(),
-        requested: (new Date()).toISOString(),
+        requested: new Date().toISOString(),
         userId: me.userId
       };
 
       return reqPayload;
     } else {
       // add wrapper object
-      const licensor = formData.assigner['vcard:fn'];
+      const licensor = formData.assigner["vcard:fn"];
       const agreementId = formData.uid;
       return {
         assetUsageAgreement: {
@@ -449,7 +469,7 @@ export class LicenseRtuEditorComponent implements OnInit {
           assetUsageAgreementId: agreementId,
           // supplier agreement
           agreement: formData
-        }
+        },
       };
     }
   }
@@ -476,44 +496,53 @@ export class LicenseRtuEditorComponent implements OnInit {
     // add uid to: agreement
     // get company name of software licensor from Assigner
     let agreementData = formData;
-    if (me.rtuLumAgreement
-        && me.rtuLumAgreement.assetUsageAgreement
-        && me.rtuLumAgreement.assetUsageAgreement.agreement) {
+    if (
+      me.rtuLumAgreement &&
+      me.rtuLumAgreement.assetUsageAgreement &&
+      me.rtuLumAgreement.assetUsageAgreement.agreement
+    ) {
       agreementData = me.rtuLumAgreement.assetUsageAgreement.agreement;
     }
-    const companyName = agreementData.assigner['vcard:fn'];
-    let type = '';
+    const companyName = agreementData.assigner["vcard:fn"];
+    let type = "";
     if (!formData.uid || me.rtuFormInput.isExampleData) {
-      type = 'agreement';
+      type = "agreement";
       formData.uid = this.createUID(type, companyName);
     }
 
     if (formData.permission) {
-      formData.permission.forEach(rule => {
+      formData.permission.forEach((rule) => {
         if (!rule.uid || me.rtuFormInput.isExampleData) {
-          rule.uid = this.createUID('permission', companyName);
+          rule.uid = this.createUID("permission", companyName);
         }
       });
     }
 
     if (formData.prohibition) {
-      formData.prohibition.forEach(rule => {
+      formData.prohibition.forEach((rule) => {
         if (!rule.uid || me.rtuFormInput.isExampleData) {
-          rule.uid = this.createUID('prohibition', companyName);
+          rule.uid = this.createUID("prohibition", companyName);
         }
       });
     }
   }
 
   createUID(type: string, companyName: string): string {
-    return `acumos://software-licensor/${encodeURIComponent(companyName)}/${type}/${this.uuidv4()}`;
+    return `acumos://software-licensor/${encodeURIComponent(
+      companyName
+    )}/${type}/${this.uuidv4()}`;
   }
 
   uuidv4() {
     // tslint:disable-next-line:whitespace
-    return ([1e7] as any + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) =>
-      // tslint:disable-next-line:no-bitwise
-      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    return (([1e7] as any) + -1e3 + -4e3 + -8e3 + -1e11).replace(
+      /[018]/g,
+      (c: any) =>
+        // tslint:disable-next-line:no-bitwise
+        (
+          c ^
+          (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+        ).toString(16)
     );
   }
 
@@ -522,77 +551,82 @@ export class LicenseRtuEditorComponent implements OnInit {
     // save as json
     // const mimeType = { type: 'application/json' };
     const data = JSON.stringify(formData);
-    const fileName = 'rtu-asset-usage-agreement.json';
+    const fileName = "rtu-asset-usage-agreement.json";
 
     this.downloadFile(data, undefined, fileName);
-
   }
 
   async putData(formData: any) {
     const me = this;
-    let url = me.lumServerUrl + '/api/v1/asset-usage-agreement';
+    let url = me.lumServerUrl + "/api/v1/asset-usage-agreement";
 
     if (me.rtuLumAgreement.src === AssetUsageAgreementSource.LUM) {
       // currently showing RTU LUM agreement and
       // requesting to save restrictions
-      url += '-restriction';
+      url += "-restriction";
     }
-    url += '/?softwareLicensorId=' + formData.assetUsageAgreement.softwareLicensorId;
-    url += '&assetUsageAgreementId=' + formData.assetUsageAgreement.assetUsageAgreementId;
+    url +=
+      "/?softwareLicensorId=" + formData.assetUsageAgreement.softwareLicensorId;
+    url +=
+      "&assetUsageAgreementId=" +
+      formData.assetUsageAgreement.assetUsageAgreementId;
     try {
       // Default options are marked with *
       const response = await fetch(url, {
-        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
+        method: "PUT", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
-        redirect: 'follow', // manual, *follow, error
-        referrer: 'no-referrer', // no-referrer, *client
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
         body: JSON.stringify(formData) // body data type must match "Content-Type" header
       });
       const data = await response.json(); // parses JSON response into native JavaScript objects
       if (!data || data.error) {
-        me.showSnackBar('Failed to save RTU document to LUM server', 'Retry');
+        me.showSnackBar("Failed to save RTU document to LUM server", "Retry");
       } else {
-        me.showSnackBar('RTU document saved to LUM server');
+        me.showSnackBar("RTU document saved to LUM server");
       }
       return data;
     } catch (err) {
-      me.showSnackBar('Failed to save RTU document to LUM server', 'Retry');
+      me.showSnackBar("Failed to save RTU document to LUM server", "Retry");
     }
   }
 
-  async fetchRtuAgreementData(softwareLicensorId: string,
-                              assetUsageAgreementId: string) {
+  async fetchRtuAgreementData(
+    softwareLicensorId: string,
+    assetUsageAgreementId: string
+  ) {
     const me = this;
-    let url = me.lumServerUrl + '/api/v1/asset-usage-agreement';
-    url += '/?softwareLicensorId=' + softwareLicensorId;
-    url += '&assetUsageAgreementId=' + assetUsageAgreementId;
+    let url = me.lumServerUrl + "/api/v1/asset-usage-agreement";
+    url += "/?softwareLicensorId=" + softwareLicensorId;
+    url += "&assetUsageAgreementId=" + assetUsageAgreementId;
     try {
       // Default options are marked with *
       const response = await fetch(url, {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        redirect: 'follow', // manual, *follow, error
-        referrer: 'no-referrer' // no-referrer, *client
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
       });
       const data = await response.json(); // parses JSON response into native JavaScript objects
       if (!data || data.error) {
-        me.showSnackBar('Failed to fetch RTU document from LUM server', 'Retry');
+        me.showSnackBar(
+          "Failed to fetch RTU document from LUM server",
+          "Retry"
+        );
       } else {
-
         const agreementData = data;
 
         // initialize agreementRestriction
         //   - copy agreement.uid
         //   - copy permission and prohibitions from agreement
-        if (agreementData
-            && agreementData.assetUsageAgreement) {
+        if (agreementData && agreementData.assetUsageAgreement) {
           const usageAgreement = agreementData.assetUsageAgreement;
           const agreement: any = usageAgreement.agreement;
 
@@ -602,18 +636,20 @@ export class LicenseRtuEditorComponent implements OnInit {
             usageAgreement.agreementRestriction = agreementRestriction;
             agreementRestriction.uid = agreement.uid;
           }
-          if (!agreementRestriction.permission
-              && agreement.permission) {
+          if (!agreementRestriction.permission && agreement.permission) {
             agreementRestriction.permission = [];
             for (const permissionItem of agreement.permission) {
-              agreementRestriction.permission.push(JSON.parse(JSON.stringify(permissionItem)));
+              agreementRestriction.permission.push(
+                JSON.parse(JSON.stringify(permissionItem))
+              );
             }
           }
-          if (!agreementRestriction.prohibition
-              && agreement.prohibition) {
+          if (!agreementRestriction.prohibition && agreement.prohibition) {
             agreementRestriction.prohibition = [];
             for (const prohibitionItem of agreement.prohibition) {
-              agreementRestriction.prohibition.push(JSON.parse(JSON.stringify(prohibitionItem)));
+              agreementRestriction.prohibition.push(
+                JSON.parse(JSON.stringify(prohibitionItem))
+              );
             }
           }
         }
@@ -622,23 +658,27 @@ export class LicenseRtuEditorComponent implements OnInit {
         me.applyRTULumAgreement();
       }
     } catch (err) {
-      me.showSnackBar('Failed to fetch RTU document from LUM server', 'Retry');
+      me.showSnackBar("Failed to fetch RTU document from LUM server", "Retry");
     }
   }
 
-  showSnackBar(message: string, action: string = '') {
+  showSnackBar(message: string, action: string = "") {
     this.snackBar.open(message, action, {
       duration: 3000,
-      panelClass: 'acumos-snackbar'
+      panelClass: "acumos-snackbar"
     });
   }
 
-  downloadFile(data: any, mimeType: { type: string } = { type: 'application/json' }, filename: string) {
+  downloadFile(
+    data: any,
+    mimeType: { type: string } = { type: "application/json" },
+    filename: string
+  ) {
     const blob = new Blob([data], mimeType);
     const uri = window.URL.createObjectURL(blob);
 
-    const link = document.createElement('a');
-    if (typeof link.download === 'string') {
+    const link = document.createElement("a");
+    if (typeof link.download === "string") {
       document.body.appendChild(link); // Firefox requires the link to be in the body
       link.download = filename;
       link.href = uri;
@@ -648,5 +688,4 @@ export class LicenseRtuEditorComponent implements OnInit {
       location.replace(uri);
     }
   }
-
 }
