@@ -3,6 +3,7 @@
   Acumos Apache-2.0
   ============================================================================
   Copyright (C) 2019 Nordix Foundation.
+  Modifications copyright (C)2020 Tech Mahindra.
   ============================================================================
   This Acumos software file is distributed by Nordix Foundation
   under the Apache License, Version 2.0 (the "License");
@@ -20,12 +21,13 @@
 
 <mat-toolbar color="primary">
   <h2 [innerHTML]="title"></h2>
-  <span class="version"> v{{appVersion}}</span>
+  <span class="version"> v{{ appVersion }}</span>
+  <span style="flex: 1 1 auto;"></span>
+  <mat-icon *ngIf="mode === 'iframe'" class="close" svgIcon="close" (click)="cancelRTU()"></mat-icon>
 </mat-toolbar>
 <mat-card>For additional guidance, You can refer
   <a href="https://docs.acumos.org/en/clio/submodules/license-manager/docs/user-guide-license-rtu-editor.html"
     target="_blank">RTU Editor User Guide</a></mat-card>
-
 
 <mat-card>
   <mat-menu #appMenu="matMenu">
@@ -41,7 +43,9 @@
     <button mat-menu-item (click)="showExample('example004.json')">
       Allow all software from public catalogs
     </button>
-    <button mat-menu-item [matMenuTriggerFor]="faceDetectModel">Face Detect Model</button>
+    <button mat-menu-item [matMenuTriggerFor]="faceDetectModel">
+      Face Detect Model
+    </button>
   </mat-menu>
 
   <mat-menu #faceDetectModel="matMenu">
@@ -52,12 +56,11 @@
       specfic version to be used
     </button>
     <button mat-menu-item (click)="showExample('example007.json')">
-      specfic version, 10 users, expires
-      constrained actions, prohibitions
+      specfic version, 10 users, expires constrained actions, prohibitions
     </button>
   </mat-menu>
 
-  <div *ngFor="let error of errors" class="rtu-ui-item error">{{error}}</div>
+  <div *ngFor="let error of errors" class="rtu-ui-item error">{{ error }}</div>
   <div class="rtu-ui-item">
     <div class="view-select-item">
       <span style="font-weight: bold;">Select View:</span>&nbsp;
@@ -75,13 +78,11 @@
     <button mat-raised-button color="accent" (click)="rtuFileImport.click()">
       Import Agreement
     </button>
-    <input hidden type="file" #rtuFileImport (change)="onImportAgreementFile($event);" />
+    <input hidden type="file" #rtuFileImport (change)="onImportAgreementFile($event)" />
     <button mat-raised-button (click)="resetSetup()">
       Reset
     </button>
   </div>
-
-
 
   <div *ngIf="viewType === 'SUB'" class="rtu-ui-item examples-btn-bar">
     <span style="font-weight: bold;">Asset Usage Agreement Source:</span>&nbsp;
@@ -91,7 +92,7 @@
       &nbsp;
       <mat-radio-button value="FILE" (click)="rtuLumAgreementFileImport.click()">
         Import from File</mat-radio-button>
-      <input hidden type="file" #rtuLumAgreementFileImport (change)="onImportAssetUsageAgreementFile($event);" />
+      <input hidden type="file" #rtuLumAgreementFileImport (change)="onImportAssetUsageAgreementFile($event)" />
     </mat-radio-group>
 
     <button mat-raised-button (click)="resetSetup()">
@@ -100,21 +101,27 @@
   </div>
 
   <div *ngIf="viewType === 'SUB'" class="rtu-ui-item">
-      <div class="form-group">
-        <input type="text" class="form-control" #softwareLicensorId placeholder="Software Licensor ID *"
-          value="{{rtuLumAgreement.assetUsageAgreement.softwareLicensorId}}">
-      </div>
-      <div class="form-group">
-       <input type="text" class="form-control" #assetUsageAgreementId placeholder="Asset Usage Agreement ID *"
-        value="{{rtuLumAgreement.assetUsageAgreement.assetUsageAgreementId}}">
-      </div>
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="License Usage Manager server URL *"
-        [(ngModel)]="lumServerUrl">
-      </div>
-      <button mat-raised-button color="primary" [disabled]="!canEnableGetRTUAgreementDataBtn()" class="save-field"
-      (click)="getRTUAgreementData(softwareLicensorId.value, assetUsageAgreementId.value)">
-      Get RTU LUM Agreement</button>
+    <div class="form-group">
+      <input type="text" class="form-control" #softwareLicensorId placeholder="Software Licensor ID *"
+        value="{{ rtuLumAgreement.assetUsageAgreement.softwareLicensorId }}" />
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" #assetUsageAgreementId placeholder="Asset Usage Agreement ID *"
+        value="{{ rtuLumAgreement.assetUsageAgreement.assetUsageAgreementId }}" />
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="License Usage Manager server URL *"
+        [(ngModel)]="lumServerUrl" />
+    </div>
+    <button mat-raised-button color="primary" [disabled]="!canEnableGetRTUAgreementDataBtn()" class="save-field"
+      (click)="
+        getRTUAgreementData(
+          softwareLicensorId.value,
+          assetUsageAgreementId.value
+        )
+      ">
+      Get RTU LUM Agreement
+    </button>
   </div>
 
   <!-- <div *ngIf="viewType === 'SUB'" class="rtu-ui-item">
@@ -136,9 +143,11 @@
   </div> -->
   <div *ngIf="viewType === 'SUB'" class="rtu-ui-item">
     <span style="font-weight: bold;">Select Action:</span>&nbsp;
-    <mat-radio-group [(ngModel)]="reviewRtuAgreementChecked"
-      [disabled]="!rtuLumAgreement || !rtuLumAgreement.assetUsageAgreement.agreement || !rtuLumAgreement.assetUsageAgreement.agreement"
-      (change)="onChangeReviewRtuAgreement()">
+    <mat-radio-group [(ngModel)]="reviewRtuAgreementChecked" [disabled]="
+        !rtuLumAgreement ||
+        !rtuLumAgreement.assetUsageAgreement.agreement ||
+        !rtuLumAgreement.assetUsageAgreement.agreement
+      " (change)="onChangeReviewRtuAgreement()">
       <mat-radio-button [disabled]="rtuLumAgreement.src == 'FILE'" [value]="false">Add / Edit Restrictions
       </mat-radio-button>
       &nbsp;
@@ -146,12 +155,7 @@
     </mat-radio-group>
   </div>
 
-
-  <json-schema-form 
-    *ngIf="rtuFormInput" 
-    [form]="rtuFormInput" 
-    framework="bootstrap-4" 
-    loadExternalAssets="true"
+  <json-schema-form *ngIf="rtuFormInput" [form]="rtuFormInput" framework="bootstrap-4" loadExternalAssets="true"
     (isValid)="isValidFn($event)">
   </json-schema-form>
 
@@ -159,7 +163,8 @@
   <div class="save-container">
     <div *ngIf="viewType === 'SUP'">
       <button mat-raised-button color="primary" [disabled]="!isValid" (click)="downloadRTU()">
-        Download</button>
+        Download
+      </button>
       <button mat-raised-button (click)="resetSetup()">
         Reset
       </button>
@@ -170,18 +175,20 @@
           <label for="userId" class="col-sm-12 col-form-label">
             <strong>User ID: <strong class="text-danger">*</strong></strong>
           </label>
-          <div class="col-sm-12"> 
-            <input type="text" id="userId" class="form-control" [(ngModel)]="userId" placeholder="User ID *" (input)="onChangeUserId()">
+          <div class="col-sm-12">
+            <input type="text" id="userId" class="form-control" [(ngModel)]="userId" placeholder="User ID *"
+              (input)="onChangeUserId()" />
           </div>
         </div>
       </div>
       <div>
-        <button mat-raised-button color="primary" [disabled]="!canEnableSaveBtn()" (click)="saveRTU()">Save</button>
+        <button mat-raised-button color="primary" [disabled]="!canEnableSaveBtn()" (click)="saveRTU()">
+          Save
+        </button>
         <button mat-raised-button (click)="resetSetup()">
           Reset
         </button>
       </div>
     </div>
   </div>
-
 </mat-card>
