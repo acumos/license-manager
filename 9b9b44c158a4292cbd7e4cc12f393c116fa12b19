@@ -1,0 +1,349 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4685e456_17119123",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "add 2020 and your company to copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 39
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12cf9b6d_8f180df3",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "this should be mentioned in commit message",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 13
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "954116e3_d28bb953",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.scss",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "add 2020 and your company to copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 40
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b3e1f14_65fe14e8",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "add 2020 and your company to copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 40
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7adced3_476deedf",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "remove hanging comma: \n  0,} -\u003e 0}",
+      "range": {
+        "startLine": 208,
+        "startChar": 26,
+        "endLine": 208,
+        "endChar": 27
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a71be27c_5ca89312",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "remove hanging commas:\n},}, -\u003e }}",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 210,
+        "endChar": 11
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65cbad3c_f3e68792",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 252,
+        "startChar": 27,
+        "endLine": 252,
+        "endChar": 28
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb6227e4_42d57da5",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 273,
+        "startChar": 31,
+        "endLine": 273,
+        "endChar": 32
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11a27d14_b1694e76",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging commas !",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 332,
+        "endChar": 10
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff7c584f_16feaa9e",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 452,
+        "startChar": 40,
+        "endLine": 452,
+        "endChar": 41
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfff1273_b463dc5f",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 457,
+        "startChar": 25,
+        "endLine": 457,
+        "endChar": 26
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14bd8242_7c781c8a",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 470,
+        "startChar": 29,
+        "endLine": 470,
+        "endChar": 30
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1144b876_286ee4cb",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 580,
+        "startChar": 44,
+        "endLine": 580,
+        "endChar": 45
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc0f3e05_863611af",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 584,
+        "startChar": 38,
+        "endLine": 584,
+        "endChar": 39
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e76080b_125e4bdf",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:51:44Z",
+      "side": 1,
+      "message": "hanging comma !",
+      "range": {
+        "startLine": 667,
+        "startChar": 35,
+        "endLine": 667,
+        "endChar": 36
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
