@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "9a11c10d_40dfe46c",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-01T14:53:29Z",
+      "side": 1,
+      "message": "ignore this comment",
+      "parentUuid": "12cf9b6d_8f180df3",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 13
+      },
+      "revId": "9b9b44c158a4292cbd7e4cc12f393c116fa12b19",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "954116e3_d28bb953",
         "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.scss",
         "patchSetId": 2
