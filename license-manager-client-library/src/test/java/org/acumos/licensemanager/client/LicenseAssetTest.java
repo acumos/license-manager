@@ -43,7 +43,11 @@ import org.acumos.cds.domain.MLPCatalog;
 import org.acumos.licensemanager.client.model.RegisterAssetRequest;
 import org.acumos.licensemanager.client.model.RegisterAssetResponse;
 import org.acumos.licensemanager.client.rtu.LicenseAsset;
+import org.acumos.lum.model.GetAssetUsageAgreementResponse;
 import org.acumos.lum.model.GetEntitledSwidTagsResponse;
+import org.acumos.lum.model.PutAssetUsageAgreementRequest;
+import org.acumos.lum.model.PutAssetUsageAgreementResponse;
+import org.acumos.lum.model.PutAssetUsageAgreementRestrictionRequest;
 import org.acumos.nexus.client.NexusArtifactClient;
 import org.acumos.nexus.client.RepositoryLocation;
 import org.junit.Before;
@@ -101,6 +105,72 @@ public class LicenseAssetTest {
                               + "}"
                               + "}"
                               + "]"
+                              + "}",
+                          "application/json")),
+              service(LUM_SERVER)
+                  .get("/api/v1/asset-usage-agreement")
+                  .queryParam("softwareLicensorId", "Company A")
+                  .queryParam(
+                      "assetUsageAgreementId",
+                      "acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106")
+                  .anyBody()
+                  .willReturn(
+                      success(
+                          "{"
+                              + "\"requestId\": \"c8606a77-c39d-4060-bd7d-1051f4c6d316\","
+                              + "\"requested\": \"2020-03-30T15:13:25.670Z\","
+                              + "\"assetUsageAgreement\": {"
+                              + "\"softwareLicensorId\": \"Company A\","
+                              + "\"assetUsageAgreementId\": \"acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106\","
+                              + "\"agreement\": {"
+                              + "\"uid\": \"c8606a77-c39d-4060-bd7d-1051f4c6d316\","
+                              + "\"profile\": \"{}\" "
+                              + "}"
+                              + "}"
+                              + "}",
+                          "application/json")),
+              service(LUM_SERVER)
+                  .put("/api/v1/asset-usage-agreement")
+                  .queryParam("softwareLicensorId", "Company A")
+                  .queryParam(
+                      "assetUsageAgreementId",
+                      "acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106")
+                  .anyBody()
+                  .willReturn(
+                      success(
+                          "{"
+                              + "\"requestId\": \"c8606a77-c39d-4060-bd7d-1051f4c6d316\","
+                              + "\"requested\": \"2020-03-30T15:13:25.670Z\","
+                              + "\"assetUsageAgreement\": {"
+                              + "\"softwareLicensorId\": \"Company A\","
+                              + "\"assetUsageAgreementId\": \"acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106\","
+                              + "\"agreement\": {"
+                              + "\"uid\": \"c8606a77-c39d-4060-bd7d-1051f4c6d316\","
+                              + "\"profile\": \"{}\" "
+                              + "}"
+                              + "}"
+                              + "}",
+                          "application/json")),
+              service(LUM_SERVER)
+                  .put("/api/v1/asset-usage-agreement-restriction")
+                  .queryParam("softwareLicensorId", "Company A")
+                  .queryParam(
+                      "assetUsageAgreementId",
+                      "acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106")
+                  .anyBody()
+                  .willReturn(
+                      success(
+                          "{"
+                              + "\"requestId\": \"c8606a77-c39d-4060-bd7d-1051f4c6d316\","
+                              + "\"requested\": \"2020-03-30T15:13:25.670Z\","
+                              + "\"assetUsageAgreement\": {"
+                              + "\"softwareLicensorId\": \"Company A\","
+                              + "\"assetUsageAgreementId\": \"acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106\","
+                              + "\"agreement\": {"
+                              + "\"uid\": \"c8606a77-c39d-4060-bd7d-1051f4c6d316\","
+                              + "\"profile\": \"{}\" "
+                              + "}"
+                              + "}"
                               + "}",
                           "application/json")),
               service(NEXUS_SERVER)
@@ -251,6 +321,63 @@ public class LicenseAssetTest {
           asset.getEntitledSwidTagsByUser(userId, action);
       GetEntitledSwidTagsResponse response = responseFuture.get();
       assertNotNull(response.getSwidTagsWithAvailableEntitlement().get(0).getSwTagId());
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void getAssetUsageAgreementRecord() {
+    MockDatabaseClient mockCDSApi = new MockDatabaseClient();
+    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, getNexusClient());
+    try {
+      String softwareLicensorId = "Company A";
+      String assetUsageAgreementId =
+          "acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106";
+      CompletableFuture<GetAssetUsageAgreementResponse> responseFuture =
+          asset.getAssetUsageAgreement(softwareLicensorId, assetUsageAgreementId);
+      GetAssetUsageAgreementResponse response = responseFuture.get();
+      assertNotNull(response);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void putAssetUsageAgreementRecord() {
+    MockDatabaseClient mockCDSApi = new MockDatabaseClient();
+    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, getNexusClient());
+    try {
+      PutAssetUsageAgreementRequest request = new PutAssetUsageAgreementRequest();
+      request.setUserId("admin");
+      String softwareLicensorId = "Company A";
+      String assetUsageAgreementId =
+          "acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106";
+      CompletableFuture<PutAssetUsageAgreementResponse> responseFuture =
+          asset.putAssetUsageAgreement(softwareLicensorId, assetUsageAgreementId, request);
+      PutAssetUsageAgreementResponse response = responseFuture.get();
+      assertNotNull(response);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void putAssetUsageAgreementRestriction() {
+    MockDatabaseClient mockCDSApi = new MockDatabaseClient();
+    LicenseAsset asset = new LicenseAsset(mockCDSApi, LUM_SERVER, getNexusClient());
+    try {
+      PutAssetUsageAgreementRestrictionRequest request =
+          new PutAssetUsageAgreementRestrictionRequest();
+      request.setUserId("admin");
+      String softwareLicensorId = "Company A";
+      String assetUsageAgreementId =
+          "acumos://software-licensor/Company A/agreement/3eb8c43a-bf19-46ab-8392-99c7efdf4106";
+      CompletableFuture<PutAssetUsageAgreementResponse> responseFuture =
+          asset.putAssetUsageAgreementRestriction(
+              softwareLicensorId, assetUsageAgreementId, request);
+      PutAssetUsageAgreementResponse response = responseFuture.get();
+      assertNotNull(response);
     } catch (Exception e) {
       fail(e.getMessage());
     }

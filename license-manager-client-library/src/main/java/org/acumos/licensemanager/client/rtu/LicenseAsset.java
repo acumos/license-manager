@@ -54,10 +54,16 @@ import org.acumos.licensemanager.exceptions.RightToUseException;
 import org.acumos.lum.handler.ApiCallback;
 import org.acumos.lum.handler.ApiClient;
 import org.acumos.lum.handler.ApiException;
+import org.acumos.lum.handler.AssetUsageAgreementApi;
+import org.acumos.lum.handler.AssetUsageAgreementRestrictionApi;
 import org.acumos.lum.handler.SwidTagApi;
 import org.acumos.lum.model.BaseRequestTop;
+import org.acumos.lum.model.GetAssetUsageAgreementResponse;
 import org.acumos.lum.model.GetEntitledSwidTagsResponse;
 import org.acumos.lum.model.LicenseProfile;
+import org.acumos.lum.model.PutAssetUsageAgreementRequest;
+import org.acumos.lum.model.PutAssetUsageAgreementResponse;
+import org.acumos.lum.model.PutAssetUsageAgreementRestrictionRequest;
 import org.acumos.lum.model.PutSwidTagRequest;
 import org.acumos.lum.model.PutSwidTagResponse;
 import org.acumos.lum.model.SWIDBodyAndCreator;
@@ -315,6 +321,148 @@ public class LicenseAsset {
 
     return completableFuture;
   }
+  /**
+   * Below API is used for import the data from lum
+   *
+   * @param softwareLicensorId
+   * @param assetUsageAgreementId
+   * @return GetAssetUsageAgreementResponse
+   */
+  public CompletableFuture<GetAssetUsageAgreementResponse> getAssetUsageAgreement(
+      String softwareLicensorId, String assetUsageAgreementId) {
+    validateGetAssetUsageAgreementRequest(softwareLicensorId, assetUsageAgreementId);
+    // api setup
+    AssetUsageAgreementApi assetUsageAgreementApi = assetUsageAgreementApiSetup();
+    CompletableFuture<GetAssetUsageAgreementResponse> completableFuture =
+        new CompletableFuture<GetAssetUsageAgreementResponse>();
+    try {
+      assetUsageAgreementApi.getAssetUsageAgreementAsync(
+          softwareLicensorId,
+          assetUsageAgreementId,
+          new ApiCallback<GetAssetUsageAgreementResponse>() {
+            @Override
+            public void onSuccess(
+                GetAssetUsageAgreementResponse arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.complete(arg0);
+            }
+
+            @Override
+            public void onFailure(ApiException arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.completeExceptionally(arg0);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {}
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {}
+          });
+    } catch (ApiException ex) {
+      LOGGER.error("getAssetUsageAgreement with LUM Failed: {}", ex.getResponseBody());
+      completableFuture.completeExceptionally(ex);
+    }
+
+    return completableFuture;
+  }
+
+  /**
+   * Below API is used for export the data into lum with subscriber refinements
+   *
+   * @param softwareLicensorId
+   * @param assetUsageAgreementId
+   * @param putAssetUsageAgreementRestrictionRequest
+   * @return PutAssetUsageAgreementResponse
+   */
+  public CompletableFuture<PutAssetUsageAgreementResponse> putAssetUsageAgreementRestriction(
+      String softwareLicensorId,
+      String assetUsageAgreementId,
+      PutAssetUsageAgreementRestrictionRequest putAssetUsageAgreementRestrictionRequest) {
+    validatePutAssetUsageAgreementRestrictiontRequest(
+        softwareLicensorId, assetUsageAgreementId, putAssetUsageAgreementRestrictionRequest);
+    // api setup
+    AssetUsageAgreementRestrictionApi assetUsageAgreementRestrictionApi =
+        assetUsageAgreementRestrictionApi();
+    CompletableFuture<PutAssetUsageAgreementResponse> completableFuture =
+        new CompletableFuture<PutAssetUsageAgreementResponse>();
+    try {
+      assetUsageAgreementRestrictionApi.putAssetUsageAgreementRestrictionAsync(
+          softwareLicensorId,
+          assetUsageAgreementId,
+          putAssetUsageAgreementRestrictionRequest,
+          new ApiCallback<PutAssetUsageAgreementResponse>() {
+            @Override
+            public void onSuccess(
+                PutAssetUsageAgreementResponse arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.complete(arg0);
+            }
+
+            @Override
+            public void onFailure(ApiException arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.completeExceptionally(arg0);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {}
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {}
+          });
+    } catch (ApiException ex) {
+      LOGGER.error("putAssetUsageAgreementRestriction with LUM Failed: {}", ex.getResponseBody());
+      completableFuture.completeExceptionally(ex);
+    }
+
+    return completableFuture;
+  }
+
+  /**
+   * Below API is used for export the data into lum
+   *
+   * @param softwareLicensorId
+   * @param assetUsageAgreementId
+   * @param putAssetUsageAgreementRequest
+   * @return PutAssetUsageAgreementResponse
+   */
+  public CompletableFuture<PutAssetUsageAgreementResponse> putAssetUsageAgreement(
+      String softwareLicensorId,
+      String assetUsageAgreementId,
+      PutAssetUsageAgreementRequest putAssetUsageAgreementRequest) {
+    validatePutAssetUsageAgreementRequest(
+        softwareLicensorId, assetUsageAgreementId, putAssetUsageAgreementRequest);
+    // api setup
+    AssetUsageAgreementApi assetUsageAgreementApi = assetUsageAgreementApiSetup();
+    CompletableFuture<PutAssetUsageAgreementResponse> completableFuture =
+        new CompletableFuture<PutAssetUsageAgreementResponse>();
+    try {
+      assetUsageAgreementApi.putAssetUsageAgreementAsync(
+          softwareLicensorId,
+          assetUsageAgreementId,
+          putAssetUsageAgreementRequest,
+          new ApiCallback<PutAssetUsageAgreementResponse>() {
+            @Override
+            public void onSuccess(
+                PutAssetUsageAgreementResponse arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.complete(arg0);
+            }
+
+            @Override
+            public void onFailure(ApiException arg0, int arg1, Map<String, List<String>> arg2) {
+              completableFuture.completeExceptionally(arg0);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {}
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {}
+          });
+    } catch (ApiException ex) {
+      LOGGER.error("putAssetUsageAgreement with LUM Failed: {}", ex.getResponseBody());
+      completableFuture.completeExceptionally(ex);
+    }
+
+    return completableFuture;
+  }
 
   private void validateGetEntitledSwidTagsByUserRequest(String userId, String action) {
     if (userId == null) {
@@ -340,8 +488,70 @@ public class LicenseAsset {
     }
   }
 
+  private void validatePutAssetUsageAgreementRestrictiontRequest(
+      String softwareLicensorId,
+      String assetUsageAgreementId,
+      PutAssetUsageAgreementRestrictionRequest putAssetUsageAgreementRestrictionRequest) {
+    if (softwareLicensorId == null) {
+      throw new IllegalArgumentException("softwareLicensorId id not defined");
+    }
+    if (assetUsageAgreementId == null) {
+      throw new IllegalArgumentException("assetUsageAgreementId is not defined");
+    }
+    if (putAssetUsageAgreementRestrictionRequest == null) {
+      throw new IllegalArgumentException("putAssetUsageAgreementRestrictionRequest is not defined");
+    }
+  }
+
+  private void validatePutAssetUsageAgreementRequest(
+      String softwareLicensorId,
+      String assetUsageAgreementId,
+      PutAssetUsageAgreementRequest putAssetUsageAgreementRequest) {
+    if (softwareLicensorId == null) {
+      throw new IllegalArgumentException("softwareLicensorId id not defined");
+    }
+    if (assetUsageAgreementId == null) {
+      throw new IllegalArgumentException("assetUsageAgreementId is not defined");
+    }
+    if (putAssetUsageAgreementRequest == null) {
+      throw new IllegalArgumentException("putAssetUsageAgreementRequest is not defined");
+    }
+  }
+
+  private void validateGetAssetUsageAgreementRequest(
+      String softwareLicensorId, String assetUsageAgreementId) {
+    if (softwareLicensorId == null) {
+      throw new IllegalArgumentException("softwareLicensorId id not defined");
+    }
+    if (assetUsageAgreementId == null) {
+      throw new IllegalArgumentException("assetUsageAgreementId is not defined");
+    }
+  }
+
   private SwidTagApi swidTagApiSetup() {
     SwidTagApi swidTag = new SwidTagApi();
+    ApiClient apiClient = swidTag.getApiClient();
+    apiClient.setWriteTimeout(300000);
+    apiClient.setBasePath(lumServer);
+    Builder newBuilder = apiClient.getHttpClient().newBuilder();
+    OkHttpClient httpClient = newBuilder.addInterceptor(LOGGING_INTERCEPTOR).build();
+    apiClient.setHttpClient(httpClient);
+    return swidTag;
+  }
+
+  private AssetUsageAgreementApi assetUsageAgreementApiSetup() {
+    AssetUsageAgreementApi swidTag = new AssetUsageAgreementApi();
+    ApiClient apiClient = swidTag.getApiClient();
+    apiClient.setWriteTimeout(300000);
+    apiClient.setBasePath(lumServer);
+    Builder newBuilder = apiClient.getHttpClient().newBuilder();
+    OkHttpClient httpClient = newBuilder.addInterceptor(LOGGING_INTERCEPTOR).build();
+    apiClient.setHttpClient(httpClient);
+    return swidTag;
+  }
+
+  private AssetUsageAgreementRestrictionApi assetUsageAgreementRestrictionApi() {
+    AssetUsageAgreementRestrictionApi swidTag = new AssetUsageAgreementRestrictionApi();
     ApiClient apiClient = swidTag.getApiClient();
     apiClient.setWriteTimeout(300000);
     apiClient.setBasePath(lumServer);
