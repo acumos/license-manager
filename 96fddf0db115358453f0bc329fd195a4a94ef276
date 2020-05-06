@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "369c16e7_a7f4c081",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 36
+      },
+      "writtenOn": "2020-05-06T14:20:44Z",
+      "side": 1,
+      "message": "You had asked to add 2020 so I followed your instruction.I\u0027ll change it.",
+      "parentUuid": "aa4fe0f8_173c5557",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 39
+      },
+      "revId": "96fddf0db115358453f0bc329fd195a4a94ef276",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b6d47a_1dbdd653",
         "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.scss",
         "patchSetId": 3
@@ -82,6 +106,30 @@
       "writtenOn": "2020-05-06T14:03:44Z",
       "side": 1,
       "message": "hanging comma !",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "96fddf0db115358453f0bc329fd195a4a94ef276",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2e137c3_b850377b",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 36
+      },
+      "writtenOn": "2020-05-06T14:20:44Z",
+      "side": 1,
+      "message": "Hi Alex,the hanging commas don\u0027t make a difference, its just an editor thing that formats the code this way.",
+      "parentUuid": "77a0621a_f4630724",
       "range": {
         "startLine": 33,
         "startChar": 13,
