@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "43149e50_2ffab23f",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-06T14:29:53Z",
+      "side": 1,
+      "message": "I asked to add 2020 for the copyright of your company, rather than change the copyright of other companies.  Sorry for the confusion",
+      "parentUuid": "369c16e7_a7f4c081",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 39
+      },
+      "revId": "96fddf0db115358453f0bc329fd195a4a94ef276",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b6d47a_1dbdd653",
         "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.scss",
         "patchSetId": 3
@@ -130,6 +154,30 @@
       "side": 1,
       "message": "Hi Alex,the hanging commas don\u0027t make a difference, its just an editor thing that formats the code this way.",
       "parentUuid": "77a0621a_f4630724",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "96fddf0db115358453f0bc329fd195a4a94ef276",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bcd27ef_f515604a",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-06T14:29:53Z",
+      "side": 1,
+      "message": "well, here is the list of changes that you put that do not make a difference\n- the single quote that you replaced with double quotes \n- extra new lines that you put to reformat\n\nhowever, the hanging comma in json violate the json format in general\n\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas\n\nTrailing commas in JSON\n\nTrailing commas in objects were only introduced in ECMAScript 5. As JSON is based on JavaScript\u0027s syntax prior to ES5, trailing commas are not allowed in JSON.\n\nBoth lines will throw a SyntaxError:\n\nJSON.parse(\u0027[1, 2, 3, 4, ]\u0027);\nJSON.parse(\u0027{\"foo\" : 1, }\u0027);\n// SyntaxError JSON.parse: unexpected character \n// at line 1 column 14 of the JSON data\n\nOmit the trailing commas to parse the JSON correctly:\n\nJSON.parse(\u0027[1, 2, 3, 4 ]\u0027);\nJSON.parse(\u0027{\"foo\" : 1 }\u0027);",
+      "parentUuid": "e2e137c3_b850377b",
       "range": {
         "startLine": 33,
         "startChar": 13,
