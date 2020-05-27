@@ -103,15 +103,17 @@
   <div *ngIf="viewType === 'SUB'" class="rtu-ui-item">
     <div class="form-group">
       <input type="text" class="form-control" #softwareLicensorId placeholder="Software Licensor ID *"
-        value="{{ rtuLumAgreement.assetUsageAgreement.softwareLicensorId }}" />
+        value="{{ rtuLumAgreement.assetUsageAgreement.softwareLicensorId }}"
+        (keyup)="canEnableGetRTUAgreementDataBtn()" />
     </div>
     <div class="form-group">
       <input type="text" class="form-control" #assetUsageAgreementId placeholder="Asset Usage Agreement ID *"
-        value="{{ rtuLumAgreement.assetUsageAgreement.assetUsageAgreementId }}" />
+        value="{{ rtuLumAgreement.assetUsageAgreement.assetUsageAgreementId }}"
+        (keyup)="canEnableGetRTUAgreementDataBtn()" />
     </div>
     <div class="form-group">
       <input type="text" class="form-control" placeholder="License Usage Manager server URL *"
-        [(ngModel)]="lumServerUrl" />
+        [(ngModel)]="lumServerUrl" (keyup)="canEnableGetRTUAgreementDataBtn()" />
     </div>
     <button mat-raised-button color="primary" [disabled]="!canEnableGetRTUAgreementDataBtn()" class="save-field"
       (click)="
