@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f7c7f13_3154d16d",
+        "filename": "license-rtu-editor/src/app/license-rtu-editor/license-rtu-editor.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-05-27T14:31:46Z",
+      "side": 1,
+      "message": "not sure I understand how calling canEnableGetRTUAgreementDataBtn() on the keyup event on input field would disable the button..\n\nThe function canEnableGetRTUAgreementDataBtn() does not change anything - it checks for the conditions and returns true or false.  \n\nBy any chance, did you intend to change that function to disable the button explicitly ?",
+      "range": {
+        "startLine": 107,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 50
+      },
+      "revId": "8018df747c7b12743e8aa96d3807f523b9b3cfe4",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
