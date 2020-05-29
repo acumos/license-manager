@@ -25,6 +25,6 @@ services:
   licnese-rtu-editor:
     build: ./license-rtu-editor/
     # replace username/repo:tag with your name and image details
-    image: acumos/license-rtu-editor:0.1.6
+    image: acumos/license-rtu-editor:0.1.7
     ports:
       - "8092:8080"
