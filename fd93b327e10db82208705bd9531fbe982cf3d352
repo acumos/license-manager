@@ -22,6 +22,30 @@
       "revId": "fd93b327e10db82208705bd9531fbe982cf3d352",
       "serverId": "655300a2-7a56-4504-9153-881edd907bea",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c8ff0e_a2686981",
+        "filename": "docker-compose.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 36
+      },
+      "writtenOn": "2020-05-29T14:20:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c957ab2c_cd52b77e",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 2,
+        "endChar": 39
+      },
+      "revId": "fd93b327e10db82208705bd9531fbe982cf3d352",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": false
     }
   ]
 }
