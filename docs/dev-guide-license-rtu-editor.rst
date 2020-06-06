@@ -50,7 +50,7 @@ Build Instructions
 
 1. Browse to your preferred directory and run below commands:
 
-  ``git clone "https://gerrit.acumos.org/r/license-manager"``
+  ``git clone --depth 1 "https://gerrit.acumos.org/r/license-manager"``
   ``cd license-rtu-editor``
 
 2. Install node modules
