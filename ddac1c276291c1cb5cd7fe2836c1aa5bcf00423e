@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6166fa1d_84d6fb6b",
+        "filename": "license-rtu-editor-helm-chart/values.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T19:41:11Z",
+      "side": 1,
+      "message": "shold it be 0.1.7 ?\nhttps://gerrit.acumos.org/r/c/license-manager/+/8009",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "ddac1c276291c1cb5cd7fe2836c1aa5bcf00423e",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
