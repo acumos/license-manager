@@ -1,9 +1,9 @@
 # ===============LICENSE_START================================================
 # Acumos Apache-2.0
 # ============================================================================
-# Copyright (C) 2019 Nordix Foundation.
+# Copyright (C) 2019-2020  Nordix Foundation & AT&T Intellectual Property.
 #  ============================================================================
-#  This Acumos software file is distributed by Nordix Foundation
+#  This Acumos software file is distributed by Nordix Foundation & AT&T
 #  under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
@@ -24,9 +24,9 @@ replicaCount: 1
 
 image:
   repository: nexus3.acumos.org:10002/acumos/license-rtu-editor
-  tag: 0.1.5
+  tag: 0.1.6
   pullPolicy: IfNotPresent
-  pullSecrets: acumos-registry
+  pullSecrets:
 
 imageCredentials:
   registry: nexus3.acumos.org:10002
