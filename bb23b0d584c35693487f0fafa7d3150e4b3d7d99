@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "269a93e2_2e0d9689",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:20:30Z",
+      "side": 1,
+      "message": "do you have a jira for this ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "bb23b0d584c35693487f0fafa7d3150e4b3d7d99",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb5867b6_25c78b53",
+        "filename": "license-profile-editor-helm-chart/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:20:30Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "bb23b0d584c35693487f0fafa7d3150e4b3d7d99",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9e9d25_76d0e58e",
+        "filename": "license-profile-editor-helm-chart/templates/ingress.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:20:30Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 38
+      },
+      "revId": "bb23b0d584c35693487f0fafa7d3150e4b3d7d99",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "059d3b76_d7ad7eef",
+        "filename": "license-profile-editor-helm-chart/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:20:30Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "bb23b0d584c35693487f0fafa7d3150e4b3d7d99",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd18792d_a6822160",
+        "filename": "license-rtu-editor-helm-chart/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:20:30Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "bb23b0d584c35693487f0fafa7d3150e4b3d7d99",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a4565ca_2f5604cd",
+        "filename": "license-rtu-editor-helm-chart/templates/ingress.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:20:30Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 38
+      },
+      "revId": "bb23b0d584c35693487f0fafa7d3150e4b3d7d99",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4052f93a_1dd570ba",
+        "filename": "license-rtu-editor-helm-chart/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:20:30Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "bb23b0d584c35693487f0fafa7d3150e4b3d7d99",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
