@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40b1ce54_5ea45fc3",
+        "filename": "license-profile-editor-helm-chart/Chart.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T19:12:34Z",
+      "side": 1,
+      "message": "Copyright (C) 2019 Nordix Foundation\nModifications Copyright (c) 2020 AT\u0026T Intellectual Property. All rights reserved.",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 74
+      },
+      "revId": "4aed3da0d5145db02172baf4e7efbe308861838b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dabacbd_2db98f52",
+        "filename": "license-profile-editor-helm-chart/templates/ingress.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T19:12:34Z",
+      "side": 1,
+      "message": "Copyright (C) 2019 Nordix Foundation\nModifications Copyright (c) 2020 AT\u0026T Intellectual Property. All rights reserved.",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 74
+      },
+      "revId": "4aed3da0d5145db02172baf4e7efbe308861838b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc9ae1ae_f8afccb0",
+        "filename": "license-profile-editor-helm-chart/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T19:12:34Z",
+      "side": 1,
+      "message": "Copyright (C) 2019 Nordix Foundation\nModifications Copyright (c) 2020 AT\u0026T Intellectual Property. All rights reserved.",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 74
+      },
+      "revId": "4aed3da0d5145db02172baf4e7efbe308861838b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ed39ad8_ac31266b",
+        "filename": "license-rtu-editor-helm-chart/Chart.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T19:12:34Z",
+      "side": 1,
+      "message": "Copyright (C) 2019 Nordix Foundation\nModifications Copyright (c) 2020 AT\u0026T Intellectual Property. All rights reserved.",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 74
+      },
+      "revId": "4aed3da0d5145db02172baf4e7efbe308861838b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "509829f6_5d2142ca",
+        "filename": "license-rtu-editor-helm-chart/templates/ingress.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T19:12:34Z",
+      "side": 1,
+      "message": "Copyright (C) 2019 Nordix Foundation\nModifications Copyright (c) 2020 AT\u0026T Intellectual Property. All rights reserved.",
+      "range": {
+        "startLine": 5,
+        "startChar": 2,
+        "endLine": 5,
+        "endChar": 74
+      },
+      "revId": "4aed3da0d5145db02172baf4e7efbe308861838b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "727b11a6_14425187",
+        "filename": "license-rtu-editor-helm-chart/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T19:12:34Z",
+      "side": 1,
+      "message": "Copyright (C) 2019 Nordix Foundation\nModifications Copyright (c) 2020 AT\u0026T Intellectual Property. All rights reserved.",
+      "range": {
+        "startLine": 4,
+        "startChar": 2,
+        "endLine": 4,
+        "endChar": 74
+      },
+      "revId": "4aed3da0d5145db02172baf4e7efbe308861838b",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
