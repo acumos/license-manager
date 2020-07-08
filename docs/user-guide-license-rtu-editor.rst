@@ -79,12 +79,12 @@ In the Clio release, the following actions can provide a denial:
 
   - acumos:download
   - acumos:deploy
+  - aggregate (allowing model to be added to a composition model)
 
 Other actions that can be described in right to use but are not
 being denied are:
 
   - transfer (such as allowing solution to be federated again)
-  - aggregate (allowing model to be added to a composition model)
   - modelrunner:predict (calling the machine learning model methods api)
   - modelrunner:train (allowing retraining the machine learning models
     in a subscription)
