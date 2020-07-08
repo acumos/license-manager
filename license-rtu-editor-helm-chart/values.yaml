@@ -24,9 +24,9 @@ replicaCount: 1
 
 image:
   repository: nexus3.acumos.org:10002/acumos/license-rtu-editor
-  tag: 0.1.5
+  tag: 0.1.6
   pullPolicy: IfNotPresent
-  pullSecrets: acumos-registry
+  pullSecrets:
 
 imageCredentials:
   registry: nexus3.acumos.org:10002

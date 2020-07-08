@@ -24,9 +24,9 @@ replicaCount: 1
 
 image:
   repository: nexus3.acumos.org:10002/acumos/license-profile-editor
-  tag: 0.0.12
+  tag: 0.0.13
   pullPolicy: IfNotPresent
-  pullSecrets: acumos-registry
+  pullSecrets:
 
 imageCredentials:
   registry: nexus3.acumos.org:10002
