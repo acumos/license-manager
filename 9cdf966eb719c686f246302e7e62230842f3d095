@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ccd5f1f_cd1910c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:17:52Z",
+      "side": 1,
+      "message": "please provide the jira here",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "9cdf966eb719c686f246302e7e62230842f3d095",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5b4ac53_bf4c90c0",
+        "filename": "docs/user-guide-license-profile-editor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:17:52Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "9cdf966eb719c686f246302e7e62230842f3d095",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30117541_b12056f0",
+        "filename": "docs/user-guide-license-rtu-editor.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 278
+      },
+      "writtenOn": "2020-07-08T18:17:52Z",
+      "side": 1,
+      "message": "update the copyright",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 4,
+        "endChar": 39
+      },
+      "revId": "9cdf966eb719c686f246302e7e62230842f3d095",
+      "serverId": "655300a2-7a56-4504-9153-881edd907bea",
+      "unresolved": true
+    }
+  ]
+}
