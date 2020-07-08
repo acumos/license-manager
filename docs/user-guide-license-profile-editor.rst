@@ -1,7 +1,8 @@
 .. ===============LICENSE_START================================================
 .. Acumos CC-BY-4.0
 .. ============================================================================
-.. Copyright (C) 2019 Nordix Foundation
+.. Copyright (C) 2020 Nordix Foundation
+.. Modifications copyright (C) 2020 Tech Mahindra.
 .. ============================================================================
 .. This Acumos documentation file is distributed by Nordix Foundation.
 .. under the Creative Commons Attribution 4.0 International License
@@ -26,11 +27,16 @@ License Profile Editor User Guide
 Authoring a License Profile
 ---------------------------
 
-When you onboard a model or create a composite model on Acumos platform,
-you can add a license profile to your model. You can also update the license
-profile from the my models license profile tab before publishing in case things
-change during the development process:
+There are three ways to add a license to your model.
 
+1. When you onboard a model or create a composite model on Acumos platform, 
+you can add a license profile to your model.
+2. While publishing the model you can add or modify the license from the Manage My Model page via 
+Publish to Marketplace tab.
+3. You can also update the license profile from the My Models - License Profile tab before publishing in 
+case things change during the development process.
+
+Ways to add a license to your model:
 - Upload a license profile json file
 - Select from default list of license profiles templates and modify
 - Create a new license profile
@@ -66,8 +72,21 @@ Modify an existing license profile:
 Viewing the License Profile in portal
 -------------------------------------
 
+After you create or modify a license profile the license will be displayed in the 
+License Profile tab in the My Models page and in the Preview Model popup of the Manage My Model page. 
+
 .. image:: images/view-license-in-portal.png
 
+
+Managing the License Profile in portal
+-------------------------------------
+
+A License Admin User role has the ability to Create, Modify and access the RTU Editor from the Portal Marketplace 
+screen. The user will get an additional navigation tab on the left hand side to access the Manage License page 
+from where the user can perform the mentioned actions.
+
+For more details of how to access through Portal Marketplace check below documentation.
+:doc:`License Admin User Role <../../portal-marketplace/docs/user-guides/portal-LicenseAdminUser/LicenseAdminUser/LicenseAdminUser.html>`
 
 License Profile Examples
 ------------------------

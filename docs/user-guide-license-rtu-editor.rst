@@ -2,6 +2,7 @@
 .. Acumos CC-BY-4.0
 .. ============================================================================
 .. Copyright (C) 2019 Nordix Foundation
+.. Modifications copyright (C) 2020 Tech Mahindra.
 .. ============================================================================
 .. This Acumos documentation file is distributed by Nordix Foundation.
 .. under the Creative Commons Attribution 4.0 International License
@@ -79,12 +80,12 @@ In the Clio release, the following actions can provide a denial:
 
   - acumos:download
   - acumos:deploy
+  - aggregate (allowing model to be added to a composition model)
 
 Other actions that can be described in right to use but are not
 being denied are:
 
   - transfer (such as allowing solution to be federated again)
-  - aggregate (allowing model to be added to a composition model)
   - modelrunner:predict (calling the machine learning model methods api)
   - modelrunner:train (allowing retraining the machine learning models
     in a subscription)
