@@ -1,4 +1,5 @@
 # UUID                                                                            	Group Name
 #
 42f0c83244389e408b42fa668348002012ecba46                                          	GitHub Replication
+8fbab49b4418b3ce092d5163ea9bd57aed9d30d5                                          	saml/acumos-gerrit-license-manager-committers
 ldap:cn=acumos-gerrit-license-manager-committers,ou=Groups,dc=freestandards,dc=org	ldap/acumos-gerrit-license-manager-committers
